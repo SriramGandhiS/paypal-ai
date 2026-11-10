@@ -1,0 +1,56 @@
+name: Go Backend Test Suite & Race Detector
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test:
+    name: Unit & Race Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: paybridge_test
+          POSTGRES_USER: paybridge_admin
+          POSTGRES_PASSWORD: paybridge_test_secret
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+          cache-dependency-path: services/api/go.mod
+
+      - name: Run Database Migrations
+        env:
+          DATABASE_URL: postgres://paybridge_admin:paybridge_test_secret@localhost:5432/paybridge_test?sslmode=disable
+        run: |
+          cd services/api
+          go run cmd/migrate/main.go -action=up
+
+      - name: Execute Full Go Test Suite with Race Detector
+        env:
+          DATABASE_URL: postgres://paybridge_admin:paybridge_test_secret@localhost:5432/paybridge_test?sslmode=disable
+          PAYPAL_API_BASE: https://api-m.sandbox.paypal.com
+          PAYPAL_CLIENT_ID: mock_client_id
+          PAYPAL_CLIENT_SECRET: mock_client_secret
+          SESSION_SECRET: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+          ENCRYPTION_KEY: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+        run: |
+          cd services/api
+          go test -v -race ./...

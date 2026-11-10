@@ -75,19 +75,19 @@ codegen:
 	fi
 
 migrate-up:
-	@echo "==> Running goose database migrations..."
+	@echo "==> Running database migrations..."
 	@if command -v goose > /dev/null 2>&1; then \
 		goose -dir services/api/db/migrations postgres "$(DB_URL)" up; \
 	else \
-		echo "goose binary not found. Run: go install github.com/pressly/goose/v3/cmd/goose@latest"; \
+		go run ./services/api/cmd/migrate -action=up -db-url="$(DB_URL)"; \
 	fi
 
 migrate-status:
-	@echo "==> Checking goose migration status..."
+	@echo "==> Checking database migration status..."
 	@if command -v goose > /dev/null 2>&1; then \
 		goose -dir services/api/db/migrations postgres "$(DB_URL)" status; \
 	else \
-		echo "goose binary not found. Run: go install github.com/pressly/goose/v3/cmd/goose@latest"; \
+		go run ./services/api/cmd/migrate -action=status -db-url="$(DB_URL)"; \
 	fi
 
 clean:

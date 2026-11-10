@@ -1,0 +1,115 @@
+# PayBridge AI — Unified Docker Compose Suite
+# Services: PostgreSQL 16, Redis 7.2, Mailpit, Go API Server, React Web Frontend
+# Usage: docker compose up -d
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: paybridge-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-paybridge_dev}
+      POSTGRES_USER: ${POSTGRES_USER:-paybridge_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-paybridge_dev_secret}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-paybridge_admin} -d ${POSTGRES_DB:-paybridge_dev}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - paybridge-network
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: paybridge-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    networks:
+      - paybridge-network
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: paybridge-mailpit
+    restart: unless-stopped
+    ports:
+      - "${MAILPIT_SMTP_PORT:-1025}:1025"
+      - "${MAILPIT_UI_PORT:-8025}:8025"
+    environment:
+      MP_MAX_MESSAGES: 500
+      MP_DATABASE: ""
+    networks:
+      - paybridge-network
+
+  api:
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    container_name: paybridge-api
+    restart: unless-stopped
+    environment:
+      APP_ENV: development
+      PORT: 8080
+      DATABASE_URL: postgres://${POSTGRES_USER:-paybridge_admin}:${POSTGRES_PASSWORD:-paybridge_dev_secret}@postgres:5432/${POSTGRES_DB:-paybridge_dev}?sslmode=disable
+      REDIS_URL: redis://redis:6379/0
+      PAYPAL_API_BASE: https://api-m.sandbox.paypal.com
+      PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID:-mock_sandbox_client_id}
+      PAYPAL_CLIENT_SECRET: ${PAYPAL_CLIENT_SECRET:-mock_sandbox_client_secret}
+      PAYPAL_WEBHOOK_ID: ${PAYPAL_WEBHOOK_ID:-mock_webhook_id}
+      SESSION_SECRET: ${SESSION_SECRET:-0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}
+      ALLOW_DEV_AUTH: "true"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/healthz || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - paybridge-network
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: paybridge-web
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - paybridge-network
+
+volumes:
+  postgres_data:
+    name: paybridge_postgres_data
+  redis_data:
+    name: paybridge_redis_data
+
+networks:
+  paybridge-network:
+    name: paybridge-net
+    driver: bridge
