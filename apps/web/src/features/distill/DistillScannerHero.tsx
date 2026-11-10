@@ -609,9 +609,6 @@ export const DistillScannerHero: React.FC<DistillScannerHeroProps> = ({
           <button className="distill-btn-signin" onClick={onSignIn}>Sign in</button>
           <button className="distill-btn-trial" onClick={onExplore}>Start a free trial</button>
           <button className="distill-btn-demo" onClick={onBookDemo}>Book a demo</button>
-          <button className="distill-btn-app" onClick={onExplore} title="Open PayBridge 16-Screen Enterprise Suite">
-            PayBridge Suite ↗
-          </button>
         </div>
       </header>
 

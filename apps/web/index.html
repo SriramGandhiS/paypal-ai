@@ -1,17 +1,1669 @@
-<!doctype html>
-<html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#090817" />
-    <meta name="description" content="PayBridge AI payment incident intelligence. Know what happened, see the evidence, choose the safe next step." />
-    <title>PayBridge AI — Payment Intelligence</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Distill — Built for people. Read by machines.</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================================
+       Tokens & Global Reset
+       ========================================================================= */
+    :root {
+      --sans: "Inter", system-ui, -apple-system, sans-serif;
+      --serif: "Newsreader", Georgia, serif;
+      --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+      --bg: #EEF0F2;
+      --ink: #0F1115;
+      --body: #2A2E35;
+      --muted: #8B9098;
+      --code: #7A7F88;
+      --comment: #B3B8BF;
+      --hot: #FF5A1F;
+      --hot-soft: #FFE1D3;
+
+      --cw: 46vw;
+      --ch: 52vh;
+      --gap: 4.75vw;
+      --top: 40.2vh;
+    }
+
+    @media (max-width: 767px) {
+      :root {
+        --cw: 84vw;
+        --ch: 54vw;
+        --gap: 7vw;
+        --top: 54svh;
+      }
+    }
+
+    @media (max-width: 767px) and (max-height: 700px) {
+      :root {
+        --top: 58svh;
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .stage {
+      position: absolute;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: var(--bg);
+    }
+
+    /* =========================================================================
+       Top Nav Bar (56px tall, 20px padding, flex, 56px gap)
+       ========================================================================= */
+    .distill-nav {
+      height: 56px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 56px;
+      position: relative;
+      z-index: 20;
+    }
+
+    .distill-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .distill-logo-drop {
+      width: 19px;
+      height: 23px;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .distill-brand-name {
+      font-weight: 600;
+      font-size: 23px;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .distill-links {
+      display: flex;
+      align-items: center;
+      gap: 38px;
+    }
+
+    .distill-link {
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--body);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s ease;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .distill-link:hover {
+      color: var(--ink);
+    }
+
+    .distill-link svg {
+      opacity: 0.7;
+    }
+
+    .distill-nav-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-weight: 500;
+      font-size: 12.5px;
+    }
+
+    .distill-btn-signin {
+      background: none;
+      border: none;
+      color: var(--body);
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 12.5px;
+      padding: 0;
+      transition: color 0.2s ease;
+    }
+
+    .distill-btn-signin:hover {
+      color: var(--ink);
+    }
+
+    .distill-btn-trial {
+      height: 32px;
+      padding: 0 17px;
+      border: 1px solid #C4C9CF;
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 9999px;
+      color: var(--body);
+      font-weight: 500;
+      font-size: 12.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .distill-btn-trial:hover {
+      background: rgba(255, 255, 255, 0.7);
+      border-color: #A9B0B8;
+      color: var(--ink);
+    }
+
+    .distill-btn-demo {
+      height: 32px;
+      padding: 0 17px;
+      background: var(--hot);
+      border: none;
+      border-radius: 9999px;
+      color: #FFFFFF;
+      font-weight: 500;
+      font-size: 12.5px;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .distill-btn-demo:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 767px) {
+      .distill-nav {
+        padding: 0 16px;
+        gap: 0;
+      }
+      .distill-links,
+      .distill-btn-signin,
+      .distill-btn-trial {
+        display: none !important;
+      }
+      .distill-btn-demo {
+        height: 30px;
+        padding: 0 13px;
+        font-size: 12px;
+      }
+    }
+
+    /* =========================================================================
+       Hero Copy Grid
+       ========================================================================= */
+    .distill-hero-copy {
+      display: grid;
+      grid-template-columns: 1fr 34vw;
+      gap: 4vw;
+      padding: 30px 8.9vw 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .distill-hero-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .distill-eyebrow {
+      font-family: var(--mono);
+      font-weight: 500;
+      font-size: 11.5px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--body);
+    }
+
+    .distill-headline {
+      margin-top: 14px;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(30px, 3vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
+
+    .distill-headline em {
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .distill-hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .distill-paragraph {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: clamp(14px, 1.05vw, 19px);
+      line-height: 1.55;
+      color: var(--body);
+      max-width: 34vw;
+    }
+
+    .distill-btn-explore {
+      margin-top: 20px;
+      height: 40px;
+      padding: 0 22px;
+      border-radius: 9999px;
+      background: var(--hot);
+      color: #FFFFFF;
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(255, 90, 31, 0.25);
+      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
+    }
+
+    .distill-btn-explore:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(255, 90, 31, 0.4);
+    }
+
+    @media (max-width: 767px) {
+      .distill-hero-copy {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 18px 20px 0;
+      }
+      .distill-headline {
+        font-size: 34px;
+        margin-top: 8px;
+      }
+      .distill-paragraph {
+        font-size: 14px;
+        max-width: none;
+      }
+      .distill-btn-explore {
+        margin-top: 14px;
+      }
+    }
+
+    /* =========================================================================
+       The Belt & Layers
+       ========================================================================= */
+    .distill-belt {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      top: calc(var(--top) - 70px);
+      height: calc(var(--ch) + 140px);
+      cursor: grab;
+      touch-action: pan-y;
+      overflow: visible;
+      z-index: 5;
+    }
+
+    .distill-belt.is-dragging {
+      cursor: grabbing;
+    }
+
+    .distill-codes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      mask-image: linear-gradient(90deg, transparent 0, #000 24vw);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 24vw);
+    }
+
+    @media (max-width: 767px) {
+      .distill-codes {
+        mask-image: linear-gradient(90deg, transparent 0, #000 30vw);
+        -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 30vw);
+      }
+    }
+
+    .distill-cards {
+      position: absolute;
+      inset: 0;
+      pointer-events: auto;
+    }
+
+    .distill-canvas-fx {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 8;
+    }
+
+    /* =========================================================================
+       The Scanner Line & Glowing Halo
+       ========================================================================= */
+    .distill-scanner {
+      position: absolute;
+      left: 50%;
+      top: calc(var(--top) - 14px);
+      height: calc(var(--ch) + 40px);
+      width: 0;
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    .distill-scanner-core {
+      position: absolute;
+      top: 0;
+      left: -2px;
+      width: 4px;
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(to bottom, #ff7a3c 0%, #FF5A1F 12%, #FF5A1F 88%, #ff7a3c 100%);
+      box-shadow: 0 0 10px 2px rgba(255, 90, 31, 0.85), 0 0 34px 10px rgba(255, 90, 31, 0.38);
+    }
+
+    .distill-scanner-halo {
+      position: absolute;
+      top: 4%;
+      left: 0;
+      width: 42px;
+      height: 92%;
+      background: linear-gradient(to right, rgba(255, 110, 50, 0.55), transparent);
+      filter: blur(6px);
+      pointer-events: none;
+    }
+
+    /* =========================================================================
+       Floating Counter Badge
+       ========================================================================= */
+    .distill-counter-badge {
+      position: absolute;
+      left: 50%;
+      top: calc(var(--top) - 60px);
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+      z-index: 18;
+      pointer-events: none;
+    }
+
+    .distill-counter-label {
+      font-family: var(--sans);
+      font-size: 11.5px;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: -0.01em;
+    }
+
+    .distill-counter-pill {
+      height: 26px;
+      border-radius: 9999px;
+      overflow: hidden;
+      box-shadow: 0 0 18px rgba(255, 90, 31, 0.35);
+      font-family: var(--mono);
+      font-weight: 500;
+      font-size: 12.5px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .distill-counter-num {
+      background: var(--hot);
+      color: #FFFFFF;
+      padding: 0 11px 0 13px;
+      min-width: 8.2ch;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100%;
+    }
+
+    .distill-counter-pct {
+      background: var(--hot-soft);
+      color: #D9430F;
+      font-size: 11px;
+      padding: 0 12px 0 10px;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      white-space: nowrap;
+    }
+
+    /* =========================================================================
+       Card Elements (Scale via cqw)
+       ========================================================================= */
+    .k-card {
+      position: absolute;
+      top: 70px;
+      left: 0;
+      width: var(--cw);
+      height: var(--ch);
+      border-radius: 1.6vw;
+      overflow: hidden;
+      color: #FFFFFF;
+      font-family: var(--sans);
+      user-select: none;
+      -webkit-user-select: none;
+      container-type: inline-size;
+      will-change: transform, clip-path;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Shared Card Nav */
+    .k-nav {
+      position: absolute;
+      left: 4.4cqw;
+      right: 4.4cqw;
+      top: 4cqw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .k-brand {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .k-logo-svg {
+      width: 5.4cqw;
+      height: 4.2cqw;
+      display: block;
+    }
+
+    .k-brand-name {
+      font-weight: 500;
+      font-size: 4.6cqw;
+      letter-spacing: -0.03em;
+      margin-left: 1.3cqw;
+      line-height: 1;
+    }
+
+    .k-menu {
+      display: flex;
+      gap: 3.4cqw;
+      font-weight: 500;
+      font-size: 1.32cqw;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      align-items: center;
+    }
+
+    .k-menu span {
+      position: relative;
+    }
+
+    .k-menu .k-pill {
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 9999px;
+      padding: 0.7cqw 1.6cqw;
+      margin: -0.7cqw -1.6cqw;
+    }
+
+    /* Card 1: Home (Dunes) */
+    .k-card-home {
+      background: linear-gradient(to bottom, rgba(20, 10, 4, 0.25) 0%, transparent 30%, rgba(20, 10, 4, 0.55) 100%),
+                  url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/0e201fcd-ffc0-46a0-bd06-faa07bf0e84b.webp") center / cover no-repeat;
+    }
+
+    .k-home-bottom {
+      position: absolute;
+      left: 4.4cqw;
+      right: 4.4cqw;
+      bottom: 4.4cqw;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .k-home-stats {
+      display: flex;
+      align-items: flex-end;
+      gap: 4cqw;
+    }
+
+    .k-home-stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .k-home-num {
+      font-weight: 300;
+      font-size: 9cqw;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+    }
+
+    .k-home-lbl {
+      font-size: 1.9cqw;
+      opacity: 0.85;
+      margin-top: 0.4cqw;
+    }
+
+    .k-home-rule {
+      width: 1px;
+      height: 8cqw;
+      background: rgba(255, 255, 255, 0.35);
+      margin-bottom: 0.5cqw;
+    }
+
+    .k-home-tagline {
+      font-size: 2.2cqw;
+      line-height: 1.25;
+      width: 24cqw;
+      text-align: right;
+      opacity: 0.9;
+    }
+
+    /* Card 2: Price (Radial Gradient) */
+    .k-card-price {
+      background: radial-gradient(120% 90% at 20% 110%, #FF6A1F 0%, #FF9A4A 35%, #F7C79A 62%, #EFD9C4 100%);
+      color: #2A1406;
+    }
+
+    .k-card-price .k-menu .k-pill {
+      border-color: rgba(42, 20, 6, 0.6);
+    }
+
+    .k-price-figure {
+      position: absolute;
+      left: 4.4cqw;
+      top: 38%;
+      font-weight: 300;
+      font-size: 13cqw;
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .k-price-dollar {
+      font-size: 0.4em;
+      vertical-align: 0.6em;
+      margin-right: 0.1em;
+    }
+
+    .k-price-sub {
+      position: absolute;
+      left: 4.4cqw;
+      top: 62%;
+      font-family: var(--mono);
+      font-size: 1.6cqw;
+      opacity: 0.75;
+      letter-spacing: 0.08em;
+    }
+
+    .k-price-plans {
+      position: absolute;
+      right: 4.4cqw;
+      top: 34%;
+      width: 36cqw;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .k-plan-row {
+      border-top: 1px solid rgba(42, 20, 6, 0.25);
+      padding: 1.4cqw 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 2.2cqw;
+    }
+
+    .k-plan-row.bold {
+      font-weight: 600;
+    }
+
+    .k-price-btn {
+      position: absolute;
+      left: 4.4cqw;
+      bottom: 4.4cqw;
+      background: #2A1406;
+      color: #F7E6D6;
+      border-radius: 9999px;
+      padding: 1.2cqw 2.8cqw;
+      font-size: 1.8cqw;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Card 3: Case (Mineral) */
+    .k-card-case {
+      background: #190E08;
+    }
+
+    .k-case-bg {
+      position: absolute;
+      inset: 0;
+      background: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/2bebad68-8177-446a-9550-d64074166364.webp") center / cover no-repeat;
+      filter: blur(1.4cqw) saturate(1.1);
+      transform: scale(1.12);
+      opacity: 0.7;
+    }
+
+    .k-case-veil {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(25, 14, 8, 0.15), rgba(25, 14, 8, 0.55));
+    }
+
+    .k-case-kicker {
+      position: absolute;
+      left: 4.4cqw;
+      top: 17%;
+      font-family: var(--mono);
+      font-size: 1.4cqw;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      z-index: 2;
+    }
+
+    .k-case-title {
+      position: absolute;
+      left: 4.4cqw;
+      top: 24%;
+      font-family: var(--serif);
+      font-size: 4.6cqw;
+      line-height: 1.15;
+      width: 56cqw;
+      font-weight: 400;
+      z-index: 2;
+    }
+
+    .k-case-stats {
+      position: absolute;
+      left: 4.4cqw;
+      right: 4.4cqw;
+      bottom: 4.4cqw;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3cqw;
+      z-index: 2;
+    }
+
+    .k-case-stat-col {
+      border-top: 1px solid rgba(255, 255, 255, 0.35);
+      padding-top: 1.2cqw;
+    }
+
+    .k-case-stat-val {
+      font-weight: 300;
+      font-size: 6cqw;
+      line-height: 1;
+    }
+
+    .k-case-stat-lbl {
+      font-size: 1.6cqw;
+      opacity: 0.8;
+      margin-top: 0.4cqw;
+    }
+
+    /* Card 4: Vision */
+    .k-card-vision {
+      background: #1B1311;
+    }
+
+    .k-vision-tiles {
+      position: absolute;
+      left: 4.4cqw;
+      right: 4.4cqw;
+      top: 21%;
+      height: 46%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.2fr;
+      gap: 2cqw;
+      z-index: 2;
+    }
+
+    .k-vision-tile-img1 {
+      border-radius: 1.4cqw;
+      background: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/e80ba08d-d7b6-4b27-b0cd-8d0ad09c788c.webp") center / cover no-repeat;
+    }
+
+    .k-vision-tile-img2 {
+      border-radius: 1.4cqw;
+      background: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/62b0d7c1-3eb7-44bd-9b19-57b975fb250f.webp") center / cover no-repeat;
+    }
+
+    .k-vision-tile-quote {
+      font-family: var(--serif);
+      font-size: 3.4cqw;
+      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      padding: 0 1cqw;
+    }
+
+    .k-vision-tile-quote em {
+      opacity: 0.75;
+      font-style: italic;
+    }
+
+    .k-vision-footer {
+      position: absolute;
+      left: 4.4cqw;
+      right: 4.4cqw;
+      bottom: 4.4cqw;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: 1.6cqw;
+      opacity: 0.7;
+      line-height: 1.3;
+      z-index: 2;
+    }
+
+    /* Card 5: Alloy (Fire) */
+    .k-card-alloy {
+      background: #140C08;
+    }
+
+    .k-alloy-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 50%, rgba(20, 12, 8, 0.7) 100%),
+                  url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/156ff74d-ee37-4443-8f3a-11ae2095ed4c.webp") center / cover no-repeat;
+      filter: blur(0.6cqw);
+      transform: scale(1.06);
+      opacity: 0.85;
+    }
+
+    .k-alloy-bottom-left {
+      position: absolute;
+      left: 4.4cqw;
+      bottom: 4.4cqw;
+      font-family: var(--serif);
+      font-size: 7.4cqw;
+      line-height: 0.98;
+      font-weight: 400;
+      z-index: 2;
+    }
+
+    .k-alloy-bottom-left em {
+      font-style: italic;
+    }
+
+    .k-alloy-specs {
+      position: absolute;
+      right: 4.4cqw;
+      bottom: 4.4cqw;
+      width: 30cqw;
+      display: flex;
+      flex-direction: column;
+      z-index: 2;
+    }
+
+    .k-spec-row {
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 1cqw 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.8cqw;
+    }
+
+    /* Card 6: Journal */
+    .k-card-journal {
+      background: #E9ECF1;
+      color: #121A2A;
+    }
+
+    .k-card-journal .k-menu {
+      opacity: 0.7;
+    }
+
+    .k-card-journal .k-menu .k-pill {
+      border-color: rgba(18, 26, 42, 0.4);
+    }
+
+    .k-journal-title {
+      position: absolute;
+      left: 4.4cqw;
+      top: 23%;
+      font-family: var(--serif);
+      font-size: 5.6cqw;
+      line-height: 1.05;
+      font-weight: 400;
+      color: #121A2A;
+    }
+
+    .k-journal-title em {
+      font-style: italic;
+      color: #46618E;
+      font-size: 0.85em;
+    }
+
+    .k-journal-posts {
+      position: absolute;
+      left: 4.4cqw;
+      right: 4.4cqw;
+      bottom: 4.4cqw;
+      display: grid;
+      grid-template-columns: 1.25fr 1fr 1fr;
+      gap: 2.2cqw;
+    }
+
+    .k-journal-post {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .k-post-thumb {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 1.2cqw;
+      margin-bottom: 1.2cqw;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .k-post-kicker {
+      font-family: var(--mono);
+      font-size: 1.2cqw;
+      color: #6A7891;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.4cqw;
+    }
+
+    .k-post-heading {
+      font-size: 1.6cqw;
+      font-weight: 500;
+      line-height: 1.25;
+      color: #121A2A;
+    }
+
+    /* =========================================================================
+       Code Twins
+       ========================================================================= */
+    .code-block {
+      position: absolute;
+      top: 70px;
+      left: 0;
+      width: var(--cw);
+      height: var(--ch);
+      white-space: pre;
+      overflow: hidden;
+      container-type: inline-size;
+      will-change: transform, clip-path;
+      visibility: hidden;
+    }
+
+    .code-content-html {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: var(--mono);
+      font-weight: 400;
+      font-size: 1.56cqw;
+      line-height: 1.39;
+      color: var(--code);
+      white-space: pre;
+      user-select: none;
+    }
+
+    .code-content-meta {
+      position: absolute;
+      left: 51%;
+      top: 0;
+      font-family: var(--mono);
+      font-weight: 400;
+      font-size: 1.56cqw;
+      line-height: 1.39;
+      color: var(--comment);
+      white-space: pre;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    
+    <!-- Top Nav Bar -->
+    <header class="distill-nav">
+      <a href="#" class="distill-brand">
+        <!-- 19x23 Droplet SVG -->
+        <svg class="distill-logo-drop" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9.5 0.5C9.5 0.5 0.5 11 0.5 15.5C0.5 20.4706 4.52944 24.5 9.5 24.5C14.4706 24.5 18.5 20.4706 18.5 15.5C18.5 11 9.5 0.5 9.5 0.5Z" fill="currentColor"/>
+          <path d="M14.5 15C14.5 12.2 12 8 9.5 5" stroke="#EEF0F2" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        <span class="distill-brand-name">Distill</span>
+      </a>
+
+      <nav class="distill-links">
+        <button class="distill-link">
+          Product
+          <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="distill-link">
+          Use cases
+          <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="distill-link">
+          Resources
+          <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="distill-link">Pricing</button>
+      </nav>
+
+      <div class="distill-nav-right">
+        <button class="distill-btn-signin">Sign in</button>
+        <button class="distill-btn-trial">Start a free trial</button>
+        <button class="distill-btn-demo">Book a demo</button>
+      </div>
+    </header>
+
+    <!-- Two-Column Hero Copy -->
+    <section class="distill-hero-copy">
+      <div class="distill-hero-left">
+        <div class="distill-eyebrow">AI READABILITY</div>
+        <h1 class="distill-headline">
+          Built for people.<br>
+          <em>Read by machines.</em>
+        </h1>
+      </div>
+      <div class="distill-hero-right">
+        <p class="distill-paragraph">
+          Distill detects AI agents at the edge and serves them a clean, token&#x2011;light version of every page, without changing a pixel of what people see.
+        </p>
+        <button class="distill-btn-explore">Explore Distill</button>
+      </div>
+    </section>
+
+    <!-- The Belt -->
+    <div class="distill-belt" id="belt">
+      <div class="distill-codes" id="codes-layer"></div>
+      <div class="distill-cards" id="cards-layer"></div>
+      <canvas class="distill-canvas-fx" id="fx-canvas"></canvas>
+    </div>
+
+    <!-- The Scanner Line -->
+    <div class="distill-scanner">
+      <i class="distill-scanner-core"></i>
+      <b class="distill-scanner-halo"></b>
+    </div>
+
+    <!-- Floating Counter Badge -->
+    <div class="distill-counter-badge">
+      <span class="distill-counter-label">Token reduction</span>
+      <div class="distill-counter-pill">
+        <span class="distill-counter-num" id="counter-num">−48,193</span>
+        <span class="distill-counter-pct" id="counter-pct">91% less</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* --- Cards Dataset --- */
+      const CARDS_DATA = [
+        {
+          id: 'home',
+          title: 'Home',
+          original: 70411,
+          distilled: 6140,
+          saved: 64271,
+          pct: '91% less',
+          url: 'kessler.co/',
+          html: 
+`<h1>Kessler — Advanced materials</h1>
+<p>
+  Advanced materials for a stronger
+  tomorrow. Ceramic-matrix alloys made
+  with desert sand and solar heat.
+</p>
+<h2>At a glance</h2>
+<ul>
+  <li>Strength: 200x steel by weight</li>
+  <li>Emissions: 87% lower</li>
+  <li>Plants: Nevada, Atacama, Oman</li>
+  <li>Founded: 2019</li>
+</ul>
+<h2>Products</h2>
+<ul>
+  <li>K-Alloy 7 — structural</li>
+  <li>Basalt fibre — tensile</li>
+  <li>Ceramic matrix — thermal</li>
+</ul>
+<a href="/demo">Book a demo</a>`
+        },
+        {
+          id: 'price',
+          title: 'Pricing',
+          original: 41208,
+          distilled: 4960,
+          saved: 36248,
+          pct: '88% less',
+          url: 'kessler.co/pricing',
+          html:
+`<h1>Kessler — Pricing</h1>
+<p>
+  Three plans for every scale of
+  production. Start small, scale to
+  full foundry output.
+</p>
+<h2>Pilot — $299 / mo</h2>
+<ul>
+  <li>Sample batches: 4 / mo</li>
+  <li>Alloy grades: 2</li>
+  <li>Support: email</li>
+</ul>
+<h2>Industrial — $2,400 / mo</h2>
+<ul>
+  <li>Tonnage: up to 40 t / mo</li>
+  <li>Alloy grades: all</li>
+  <li>Certification: ISO 9001</li>
+  <li>Support: dedicated engineer</li>
+</ul>`
+        },
+        {
+          id: 'case',
+          title: 'Case Study',
+          original: 98432,
+          distilled: 6300,
+          saved: 92132,
+          pct: '94% less',
+          url: 'kessler.co/cases/atlas-rail',
+          html:
+`<h1>Case study: Atlas Rail</h1>
+<p>
+  How Atlas Rail cut track weight by
+  a third in eighteen months.
+</p>
+<h2>The challenge</h2>
+<p>
+  1,200 km of desert line, rails
+  warping above 50 °C every summer.
+</p>
+<h2>The result</h2>
+<ul>
+  <li>34% lighter track sections</li>
+  <li>3.4x longer service life</li>
+  <li>0 unplanned closures in 2025</li>
+</ul>
+<p>
+  "We stopped losing summers."
+  — Head of Infrastructure
+</p>`
+        },
+        {
+          id: 'vision',
+          title: 'Vision',
+          original: 55870,
+          distilled: 8215,
+          saved: 47655,
+          pct: '85% less',
+          url: 'kessler.co/vision',
+          html:
+`<article>
+  <h1>The Kessler vision</h1>
+  <p>
+    Materials that outlast the people
+    who made them.
+  </p>
+  <p>
+    We build where the sun is
+    strongest and the sand is free:
+    three plants, one closed loop.
+  </p>
+  <h2>Principles</h2>
+  <ol>
+    <li>Heat from the sun, not gas</li>
+    <li>Sand in, scrap back in</li>
+    <li>Publish every number</li>
+  </ol>
+</article>`
+        },
+        {
+          id: 'alloy',
+          title: 'Alloy',
+          original: 63904,
+          distilled: 5512,
+          saved: 58392,
+          pct: '91% less',
+          url: 'kessler.co/products/k-alloy-7',
+          html:
+`<h1>K-Alloy 7</h1>
+<p>The carbon-negative alloy.</p>
+<h2>Specification</h2>
+<ul>
+  <li>Tensile strength: 1,940 MPa</li>
+  <li>Density: 2.9 g/cm³</li>
+  <li>Max service temp: 1,150 °C</li>
+  <li>CO₂: −0.4 kg per kg made</li>
+</ul>
+<h2>Uses</h2>
+<ul>
+  <li>Rail, bridges, turbine housings</li>
+</ul>
+<a href="/k-alloy-7.pdf">Datasheet</a>`
+        },
+        {
+          id: 'journal',
+          title: 'Journal',
+          original: 47316,
+          distilled: 7602,
+          saved: 39714,
+          pct: '84% less',
+          url: 'kessler.co/journal',
+          html:
+`<h1>Kessler Journal</h1>
+<p>Field notes from the flats.</p>
+<article>
+  <h2>Mining nothing but light</h2>
+  <time>2026-03-14</time>
+</article>
+<article>
+  <h2>Atacama, year one</h2>
+  <time>2026-02-02</time>
+</article>
+<article>
+  <h2>Why we melt sand at noon</h2>
+  <time>2026-01-09</time>
+</article>`
+        }
+      ];
+
+      /* --- Card DOM Templates --- */
+      const cardNavHTML = function(activeItem) {
+        return `
+          <div class="k-nav">
+            <div class="k-brand">
+              <svg class="k-logo-svg" viewBox="0 0 54 42" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round">
+                <polygon points="2 38 18 6 34 38"></polygon>
+                <polygon points="22 38 36 14 50 38"></polygon>
+              </svg>
+              <span class="k-brand-name">Kessler</span>
+            </div>
+            <div class="k-menu">
+              <span class="${activeItem === 'PRODUCTS' ? 'k-pill' : ''}">PRODUCTS</span>
+              <span class="${activeItem === 'IMPACT' || activeItem === 'PRICING' || activeItem === 'VISION' || activeItem === 'JOURNAL' ? 'k-pill' : ''}">${activeItem === 'PRICING' ? 'PRICING' : (activeItem === 'VISION' ? 'VISION' : (activeItem === 'JOURNAL' ? 'JOURNAL' : 'IMPACT'))}</span>
+              <span class="${activeItem === 'ABOUT' || activeItem === 'CONTACT' ? 'k-pill' : ''}">${activeItem === 'PRICING' ? 'CONTACT' : 'ABOUT'}</span>
+            </div>
+          </div>
+        `;
+      };
+
+      const cardBodyHTML = [
+        /* 1: Home */
+        cardNavHTML('PRODUCTS') + `
+          <div class="k-home-bottom">
+            <div class="k-home-stats">
+              <div class="k-home-stat">
+                <span class="k-home-num">200x</span>
+                <span class="k-home-lbl">stronger</span>
+              </div>
+              <div class="k-home-rule"></div>
+              <div class="k-home-stat">
+                <span class="k-home-num">87%</span>
+                <span class="k-home-lbl">lower emissions</span>
+              </div>
+            </div>
+            <div class="k-home-tagline">Advanced materials for a stronger tomorrow.</div>
+          </div>
+        `,
+        /* 2: Price */
+        cardNavHTML('PRICING') + `
+          <div class="k-price-figure"><span class="k-price-dollar">$</span>2,400</div>
+          <div class="k-price-sub">PER MONTH · INDUSTRIAL</div>
+          <div class="k-price-plans">
+            <div class="k-plan-row"><span>Pilot</span><span>$299</span></div>
+            <div class="k-plan-row bold"><span>Industrial</span><span>$2,400</span></div>
+            <div class="k-plan-row"><span>Foundry</span><span>Custom</span></div>
+          </div>
+          <button class="k-price-btn">Start a pilot</button>
+        `,
+        /* 3: Case */
+        `<div class="k-case-bg"></div><div class="k-case-veil"></div>` +
+        cardNavHTML('IMPACT') + `
+          <div class="k-case-kicker">CASE STUDY · ATLAS RAIL</div>
+          <div class="k-case-title">How Atlas Rail cut track weight by a third in eighteen months</div>
+          <div class="k-case-stats">
+            <div class="k-case-stat-col">
+              <div class="k-case-stat-val">34%</div>
+              <div class="k-case-stat-lbl">lighter track</div>
+            </div>
+            <div class="k-case-stat-col">
+              <div class="k-case-stat-val">3.4x</div>
+              <div class="k-case-stat-lbl">service life</div>
+            </div>
+            <div class="k-case-stat-col">
+              <div class="k-case-stat-val">0</div>
+              <div class="k-case-stat-lbl">unplanned closures</div>
+            </div>
+          </div>
+        `,
+        /* 4: Vision */
+        cardNavHTML('VISION') + `
+          <div class="k-vision-tiles">
+            <div class="k-vision-tile-img1"></div>
+            <div class="k-vision-tile-img2"></div>
+            <div class="k-vision-tile-quote">
+              The Kessler vision: <em>materials that outlast the people who made them.</em>
+            </div>
+          </div>
+          <div class="k-vision-footer">
+            <div>How Kessler pours alloy<br>at the edge of the desert</div>
+            <div>Manifesto · 6 min</div>
+          </div>
+        `,
+        /* 5: Alloy */
+        `<div class="k-alloy-bg"></div>` +
+        cardNavHTML('PRODUCTS') + `
+          <div class="k-alloy-bottom-left">
+            The carbon‑negative<br><em>alloy.</em>
+          </div>
+          <div class="k-alloy-specs">
+            <div class="k-spec-row"><span>Product</span><span>K-Alloy 7</span></div>
+            <div class="k-spec-row"><span>Tensile</span><span>1,940 MPa</span></div>
+            <div class="k-spec-row"><span>Datasheet</span><span>PDF ↗</span></div>
+          </div>
+        `,
+        /* 6: Journal */
+        cardNavHTML('JOURNAL') + `
+          <div class="k-journal-title">
+            Journal<br><em>field notes from the flats</em>
+          </div>
+          <div class="k-journal-posts">
+            <div class="k-journal-post">
+              <div class="k-post-thumb" style="background-image: url('https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/7b6ad638-89ec-4dec-be74-d36fbff3ea53.webp');"></div>
+              <div class="k-post-kicker">FIELD NOTES</div>
+              <div class="k-post-heading">Mining nothing but light on the salt flats</div>
+            </div>
+            <div class="k-journal-post">
+              <div class="k-post-thumb" style="background-image: url('https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/62b0d7c1-3eb7-44bd-9b19-57b975fb250f.webp');"></div>
+              <div class="k-post-kicker">PLANTS</div>
+              <div class="k-post-heading">Atacama, year one</div>
+            </div>
+            <div class="k-journal-post">
+              <div class="k-post-thumb" style="background-image: url('https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/0e201fcd-ffc0-46a0-bd06-faa07bf0e84b.webp');"></div>
+              <div class="k-post-kicker">PROCESS</div>
+              <div class="k-post-heading">Why we melt sand at noon</div>
+            </div>
+          </div>
+        `
+      ];
+
+      /* --- Mount DOM --- */
+      const cardsLayer = document.getElementById('cards-layer');
+      const codesLayer = document.getElementById('codes-layer');
+      const belt = document.getElementById('belt');
+      const fxCanvas = document.getElementById('fx-canvas');
+      const ctx = fxCanvas.getContext('2d');
+      const counterNum = document.getElementById('counter-num');
+      const counterPct = document.getElementById('counter-pct');
+
+      const cardEls = [];
+      const codeEls = [];
+
+      CARDS_DATA.forEach((data, i) => {
+        // Card DOM
+        const c = document.createElement('div');
+        c.className = `k-card k-card-${data.id}`;
+        c.innerHTML = cardBodyHTML[i];
+        cardsLayer.appendChild(c);
+        cardEls.push(c);
+
+        // Code DOM
+        const codeEl = document.createElement('div');
+        codeEl.className = 'code-block';
+        codeEl.innerHTML = `
+          <div class="code-content-html">${escapeHtml(data.html)}</div>
+          <div class="code-content-meta">
+&lt;!-- distilled: ${data.distilled.toLocaleString('en-US')} tokens --&gt;
+&lt;!-- original: ${data.original.toLocaleString('en-US')} tokens --&gt;
+&lt;!-- ${data.url} --&gt;
+          </div>
+        `;
+        codesLayer.appendChild(codeEl);
+        codeEls.push(codeEl);
+      });
+
+      function escapeHtml(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
+      /* --- Integer 32-bit Hash --- */
+      function hash(a, b, c) {
+        let h = (Math.imul(a, 374761393) + Math.imul(b, 668265263) + Math.imul(c, 2147483647)) | 0;
+        h = Math.imul(h ^ (h >>> 13), 1274126177) | 0;
+        return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+      }
+
+      /* Fire Palette */
+      const PALETTE = [
+        '#FF4A12',
+        '#FF5A1F',
+        '#FF6B2C',
+        '#FF8A3D',
+        '#FFB06A',
+        '#FFD9B5',
+        '#FFF3E6'
+      ];
+
+      /* --- State & Sizing --- */
+      let W = window.innerWidth;
+      let H = window.innerHeight;
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let cw = 0;
+      let ch = 0;
+      let gap = 0;
+      let Lx = W / 2;
+      let off = 0;
+      let vel = 0;
+      let hoverVal = 0;
+      let isHovered = false;
+      let isDragging = false;
+      let lastPointerX = 0;
+      let lastPointerTime = 0;
+      let shownTokens = 48193;
+      let activeCardIndex = 0;
+      let sparks = [];
+
+      function updateDimensions() {
+        W = window.innerWidth;
+        H = window.innerHeight;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        Lx = W / 2;
+
+        const firstCard = cardEls[0];
+        const rect = firstCard.getBoundingClientRect();
+        cw = rect.width || (W <= 767 ? W * 0.84 : W * 0.46);
+        ch = rect.height || (W <= 767 ? W * 0.54 : H * 0.52);
+
+        // Gap from CSS
+        gap = W <= 767 ? W * 0.07 : W * 0.0475;
+
+        // Resize Canvas
+        const beltRect = belt.getBoundingClientRect();
+        fxCanvas.width = Math.round(beltRect.width * dpr);
+        fxCanvas.height = Math.round(beltRect.height * dpr);
+        fxCanvas.style.width = beltRect.width + 'px';
+        fxCanvas.style.height = beltRect.height + 'px';
+      }
+
+      updateDimensions();
+      window.addEventListener('resize', updateDimensions);
+
+      // Initial offset: W/2 - 0.62 * cw (Card 1 starts ~12% past scanner)
+      off = W / 2 - 0.62 * cw;
+
+      /* --- Pointer & Drag Mechanics --- */
+      belt.addEventListener('mouseenter', () => { isHovered = true; });
+      belt.addEventListener('mouseleave', () => { isHovered = false; });
+
+      belt.addEventListener('pointerdown', (e) => {
+        isDragging = true;
+        belt.classList.add('is-dragging');
+        belt.setPointerCapture(e.pointerId);
+        lastPointerX = e.clientX;
+        lastPointerTime = performance.now();
+        vel = 0;
+      });
+
+      belt.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        const now = performance.now();
+        const dt = Math.max(8, now - lastPointerTime);
+        const dx = e.clientX - lastPointerX;
+
+        off += dx;
+        const instantVel = (dx / dt) * 1000;
+        vel = instantVel * 0.8 + vel * 0.2;
+
+        lastPointerX = e.clientX;
+        lastPointerTime = now;
+      });
+
+      function endDrag(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        belt.classList.remove('is-dragging');
+        try { belt.releasePointerCapture(e.pointerId); } catch (_) {}
+      }
+
+      belt.addEventListener('pointerup', endDrag);
+      belt.addEventListener('pointercancel', endDrag);
+
+      // Horizontal Wheel support
+      window.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+          vel += -e.deltaX * 6;
+        }
+      }, { passive: true });
+
+      /* --- Sparks Engine --- */
+      function spawnSpark(cardY, cardH) {
+        if (sparks.length > 90) return;
+        const colorIdx = Math.floor(Math.random() * PALETTE.length);
+        sparks.push({
+          x: Lx + Math.random() * 30,
+          y: cardY - 10 + Math.random() * (cardH + 20),
+          vx: (-30 + Math.random() * 70) + vel * 0.6,
+          vy: -25 + Math.random() * 50,
+          size: 0.8 + Math.random() * 1.8,
+          color: PALETTE[colorIdx],
+          life: 0.3 + Math.random() * 0.8,
+          maxLife: 0.3 + Math.random() * 0.8
+        });
+      }
+
+      function updateAndDrawSparks(dt, ctx) {
+        for (let i = sparks.length - 1; i >= 0; i--) {
+          const s = sparks[i];
+          s.life -= dt;
+          if (s.life <= 0) {
+            sparks.splice(i, 1);
+            continue;
+          }
+          s.x += s.vx * dt;
+          s.y += s.vy * dt;
+          const alpha = Math.min(1, s.life * 2.2);
+
+          ctx.save();
+          ctx.globalAlpha = alpha;
+          ctx.fillStyle = s.color;
+          ctx.fillRect(s.x, s.y, s.size, s.size);
+          ctx.restore();
+        }
+      }
+
+      /* --- Particle Dissolve FX --- */
+      function drawDissolveFx(cardIdx, cardX, cardTop, cut, t) {
+        const R = 0.3 * cw;
+        const startX = Lx;
+        const cardRight = cardX + cw;
+        const hw = Math.max(0, Math.min(150, cardRight - Lx));
+
+        // 1. Haze
+        if (hw > 0) {
+          const grad = ctx.createLinearGradient(Lx, 0, Lx + 150, 0);
+          grad.addColorStop(0, 'rgba(255, 96, 40, 0.42)');
+          grad.addColorStop(1, 'rgba(255, 96, 40, 0)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(Lx, cardTop, hw, ch);
+        }
+
+        // 2. Dithered 3px Grid
+        const minGx = Math.floor(cut / 3);
+        const maxGx = Math.ceil((cut + R) / 3);
+        const totalRows = Math.floor(ch / 3);
+
+        for (let gx = minGx; gx <= maxGx; gx++) {
+          const sx = cardX + gx * 3;
+          if (sx < Lx || sx > Lx + R || sx > cardRight) continue;
+
+          const d = sx - Lx;
+          const p = Math.pow(Math.max(0, 1 - d / R), 1.7);
+
+          for (let row = -5; row < totalRows + 5; row++) {
+            // Twinkle: skip 22% dots 9 times/sec
+            const tw = hash(gx, row, Math.floor(t * 9) + 97);
+            if (tw < 0.22) continue;
+
+            const isInside = (row >= 0 && row < totalRows);
+            const prob = isInside ? (p * 0.92) : (p * 0.16 * (1 - Math.abs(row < 0 ? row : row - totalRows) / 5));
+
+            const h = hash(gx, row, cardIdx);
+            if (h < prob) {
+              const h2 = hash(row, gx, cardIdx + 31);
+              let color;
+              if (d < 10) {
+                // White-hot edge
+                const cIdx = Math.min(6, 4 + Math.floor(h2 * 3));
+                color = PALETTE[cIdx];
+              } else {
+                const cIdx = Math.floor(h2 * h2 * 7);
+                color = PALETTE[cIdx];
+              }
+
+              const jx = (hash(gx, row, 1) - 0.5) * 1.6;
+              const jy = (hash(gx, row, 2) - 0.5) * 1.6;
+              const sz = 1.1 + h2 * 1.7;
+
+              ctx.fillStyle = color;
+              ctx.fillRect(sx + jx, cardTop + row * 3 + jy, sz, sz);
+            }
+          }
+        }
+
+        // 3. Free Sparks
+        for (let s = 0; s < 3; s++) {
+          if (Math.random() < 0.70) {
+            spawnSpark(cardTop, ch);
+          }
+        }
+      }
+
+      /* --- Main Animation Loop (60 FPS) --- */
+      let lastTime = performance.now();
+      const span = () => cw + gap;
+      const period = () => span() * 6;
+
+      function frame(now) {
+        const dt = Math.min(0.064, (now - lastTime) / 1000);
+        lastTime = now;
+        const t = now / 1000;
+
+        // Auto speed: -0.075 * W (leftward)
+        const autoSpeed = -0.075 * W;
+
+        // Hover ease to 35% speed
+        const hoverTarget = isHovered ? 1 : 0;
+        hoverVal += (hoverTarget - hoverVal) * Math.min(1, 4 * dt);
+        const targetSpeed = autoSpeed * (1 - 0.65 * hoverVal);
+
+        // Physics Easing
+        if (!isDragging) {
+          vel += (targetSpeed - vel) * (1 - Math.exp(-2.2 * dt));
+          off += vel * dt;
+        }
+
+        // Clear Canvas FX
+        ctx.save();
+        ctx.scale(dpr, dpr);
+        ctx.clearRect(0, 0, fxCanvas.width / dpr, fxCanvas.height / dpr);
+
+        const curSpan = span();
+        const curPeriod = period();
+        const cardTopInBelt = 70;
+
+        let crossingCardIdx = -1;
+        let crossingCut = 0;
+
+        for (let i = 0; i < 6; i++) {
+          // Wrapped position
+          let x = ((off + i * curSpan + curSpan) % curPeriod);
+          if (x < 0) x += curPeriod;
+          x -= curSpan;
+
+          const cut = Math.max(0, Math.min(cw, Lx - x));
+          const cardEl = cardEls[i];
+          const codeEl = codeEls[i];
+
+          // 1. Position & Clip Card
+          cardEl.style.transform = `translate3d(${x}px, 0, 0)`;
+          if (cut > 0) {
+            cardEl.style.clipPath = `inset(0 0 0 ${cut}px round 0 1.6vw 1.6vw 0)`;
+            cardEl.style.webkitMaskImage = `linear-gradient(90deg, transparent ${cut}px, #000 ${cut + 26}px)`;
+            cardEl.style.maskImage = `linear-gradient(90deg, transparent ${cut}px, #000 ${cut + 26}px)`;
+          } else {
+            cardEl.style.clipPath = 'none';
+            cardEl.style.webkitMaskImage = 'none';
+            cardEl.style.maskImage = 'none';
+          }
+
+          // 2. Position & Clip Twin Code
+          codeEl.style.transform = `translate3d(${x}px, 0, 0)`;
+          if (cut > 0) {
+            codeEl.style.visibility = 'visible';
+            codeEl.style.clipPath = `inset(0 ${cw - cut}px 0 0)`;
+          } else {
+            codeEl.style.visibility = 'hidden';
+          }
+
+          // 3. Dissolve FX on Crossing Card
+          if (cut > 0 && (x + cw) > Lx) {
+            crossingCardIdx = i;
+            crossingCut = cut;
+            drawDissolveFx(i, x, cardTopInBelt, cut, t);
+          }
+        }
+
+        // Update sparks
+        updateAndDrawSparks(dt, ctx);
+        ctx.restore();
+
+        // 4. Update Counter Badge
+        if (crossingCardIdx !== -1) {
+          activeCardIndex = crossingCardIdx;
+          const card = CARDS_DATA[activeCardIndex];
+          const progress = crossingCut / cw;
+          const targetTokens = Math.round((card.original - card.distilled) * progress);
+
+          shownTokens += (targetTokens - shownTokens) * Math.min(1, dt * 14);
+          counterNum.textContent = '−' + Math.round(shownTokens).toLocaleString('en-US');
+          counterPct.textContent = card.pct;
+        }
+
+        requestAnimationFrame(frame);
+      }
+
+      requestAnimationFrame(frame);
+
+    })();
+  </script>
+</body>
 </html>
