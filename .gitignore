@@ -1,0 +1,56 @@
+# Environment and Secrets (CRITICAL: Never commit real credentials)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.pfx
+*.p12
+
+# Go Build Output & Binaries
+bin/
+dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+cover.out
+cover.html
+coverage
+coverage.*
+
+# Node / Frontend Build & Dependencies
+node_modules/
+apps/web/node_modules/
+apps/web/dist/
+apps/web/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.turbo/
+
+# Code Generation Temp Files
+*.gen.go.tmp
+openapi.gen.go.tmp
+
+# Database Local Dumps & Storage
+*.sqlite
+*.sqlite3
+*.db
+postgres_data/
+redis_data/
+
+# OS and Editor Metadata
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*~

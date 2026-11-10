@@ -1,0 +1,67 @@
+# PayBridge AI — Local Development Infrastructure
+# PostgreSQL 16 + Redis 7.2 + Mailpit Email Sink
+# Usage: docker compose -f infra/docker/docker-compose.yml up -d
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: paybridge-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-paybridge_dev}
+      POSTGRES_USER: ${POSTGRES_USER:-paybridge_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-paybridge_dev_secret}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-paybridge_admin} -d ${POSTGRES_DB:-paybridge_dev}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - paybridge-network
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: paybridge-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    networks:
+      - paybridge-network
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: paybridge-mailpit
+    restart: unless-stopped
+    ports:
+      - "${MAILPIT_SMTP_PORT:-1025}:1025" # SMTP port for outbound notifications
+      - "${MAILPIT_UI_PORT:-8025}:8025"   # Web UI for inspecting outgoing emails
+    environment:
+      MP_MAX_MESSAGES: 500
+      MP_DATABASE: "" # In-memory storage for ephemeral local testing
+    networks:
+      - paybridge-network
+
+volumes:
+  postgres_data:
+    name: paybridge_postgres_data
+  redis_data:
+    name: paybridge_redis_data
+
+networks:
+  paybridge-network:
+    name: paybridge-net
+    driver: bridge
