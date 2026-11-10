@@ -13,12 +13,32 @@ export interface PillarData {
   bottomVw: number;
 }
 
-// Custom words tailored for PayBridge AI cross-border truth architecture
+// Canonical PayBridge AI cross-border truth architecture pillars
 const PILLARS: PillarData[] = [
-  { label: 'Scopes',     items: ['conditions', 'capacity', 'specs', 'timelines'],     leftVw: 2.8,  bottomVw: 7     },
-  { label: 'Integrates', items: ['civil', 'mechanical', 'electrical', 'controls'],     leftVw: 22.4, bottomVw: 9.08  },
-  { label: 'Certifies',  items: ['redundancy', 'testing', 'compliance', 'sign-offs'], leftVw: 41.2, bottomVw: 11.16 },
-  { label: 'Activates',  items: ['cutover', 'runbooks', 'handoff', 'SLAs'],           leftVw: 61.1, bottomVw: 13.24 },
+  {
+    label: 'Scopes',
+    items: ['payment intent', 'gateway 504s', 'timeout states', 'attempt locks'],
+    leftVw: 2.8,
+    bottomVw: 7,
+  },
+  {
+    label: 'Integrates',
+    items: ['PayPal REST', 'dual-ledger sync', 'capture proofs', 'idempotent keys'],
+    leftVw: 22.4,
+    bottomVw: 9.08,
+  },
+  {
+    label: 'Certifies',
+    items: ['Tier 1 evidence', 'SHA-256 vault', 'zero double-charge', 'audit receipts'],
+    leftVw: 41.2,
+    bottomVw: 11.16,
+  },
+  {
+    label: 'Activates',
+    items: ['Truth Passport', 'Two-Lens privacy', 'Next Safe Action', 'order delivery'],
+    leftVw: 61.1,
+    bottomVw: 13.24,
+  },
 ];
 
 export interface PrecisionSectionProps {
@@ -31,19 +51,21 @@ export interface PrecisionSectionProps {
 
 export const PrecisionSection: React.FC<PrecisionSectionProps> = ({
   pillars = PILLARS,
-  badgeText = 'Structured Delivery',
+  badgeText = 'Structured Payment Truth',
   headingLine1 = 'One integrated, end-to-end system.',
-  headingLine2 = 'Compounding operational value.',
-  subtext = 'PayBridge teams capture, align, validate and deliver exactly what keeps your programs on track.',
+  headingLine2 = 'Compounding operational certainty.',
+  subtext = 'PayBridge teams capture, align, validate and deliver exactly what keeps cross-border checkouts on track.',
 }) => {
   return (
     <section
       style={{
+        backgroundColor: '#EEF0F2',
         backgroundImage:
           'url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260418_125638_553b96dc-a1fd-4b2b-81a9-ed7daa80006e.png&w=1280&q=85")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
+        backgroundBlendMode: 'multiply',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -68,13 +90,14 @@ export const PrecisionSection: React.FC<PrecisionSectionProps> = ({
             backgroundColor: 'rgb(249, 249, 249)',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
+            gap: 8,
             fontSize: 'clamp(14px, 1.1vw, 18px)',
             fontWeight: 500,
             borderRadius: '36px',
             padding: 'clamp(8px, 0.9vw, 14px) clamp(12px, 1.25vw, 20px)',
             color: 'rgb(26, 11, 84)',
             whiteSpace: 'nowrap',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
           }}
         >
           <svg
@@ -210,6 +233,7 @@ export const PrecisionSection: React.FC<PrecisionSectionProps> = ({
                   paddingRight: '1.736vw',
                   whiteSpace: 'nowrap',
                   gap: '8px',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
                 }}
               >
                 <img
@@ -309,6 +333,7 @@ export const PrecisionSection: React.FC<PrecisionSectionProps> = ({
                     padding: '10px 18px',
                     whiteSpace: 'nowrap',
                     gap: '7px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                   }}
                 >
                   <img src={LOGO_ICON} alt="" style={{ width: 16, height: 'auto' }} />
