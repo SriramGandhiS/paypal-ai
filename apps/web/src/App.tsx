@@ -23,13 +23,12 @@ import {
 } from './features/screens/Screens';
 
 export const App: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState<string>('dashboard');
+  const [currentTab, setCurrentTab] = useState<string>('landing');
   const [selectedCaseId, setSelectedCaseId] = useState<string | null>(null);
   const [isSimulated, setIsSimulated] = useState<boolean>(api.isSimulationMode());
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    // Initial backend ping
     api.checkBackendLiveness().then((live) => {
       setIsSimulated(!live);
     });
@@ -57,14 +56,13 @@ export const App: React.FC = () => {
     if (tab !== 'cases') {
       setSelectedCaseId(null);
     } else if (!selectedCaseId) {
-      // Default to primary demo case if opening cases tab directly
       setSelectedCaseId('c101-demo-4567-89ab-cdef00000001');
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
-      {/* Top Navigation */}
+      {/* Top Navigation Bar with 16 Screens Selector */}
       <Navbar
         currentTab={currentTab}
         onTabChange={handleTabChange}
@@ -80,8 +78,14 @@ export const App: React.FC = () => {
         </div>
       )}
 
-      {/* Main Content Body */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      {/* Main Content: Full-Bleed for Landing Showcase (Distill Scanner), Padded Container for Enterprise Views */}
+      <main className={`flex-1 w-full mx-auto ${currentTab === 'landing' ? 'max-w-none p-0' : 'max-w-7xl px-4 sm:px-6 lg:px-8 pt-8'}`}>
+        {/* Screen 1: Landing Showcase (Distill Scanner Hero + Invariants) */}
+        {currentTab === 'landing' && (
+          <LandingScreen onNavigate={handleTabChange} />
+        )}
+
+        {/* Screen 3: Dashboard Matrix */}
         {currentTab === 'dashboard' && (
           <DashboardScreen
             onSelectCase={handleSelectCase}
@@ -89,6 +93,7 @@ export const App: React.FC = () => {
           />
         )}
 
+        {/* Screen 5: Payment Cases & Detail View */}
         {currentTab === 'cases' && (
           selectedCaseId ? (
             <CaseDetailScreen
@@ -107,6 +112,7 @@ export const App: React.FC = () => {
           )
         )}
 
+        {/* Screen 16: Golden Path Stepper */}
         {currentTab === 'demo' && (
           <GoldenPathDemoScreen
             onNavigate={handleTabChange}
@@ -114,59 +120,73 @@ export const App: React.FC = () => {
           />
         )}
 
+        {/* Screen 11: Truth Passport */}
         {currentTab === 'passport' && (
           <PassportScreen />
         )}
 
+        {/* Screen 7: Truth Gap Graph */}
         {currentTab === 'graph' && (
           <TruthGapGraphScreen />
         )}
 
+        {/* Screen 11 (Signature): Recovery Mirror */}
         {currentTab === 'mirror' && (
           <RecoveryMirrorScreen />
         )}
 
-        {/* Vijay Extended 10 Screens */}
-        {currentTab === 'landing' && (
-          <LandingScreen onNavigate={() => handleTabChange('new-payment')} />
-        )}
-
+        {/* Screen 2: Login & RBAC Auth */}
         {currentTab === 'auth' && (
-          <AuthScreen onLogin={() => handleTabChange('dashboard')} />
+          <AuthScreen onLogin={(role) => {
+            handleTabChange('dashboard');
+            showToast(`Authenticated as ${role.toUpperCase()}`);
+          }} />
         )}
 
+        {/* Screen 4: Checkout & Timeout Hero */}
         {currentTab === 'new-payment' && (
-          <NewPaymentScreen onSimulateTimeout={() => handleTabChange('cases')} />
+          <NewPaymentScreen onSimulateTimeout={() => {
+            handleTabChange('cases');
+            showToast('Gateway Timeout 504 Simulated: DO NOT REPEAT CHECKOUT lock engaged');
+          }} />
         )}
 
+        {/* Screen 6: Lifecycle Timeline */}
         {currentTab === 'timeline' && (
           <TimelineScreen />
         )}
 
+        {/* Screen 8: Sender Two-Lens View */}
         {currentTab === 'sender-lens' && (
           <SenderLensScreen />
         )}
 
+        {/* Screen 9: Receiver Two-Lens View */}
         {currentTab === 'receiver-lens' && (
           <ReceiverLensScreen />
         )}
 
+        {/* Screen 10: Next Safe Action Engine */}
         {currentTab === 'safe-action' && (
           <SafeActionScreen />
         )}
 
+        {/* Screen 12: Evidence Explorer */}
         {currentTab === 'evidence' && (
           <EvidenceScreen />
         )}
 
+        {/* Screen 13: Notification Center */}
         {currentTab === 'notifications' && (
           <NotificationsScreen />
         )}
 
+        {/* Screen 14: Operations & Webhook Ingestion */}
         {currentTab === 'operations' && (
           <OperationsScreen />
         )}
 
+        {/* Screen 15: Privacy & Consent Settings */}
         {currentTab === 'settings' && (
           <SettingsScreen />
         )}

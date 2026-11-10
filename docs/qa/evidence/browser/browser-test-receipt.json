@@ -1,0 +1,154 @@
+{
+  "timestamp": "2026-11-10T15:51:16.218Z",
+  "browser": "Google Chrome 149",
+  "passed": 28,
+  "failed": 0,
+  "pageErrors": [],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "testResults": [
+    {
+      "name": "Distill Hero renders headline \"Built for people. Read by machines.\"",
+      "status": "PASS",
+      "detail": "Newsreader serif headline verified"
+    },
+    {
+      "name": "Distill Token Reduction counter pill renders on scanner line",
+      "status": "PASS",
+      "detail": "Found floating counter pill"
+    },
+    {
+      "name": "2D Particle Dissolve Canvas active on belt layer",
+      "status": "PASS",
+      "detail": "Canvas element attached and rendering"
+    },
+    {
+      "name": "Click \"Explore Distill\" navigates into Cases Matrix",
+      "status": "PASS",
+      "detail": "Successfully navigated to Screen 3 Dashboard Matrix"
+    },
+    {
+      "name": "Click case row opens Case Detail Screen (Screen 5)",
+      "status": "PASS",
+      "detail": "Truth Vector & safe actions visible"
+    },
+    {
+      "name": "Golden Path Demo Stepper (Screen 16) interactive progression",
+      "status": "PASS",
+      "detail": "Advanced stage cleanly in stepper"
+    },
+    {
+      "name": "Signature Truth Passport Screen renders cryptographic seal",
+      "status": "PASS",
+      "detail": "Cryptographic seal verified"
+    },
+    {
+      "name": "Signature Truth Gap Graph renders node topology",
+      "status": "PASS",
+      "detail": "Multi-dimensional state vector graph visible"
+    },
+    {
+      "name": "Signature Recovery Mirror Screen renders comparison",
+      "status": "PASS",
+      "detail": "Recovery comparison vectors visible"
+    },
+    {
+      "name": "Switch to Screen 1: Landing Showcase (Distill)",
+      "status": "PASS",
+      "detail": "Screen rendered (key: landing)"
+    },
+    {
+      "name": "Switch to Screen 2: Login & RBAC Auth",
+      "status": "PASS",
+      "detail": "Screen rendered (key: auth)"
+    },
+    {
+      "name": "Switch to Screen 3: Dashboard Matrix",
+      "status": "PASS",
+      "detail": "Screen rendered (key: dashboard)"
+    },
+    {
+      "name": "Switch to Screen 4: Checkout & Timeout",
+      "status": "PASS",
+      "detail": "Screen rendered (key: new-payment)"
+    },
+    {
+      "name": "Switch to Screen 5: Payment Cases",
+      "status": "PASS",
+      "detail": "Screen rendered (key: cases)"
+    },
+    {
+      "name": "Switch to Screen 6: Lifecycle Timeline",
+      "status": "PASS",
+      "detail": "Screen rendered (key: timeline)"
+    },
+    {
+      "name": "Switch to Screen 7: Truth Gap Graph",
+      "status": "PASS",
+      "detail": "Screen rendered (key: graph)"
+    },
+    {
+      "name": "Switch to Screen 8: Sender Lens",
+      "status": "PASS",
+      "detail": "Screen rendered (key: sender-lens)"
+    },
+    {
+      "name": "Switch to Screen 9: Receiver Lens",
+      "status": "PASS",
+      "detail": "Screen rendered (key: receiver-lens)"
+    },
+    {
+      "name": "Switch to Screen 10: Safe Action Engine",
+      "status": "PASS",
+      "detail": "Screen rendered (key: safe-action)"
+    },
+    {
+      "name": "Switch to Screen 11: Truth Passport",
+      "status": "PASS",
+      "detail": "Screen rendered (key: passport)"
+    },
+    {
+      "name": "Switch to Screen 12: Evidence Explorer",
+      "status": "PASS",
+      "detail": "Screen rendered (key: evidence)"
+    },
+    {
+      "name": "Switch to Screen 13: Communications",
+      "status": "PASS",
+      "detail": "Screen rendered (key: notifications)"
+    },
+    {
+      "name": "Switch to Screen 14: Ops & Webhooks",
+      "status": "PASS",
+      "detail": "Screen rendered (key: operations)"
+    },
+    {
+      "name": "Switch to Screen 15: Privacy & Consent",
+      "status": "PASS",
+      "detail": "Screen rendered (key: settings)"
+    },
+    {
+      "name": "Switch to Screen 16: Golden Path Stepper",
+      "status": "PASS",
+      "detail": "Screen rendered (key: demo)"
+    },
+    {
+      "name": "Mobile Viewport (390x844) layout reflow & zero horizontal overflow",
+      "status": "PASS",
+      "detail": "Layout reflowed cleanly"
+    },
+    {
+      "name": "Tablet Viewport (768x1024) layout reflow",
+      "status": "PASS",
+      "detail": "Tablet layout reflowed cleanly"
+    },
+    {
+      "name": "Ultra-Wide Viewport (1920x1080) layout containment",
+      "status": "PASS",
+      "detail": "Containerized desktop layout centered cleanly"
+    }
+  ]
+}

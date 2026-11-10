@@ -2,80 +2,94 @@ import React, { useState } from 'react';
 import { TruthGapGraph } from '../signature/TruthGapGraph';
 import { PaymentTruthPassport } from '../signature/PaymentTruthPassport';
 import { LifecycleTimeline } from '../signature/LifecycleTimeline';
+import { DistillScannerHero } from '../distill/DistillScannerHero';
+import { Shield, Clock, Scale, ArrowRight, CheckCircle, Lock, ExternalLink } from 'lucide-react';
 
 /* =========================================================================
-   Screen 1: Landing / Public Introduction
+   Screen 1: Landing / Public Introduction with Distill Scanner Hero
    ========================================================================= */
-export const LandingScreen: React.FC<{ onNavigate: (screen: number) => void }> = ({ onNavigate }) => {
+export const LandingScreen: React.FC<{ onNavigate: (screen: any) => void }> = ({ onNavigate }) => {
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 20px' }}>
-      <header style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-          <span className="badge badge-verified">PayBridge AI v2.0 Enterprise</span>
-          <span className="badge badge-simulated">PayPal Sandbox</span>
-        </div>
-        <h1 style={{ fontSize: '36px', fontWeight: 800, color: 'var(--text-1)', marginBottom: '16px' }}>
-          One payment. Two people. One verified story.
-        </h1>
-        <p style={{ fontSize: '18px', color: 'var(--text-2)', maxWidth: '720px', margin: '0 auto 24px' }}>
-          When cross-border payments time out or drop network responses, PayBridge AI reconciles the original transaction using cryptographic evidence — strictly preventing dangerous blind duplicate charges.
-        </p>
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-          <button
-            onClick={() => onNavigate(16)}
-            style={{
-              padding: '12px 24px',
-              backgroundColor: 'var(--accent)',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '6px',
-              fontWeight: 600,
-              fontSize: '15px',
-            }}
-          >
-            Launch Golden Demo B
-          </button>
-          <button
-            onClick={() => onNavigate(3)}
-            style={{
-              padding: '12px 24px',
-              backgroundColor: 'var(--surface-2)',
-              color: 'var(--text-1)',
-              border: '1px solid var(--border-strong)',
-              borderRadius: '6px',
-              fontWeight: 600,
-              fontSize: '15px',
-            }}
-          >
-            Explore Cases Matrix
-          </button>
-        </div>
-      </header>
+    <div className="w-full bg-slate-950 text-slate-100">
+      {/* The Distill "Built for people. Read by machines." Comparison Section */}
+      <DistillScannerHero
+        onExplore={() => onNavigate('dashboard')}
+        onSignIn={() => onNavigate('auth')}
+        onBookDemo={() => onNavigate('demo')}
+      />
 
-      {/* Non-Negotiable Invariants Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '40px' }}>
-        <div className="card">
-          <div style={{ fontSize: '24px', marginBottom: '8px' }}>🛡️</div>
-          <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '6px' }}>AI Never Moves Money</h3>
-          <p style={{ fontSize: '13px', color: 'var(--text-2)' }}>
-            No prompt, LLM output, or tool can initiate, capture, refund, or retry payments. Only human-triggered Go controllers can.
+      {/* PayBridge AI Enterprise Invariants & Product Deep Dive */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-900">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-mono text-xs tracking-wider uppercase mb-4">
+            Financial Truth & Reconciliation Architecture
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-100">
+            One payment. Two parties. <span className="text-cyan-400">One verified truth.</span>
+          </h2>
+          <p className="mt-4 text-slate-400 text-base sm:text-lg leading-relaxed">
+            When cross-border payments experience upstream gateway timeouts (HTTP 504), traditional checkout flows panic and trigger duplicate charges. PayBridge AI isolates the ambiguous state, reconciles authoritative provider records, and provides mathematical certainty.
           </p>
         </div>
-        <div className="card">
-          <div style={{ fontSize: '24px', marginBottom: '8px' }}>⏳</div>
-          <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '6px' }}>Timeout ≠ Failure</h3>
-          <p style={{ fontSize: '13px', color: 'var(--text-2)' }}>
-            Network dropped responses are first-class OUTCOME-UNKNOWN. We never label timeouts as 'failed' or trigger blind retries.
-          </p>
+
+        {/* 3 Core Invariants Grid (Zero Emojis, Pure Professional Engineering) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 transition-all hover:border-slate-700">
+            <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-5">
+              <Shield className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-semibold text-slate-100 mb-2">AI Never Moves Money</h3>
+            <p className="text-sm text-slate-400 leading-relaxed">
+              Autonomous agents produce read-only analytical claims. Mutating PayPal operations are strictly restricted to authenticated human controllers with single-attempt locks.
+            </p>
+          </div>
+
+          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 transition-all hover:border-slate-700">
+            <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-5">
+              <Clock className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-semibold text-slate-100 mb-2">Timeout Is Not Failure</h3>
+            <p className="text-sm text-slate-400 leading-relaxed">
+              Lost network responses represent first-class UNKNOWN state. PayBridge immediately locks the checkout session with DO_NOT_REPEAT_CHECKOUT to eliminate duplicate billing.
+            </p>
+          </div>
+
+          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 transition-all hover:border-slate-700">
+            <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-5">
+              <Scale className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-semibold text-slate-100 mb-2">Cryptographic Evidence Truth</h3>
+            <p className="text-sm text-slate-400 leading-relaxed">
+              Financial state vectors are proven by Tier 1 provider reads and Tier 2 signed webhooks. Every claim is cited against an immutable SHA-256 evidence vault.
+            </p>
+          </div>
         </div>
-        <div className="card">
-          <div style={{ fontSize: '24px', marginBottom: '8px' }}>⚖️</div>
-          <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '6px' }}>Provider Evidence is Truth</h3>
-          <p style={{ fontSize: '13px', color: 'var(--text-2)' }}>
-            Financial truth is decided exclusively by the deterministic Go Reducer from Tier E1/E2 signed evidence.
-          </p>
+
+        {/* Action Directives */}
+        <div className="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div>
+            <h4 className="text-lg font-semibold text-slate-100">Ready to test the reconciliation engine?</h4>
+            <p className="text-sm text-slate-400 mt-1">
+              Run Golden Demo B to simulate an upstream 504 gateway timeout and observe real-time multi-agent DAG investigation.
+            </p>
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            <button
+              onClick={() => onNavigate('demo')}
+              className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm transition-all shadow-lg shadow-indigo-600/20 flex items-center gap-2"
+            >
+              <span>Launch Golden Path Stepper</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => onNavigate('cases')}
+              className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-sm transition-all border border-slate-700"
+            >
+              View Cases Register
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
