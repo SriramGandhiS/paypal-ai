@@ -1,0 +1,3 @@
+# Lessons Learned & Operational Notes
+
+- **2026-11-10**: Unattended Windows package installers (`winget install PostgreSQL.PostgreSQL.16`) fail or stall silently without elevated UAC credentials when invoked from a standard terminal session. Always check administrative elevation (`[Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent().IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)`) before attempting system-level runtime installs, and provide dual-mode execution (live API proxy + deterministic simulation fallbacks) so development and demonstrations are never blocked on host environment privileges.
