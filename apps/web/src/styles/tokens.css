@@ -1,0 +1,53 @@
+:root {
+  /* Surfaces - Paper Metaphor */
+  --surface-0: #F5F3EE;
+  --surface-1: #FBFAF7;
+  --surface-2: #FFFFFF;
+  --surface-sunken: #EDEAE2;
+
+  /* Typography Colors */
+  --text-1: #101A2E;
+  --text-2: #434E63;
+  --text-3: #5B6578;
+
+  /* Hairlines & Borders */
+  --border: #D8D3C5;
+  --border-strong: #8E8878;
+
+  /* Brand Accents */
+  --accent: #1F4FC4;
+  --accent-hover: #183E9B;
+  --focus: #1F4FC4;
+
+  /* Semantic Status Tones */
+  --verified: #06683F;
+  --verified-bg: #E3F2EA;
+
+  --pending: #345A7A;
+  --pending-bg: #E6EDF3;
+
+  --unknown: #8A5200;
+  --unknown-bg: #FBEFD9;
+
+  --attention: #97400A;
+  --attention-bg: #FBE9DC;
+
+  --error: #B42318;
+  --error-bg: #FCE8E6;
+
+  --simulated: #5B34B0;
+  --simulated-bg: #ECE6F8;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+}

@@ -1,0 +1,42 @@
+=== RUN   TestScenario01_NormalSuccessfulExecution
+--- PASS: TestScenario01_NormalSuccessfulExecution (0.00s)
+=== RUN   TestScenario02_InvalidUserInput
+--- PASS: TestScenario02_InvalidUserInput (0.00s)
+=== RUN   TestScenario03_MissingEvidenceCitation
+--- PASS: TestScenario03_MissingEvidenceCitation (0.00s)
+=== RUN   TestScenario04_ContradictoryOrNonExistentEvidence
+--- PASS: TestScenario04_ContradictoryOrNonExistentEvidence (0.00s)
+=== RUN   TestScenario05_UnknownPaymentState
+--- PASS: TestScenario05_UnknownPaymentState (0.00s)
+=== RUN   TestScenario06_ProviderTimeout
+--- PASS: TestScenario06_ProviderTimeout (0.00s)
+=== RUN   TestScenario07_AgentTimeout
+--- PASS: TestScenario07_AgentTimeout (0.00s)
+=== RUN   TestScenario08_AgentCrashResilience
+--- PASS: TestScenario08_AgentCrashResilience (0.00s)
+=== RUN   TestScenario09_InvalidAgentResponse
+--- PASS: TestScenario09_InvalidAgentResponse (0.00s)
+=== RUN   TestScenario10_MalformedDataWrapping
+--- PASS: TestScenario10_MalformedDataWrapping (0.00s)
+=== RUN   TestScenario11_DuplicateEventHandling
+--- PASS: TestScenario11_DuplicateEventHandling (0.00s)
+=== RUN   TestScenario12_RepeatedOrchestrationIdempotency
+--- PASS: TestScenario12_RepeatedOrchestrationIdempotency (0.00s)
+=== RUN   TestScenario13_CircularDependencyPrevention
+--- PASS: TestScenario13_CircularDependencyPrevention (0.00s)
+=== RUN   TestScenario14_DependencyUnavailableFallback
+--- PASS: TestScenario14_DependencyUnavailableFallback (0.00s)
+=== RUN   TestScenario15_PartialDAGCompletion
+--- PASS: TestScenario15_PartialDAGCompletion (0.00s)
+=== RUN   TestScenario16_RecoveryAfterRestart
+--- PASS: TestScenario16_RecoveryAfterRestart (0.00s)
+=== RUN   TestScenario17_ConcurrentCasesIsolation
+--- PASS: TestScenario17_ConcurrentCasesIsolation (0.00s)
+=== RUN   TestScenario18_ScopeVerification
+--- PASS: TestScenario18_ScopeVerification (0.00s)
+=== RUN   TestScenario19_UnauthorizedToolInvocation
+--- PASS: TestScenario19_UnauthorizedToolInvocation (0.00s)
+=== RUN   TestScenario20_AIFinancialMutationAttempt
+--- PASS: TestScenario20_AIFinancialMutationAttempt (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/orchestrator	0.022s

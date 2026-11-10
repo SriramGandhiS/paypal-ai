@@ -1,0 +1,600 @@
+=== RUN   TestFoundationBaseline
+    api_test.go:12: PayBridge API Foundation Baseline initialized on windows/amd64 (Go go1.26.3)
+--- PASS: TestFoundationBaseline (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api	0.062s
+=== RUN   TestAPIMain_Compilation
+--- PASS: TestAPIMain_Compilation (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/cmd/api	0.064s
+=== RUN   TestGoldenPath_DeterministicLifecycle
+--- PASS: TestGoldenPath_DeterministicLifecycle (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/cmd/demo	0.093s
+?   	github.com/paybridge/paybridge-ai/services/api/cmd/demob	[no test files]
+=== RUN   TestExtractUpSegment
+--- PASS: TestExtractUpSegment (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/cmd/migrate	0.086s
+?   	github.com/paybridge/paybridge-ai/services/api/cmd/worker	[no test files]
+=== RUN   TestEmbeddedMigrationsCount
+--- PASS: TestEmbeddedMigrationsCount (0.00s)
+=== RUN   TestCanonical40TablesInventory
+--- PASS: TestCanonical40TablesInventory (0.00s)
+=== RUN   TestGooseUpAndDownBlocks
+--- PASS: TestGooseUpAndDownBlocks (0.00s)
+=== RUN   TestRLSAndForceRLSEnforcement
+--- PASS: TestRLSAndForceRLSEnforcement (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/db/migrations	0.098s
+=== RUN   TestAgents_AllTenAgentsDeterministicOutputs
+=== RUN   TestAgents_AllTenAgentsDeterministicOutputs/A01
+=== RUN   TestAgents_AllTenAgentsDeterministicOutputs/A02
+=== RUN   TestAgents_AllTenAgentsDeterministicOutputs/A03
+=== RUN   TestAgents_AllTenAgentsDeterministicOutputs/A04
+=== RUN   TestAgents_AllTenAgentsDeterministicOutputs/A05
+=== RUN   TestAgents_AllTenAgentsDeterministicOutputs/A06
+=== RUN   TestAgents_AllTenAgentsDeterministicOutputs/A07
+=== RUN   TestAgents_AllTenAgentsDeterministicOutputs/A08
+=== RUN   TestAgents_AllTenAgentsDeterministicOutputs/A09
+=== RUN   TestAgents_AllTenAgentsDeterministicOutputs/A10
+--- PASS: TestAgents_AllTenAgentsDeterministicOutputs (0.00s)
+    --- PASS: TestAgents_AllTenAgentsDeterministicOutputs/A01 (0.00s)
+    --- PASS: TestAgents_AllTenAgentsDeterministicOutputs/A02 (0.00s)
+    --- PASS: TestAgents_AllTenAgentsDeterministicOutputs/A03 (0.00s)
+    --- PASS: TestAgents_AllTenAgentsDeterministicOutputs/A04 (0.00s)
+    --- PASS: TestAgents_AllTenAgentsDeterministicOutputs/A05 (0.00s)
+    --- PASS: TestAgents_AllTenAgentsDeterministicOutputs/A06 (0.00s)
+    --- PASS: TestAgents_AllTenAgentsDeterministicOutputs/A07 (0.00s)
+    --- PASS: TestAgents_AllTenAgentsDeterministicOutputs/A08 (0.00s)
+    --- PASS: TestAgents_AllTenAgentsDeterministicOutputs/A09 (0.00s)
+    --- PASS: TestAgents_AllTenAgentsDeterministicOutputs/A10 (0.00s)
+=== RUN   TestAgents_ReceiverConsentGating
+--- PASS: TestAgents_ReceiverConsentGating (0.00s)
+=== RUN   TestAgents_UntrustedDataWrapping
+--- PASS: TestAgents_UntrustedDataWrapping (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/agents	0.053s
+=== RUN   TestCasesAPI_Unauthenticated
+--- PASS: TestCasesAPI_Unauthenticated (0.00s)
+=== RUN   TestCasesAPI_CreateCase_ValidationErrors
+=== RUN   TestCasesAPI_CreateCase_ValidationErrors/zero_amount
+=== RUN   TestCasesAPI_CreateCase_ValidationErrors/invalid_currency
+=== RUN   TestCasesAPI_CreateCase_ValidationErrors/invalid_country
+--- PASS: TestCasesAPI_CreateCase_ValidationErrors (0.00s)
+    --- PASS: TestCasesAPI_CreateCase_ValidationErrors/zero_amount (0.00s)
+    --- PASS: TestCasesAPI_CreateCase_ValidationErrors/invalid_currency (0.00s)
+    --- PASS: TestCasesAPI_CreateCase_ValidationErrors/invalid_country (0.00s)
+=== RUN   TestEvidenceAPI_ValidationRules
+=== RUN   TestEvidenceAPI_ValidationRules/invalid_tier_0
+=== RUN   TestEvidenceAPI_ValidationRules/simulated_must_be_tier_6_violation
+--- PASS: TestEvidenceAPI_ValidationRules (0.00s)
+    --- PASS: TestEvidenceAPI_ValidationRules/invalid_tier_0 (0.00s)
+    --- PASS: TestEvidenceAPI_ValidationRules/simulated_must_be_tier_6_violation (0.00s)
+=== RUN   TestReconciliationEndpoint
+--- PASS: TestReconciliationEndpoint (0.00s)
+=== RUN   TestPayPalGoldenPath
+--- PASS: TestPayPalGoldenPath (0.00s)
+=== RUN   TestDevAuthBypassDisabled_RejectsXDevHeaders
+2026/11/10 20:35:06 WARN security violation: client attempted X-Dev-Tenant-ID bypass while disabled attempted_tenant=attacker-tenant-id remote_addr=192.0.2.1:1234
+--- PASS: TestDevAuthBypassDisabled_RejectsXDevHeaders (0.00s)
+=== RUN   TestNoAIInitiationMutation_Forbidden
+--- PASS: TestNoAIInitiationMutation_Forbidden (0.00s)
+=== RUN   TestPayPalCapture_IdempotentDuplicateCapture
+2026/11/10 20:35:06 INFO idempotent capture: paypal order already completed order_id=ORDER-ALREADY-DONE
+--- PASS: TestPayPalCapture_IdempotentDuplicateCapture (0.00s)
+=== RUN   TestPayPalCapture_TimeoutRecoveryViaGetOrder
+2026/11/10 20:35:06 WARN paypal capture returned error; inspecting provider state for recovery order_id=ORDER-TIMEOUT-RECOVER error="upstream gateway timeout (504)"
+2026/11/10 20:35:06 INFO recovered capture from provider GET inspection order_id=ORDER-TIMEOUT-RECOVER
+--- PASS: TestPayPalCapture_TimeoutRecoveryViaGetOrder (0.00s)
+=== RUN   TestPayPalCapture_ConcurrentRequestsRaceCondition
+2026/11/10 20:35:06 WARN concurrent capture attempt rejected; lock held by another in-flight request order_id=ORDER-CONCURRENT-RACE
+--- PASS: TestPayPalCapture_ConcurrentRequestsRaceCondition (0.03s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/api	0.108s
+=== RUN   TestSessionTokenGeneration
+=== RUN   TestSessionTokenGeneration/generate_and_hash_session_token
+=== RUN   TestSessionTokenGeneration/cookie_roundtrip
+--- PASS: TestSessionTokenGeneration (0.00s)
+    --- PASS: TestSessionTokenGeneration/generate_and_hash_session_token (0.00s)
+    --- PASS: TestSessionTokenGeneration/cookie_roundtrip (0.00s)
+=== RUN   TestSignAssertion
+=== RUN   TestSignAssertion/generates_valid_HMAC_assertion
+--- PASS: TestSignAssertion (0.00s)
+    --- PASS: TestSignAssertion/generates_valid_HMAC_assertion (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/auth	0.069s
+=== RUN   TestCreateCaseInputValidation
+=== RUN   TestCreateCaseInputValidation/valid_input
+=== RUN   TestCreateCaseInputValidation/zero_amount_error
+=== RUN   TestCreateCaseInputValidation/negative_amount_error
+=== RUN   TestCreateCaseInputValidation/invalid_currency_length
+=== RUN   TestCreateCaseInputValidation/invalid_country_code
+--- PASS: TestCreateCaseInputValidation (0.00s)
+    --- PASS: TestCreateCaseInputValidation/valid_input (0.00s)
+    --- PASS: TestCreateCaseInputValidation/zero_amount_error (0.00s)
+    --- PASS: TestCreateCaseInputValidation/negative_amount_error (0.00s)
+    --- PASS: TestCreateCaseInputValidation/invalid_currency_length (0.00s)
+    --- PASS: TestCreateCaseInputValidation/invalid_country_code (0.00s)
+=== RUN   TestCasesContextRequirement
+=== RUN   TestCasesContextRequirement/missing_tenant_context_returns_error
+=== RUN   TestCasesContextRequirement/unauthorized_role_returns_policy_error
+--- PASS: TestCasesContextRequirement (0.00s)
+    --- PASS: TestCasesContextRequirement/missing_tenant_context_returns_error (0.00s)
+    --- PASS: TestCasesContextRequirement/unauthorized_role_returns_policy_error (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/cases	0.076s
+=== RUN   TestCHAOS01_DroppedCaptureResponseRecovery
+--- PASS: TestCHAOS01_DroppedCaptureResponseRecovery (0.00s)
+=== RUN   TestCHAOS02_DuplicateWebhookDelivery
+--- PASS: TestCHAOS02_DuplicateWebhookDelivery (0.00s)
+=== RUN   TestCHAOS03_DelayedOutOfOrderWebhook
+--- PASS: TestCHAOS03_DelayedOutOfOrderWebhook (0.00s)
+=== RUN   TestCHAOS04_ForgedWebhookSignature
+--- PASS: TestCHAOS04_ForgedWebhookSignature (0.01s)
+=== RUN   TestCHAOS05_OutOfOrderMonotonicityViolation
+--- PASS: TestCHAOS05_OutOfOrderMonotonicityViolation (0.00s)
+=== RUN   TestCHAOS06_ConcurrentCheckoutDoubleMutationBlocked
+--- PASS: TestCHAOS06_ConcurrentCheckoutDoubleMutationBlocked (0.00s)
+=== RUN   TestCHAOS07_StaleSnapshotHandling
+--- PASS: TestCHAOS07_StaleSnapshotHandling (0.00s)
+=== RUN   TestCHAOS08_AmountMismatchDetection
+--- PASS: TestCHAOS08_AmountMismatchDetection (0.00s)
+=== RUN   TestCHAOS09_ReceiverConsentRevoked
+--- PASS: TestCHAOS09_ReceiverConsentRevoked (0.00s)
+=== RUN   TestCHAOS10_LLMServiceUnavailableFallback
+--- PASS: TestCHAOS10_LLMServiceUnavailableFallback (0.00s)
+=== RUN   TestCHAOS11_UnverifiedClaimRejection
+--- PASS: TestCHAOS11_UnverifiedClaimRejection (0.00s)
+=== RUN   TestCHAOS12_HighVolumeIdempotencyReplay
+--- PASS: TestCHAOS12_HighVolumeIdempotencyReplay (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/chaos	0.076s
+=== RUN   TestIsTerminal
+--- PASS: TestIsTerminal (0.00s)
+=== RUN   TestCheckoutRoleEnforcement
+=== RUN   TestCheckoutRoleEnforcement/receiver_cannot_create_order_attempt
+--- PASS: TestCheckoutRoleEnforcement (0.00s)
+    --- PASS: TestCheckoutRoleEnforcement/receiver_cannot_create_order_attempt (0.00s)
+=== RUN   TestCaptureLock_MutualExclusion
+--- PASS: TestCaptureLock_MutualExclusion (0.00s)
+=== RUN   TestTwoIndependentServiceInstances
+=== RUN   TestTwoIndependentServiceInstances/concurrent_capture_across_independent_instances_allows_exactly_one_winner
+=== RUN   TestTwoIndependentServiceInstances/release_by_instance_1_allows_instance_2_to_acquire_immediately
+=== RUN   TestTwoIndependentServiceInstances/lease_expiration_allows_recovery_by_instance_2_even_without_explicit_release
+--- PASS: TestTwoIndependentServiceInstances (0.09s)
+    --- PASS: TestTwoIndependentServiceInstances/concurrent_capture_across_independent_instances_allows_exactly_one_winner (0.03s)
+    --- PASS: TestTwoIndependentServiceInstances/release_by_instance_1_allows_instance_2_to_acquire_immediately (0.00s)
+    --- PASS: TestTwoIndependentServiceInstances/lease_expiration_allows_recovery_by_instance_2_even_without_explicit_release (0.06s)
+=== RUN   TestCaptureLock_DatabaseFailureHandling
+--- PASS: TestCaptureLock_DatabaseFailureHandling (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/checkout	0.146s
+=== RUN   TestValidator_ConfirmedClaimWithValidE1Evidence
+--- PASS: TestValidator_ConfirmedClaimWithValidE1Evidence (0.00s)
+=== RUN   TestValidator_ForgedCitationRejected
+--- PASS: TestValidator_ForgedCitationRejected (0.00s)
+=== RUN   TestValidator_InsufficientTierDowngraded
+--- PASS: TestValidator_InsufficientTierDowngraded (0.00s)
+=== RUN   TestValidator_ForbiddenCalmCopyViolation
+--- PASS: TestValidator_ForbiddenCalmCopyViolation (0.00s)
+=== RUN   TestValidator_PromptInjectionRejected
+--- PASS: TestValidator_PromptInjectionRejected (0.00s)
+=== RUN   TestValidator_DLP_CrossPartyRedaction
+--- PASS: TestValidator_DLP_CrossPartyRedaction (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/claims	0.047s
+=== RUN   TestValidConfiguration
+=== PAUSE TestValidConfiguration
+=== RUN   TestMissingConfiguration
+=== PAUSE TestMissingConfiguration
+=== RUN   TestInvalidConfiguration
+=== PAUSE TestInvalidConfiguration
+=== RUN   TestZeroSecretExposureInValidationErrors
+=== PAUSE TestZeroSecretExposureInValidationErrors
+=== RUN   TestConfigFormattingAndSerializationSecretsRedacted
+=== PAUSE TestConfigFormattingAndSerializationSecretsRedacted
+=== RUN   TestConfigErrorEmpty
+=== PAUSE TestConfigErrorEmpty
+=== RUN   TestLoadWithOSEnv
+--- PASS: TestLoadWithOSEnv (0.00s)
+=== CONT  TestValidConfiguration
+=== RUN   TestValidConfiguration/Standard_valid_hex_encryption_key
+=== PAUSE TestValidConfiguration/Standard_valid_hex_encryption_key
+=== RUN   TestValidConfiguration/Valid_base64-encoded_32-byte_encryption_key_(Doc_08_specification)
+=== PAUSE TestValidConfiguration/Valid_base64-encoded_32-byte_encryption_key_(Doc_08_specification)
+=== RUN   TestValidConfiguration/Valid_postgresql://_scheme_with_trailing_slash_on_API_base
+=== PAUSE TestValidConfiguration/Valid_postgresql://_scheme_with_trailing_slash_on_API_base
+=== RUN   TestValidConfiguration/Uppercase_canonical_PayPal_sandbox_hostname_normalized
+=== PAUSE TestValidConfiguration/Uppercase_canonical_PayPal_sandbox_hostname_normalized
+=== RUN   TestValidConfiguration/Case-insensitive_PAYPAL_ENV_normalization
+=== PAUSE TestValidConfiguration/Case-insensitive_PAYPAL_ENV_normalization
+=== CONT  TestValidConfiguration/Standard_valid_hex_encryption_key
+=== CONT  TestConfigErrorEmpty
+--- PASS: TestConfigErrorEmpty (0.00s)
+=== CONT  TestConfigFormattingAndSerializationSecretsRedacted
+--- PASS: TestConfigFormattingAndSerializationSecretsRedacted (0.00s)
+=== CONT  TestZeroSecretExposureInValidationErrors
+=== RUN   TestZeroSecretExposureInValidationErrors/Missing_DATABASE_URL_with_secrets_present
+=== PAUSE TestZeroSecretExposureInValidationErrors/Missing_DATABASE_URL_with_secrets_present
+=== RUN   TestZeroSecretExposureInValidationErrors/Invalid_PAYPAL_API_BASE_(live_endpoint)_with_secrets_present
+=== PAUSE TestZeroSecretExposureInValidationErrors/Invalid_PAYPAL_API_BASE_(live_endpoint)_with_secrets_present
+=== RUN   TestZeroSecretExposureInValidationErrors/Invalid_PAYPAL_ENV_(production)_with_secrets_present
+=== PAUSE TestZeroSecretExposureInValidationErrors/Invalid_PAYPAL_ENV_(production)_with_secrets_present
+=== RUN   TestZeroSecretExposureInValidationErrors/Invalid_SESSION_SECRET_length_with_secret_present
+=== PAUSE TestZeroSecretExposureInValidationErrors/Invalid_SESSION_SECRET_length_with_secret_present
+=== RUN   TestZeroSecretExposureInValidationErrors/Invalid_ENCRYPTION_KEY_format_with_secret_present
+=== PAUSE TestZeroSecretExposureInValidationErrors/Invalid_ENCRYPTION_KEY_format_with_secret_present
+=== CONT  TestZeroSecretExposureInValidationErrors/Missing_DATABASE_URL_with_secrets_present
+=== CONT  TestInvalidConfiguration
+=== RUN   TestInvalidConfiguration/Whitespace-only_DATABASE_URL
+=== PAUSE TestInvalidConfiguration/Whitespace-only_DATABASE_URL
+=== RUN   TestInvalidConfiguration/Whitespace-only_SESSION_SECRET
+=== PAUSE TestInvalidConfiguration/Whitespace-only_SESSION_SECRET
+=== RUN   TestInvalidConfiguration/Whitespace-only_ENCRYPTION_KEY
+=== PAUSE TestInvalidConfiguration/Whitespace-only_ENCRYPTION_KEY
+=== RUN   TestInvalidConfiguration/Whitespace-only_PAYPAL_CLIENT_ID
+=== PAUSE TestInvalidConfiguration/Whitespace-only_PAYPAL_CLIENT_ID
+=== RUN   TestInvalidConfiguration/Whitespace-only_PAYPAL_CLIENT_SECRET
+=== PAUSE TestInvalidConfiguration/Whitespace-only_PAYPAL_CLIENT_SECRET
+=== RUN   TestInvalidConfiguration/DATABASE_URL_with_invalid_scheme_(http)
+=== PAUSE TestInvalidConfiguration/DATABASE_URL_with_invalid_scheme_(http)
+=== RUN   TestInvalidConfiguration/DATABASE_URL_missing_host
+=== PAUSE TestInvalidConfiguration/DATABASE_URL_missing_host
+=== RUN   TestInvalidConfiguration/SESSION_SECRET_too_short_(<_32_chars)
+=== PAUSE TestInvalidConfiguration/SESSION_SECRET_too_short_(<_32_chars)
+=== RUN   TestInvalidConfiguration/ENCRYPTION_KEY_invalid_hex_length_(not_32_bytes)
+=== PAUSE TestInvalidConfiguration/ENCRYPTION_KEY_invalid_hex_length_(not_32_bytes)
+=== RUN   TestInvalidConfiguration/ENCRYPTION_KEY_non-hex_characters_in_64-char_string
+=== PAUSE TestInvalidConfiguration/ENCRYPTION_KEY_non-hex_characters_in_64-char_string
+=== RUN   TestInvalidConfiguration/ENCRYPTION_KEY_raw_32-character_ASCII_string_(rejected_as_ambiguous)
+=== PAUSE TestInvalidConfiguration/ENCRYPTION_KEY_raw_32-character_ASCII_string_(rejected_as_ambiguous)
+=== RUN   TestInvalidConfiguration/PAYPAL_ENV_is_live/production_(prohibited)
+=== PAUSE TestInvalidConfiguration/PAYPAL_ENV_is_live/production_(prohibited)
+=== RUN   TestInvalidConfiguration/PAYPAL_ENV_is_live
+=== PAUSE TestInvalidConfiguration/PAYPAL_ENV_is_live
+=== RUN   TestInvalidConfiguration/PAYPAL_ENV_is_arbitrary_test
+=== PAUSE TestInvalidConfiguration/PAYPAL_ENV_is_arbitrary_test
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_is_live_production_endpoint_(PROHIBITED)
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_is_live_production_endpoint_(PROHIBITED)
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_live_production_endpoint_with_trailing_dot_(PROHIBITED)
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_live_production_endpoint_with_trailing_dot_(PROHIBITED)
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_sandbox_endpoint_with_trailing_dot_(rejected_non-canonical)
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_sandbox_endpoint_with_trailing_dot_(rejected_non-canonical)
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_is_insecure_HTTP
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_is_insecure_HTTP
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_is_arbitrary_unknown_host
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_is_arbitrary_unknown_host
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_has_embedded_credentials
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_has_embedded_credentials
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_specifies_custom_port
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_specifies_custom_port
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_specifies_default_port_explicitly_(rejected_per_canonical_rule)
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_specifies_default_port_explicitly_(rejected_per_canonical_rule)
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_specifies_query_parameters
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_specifies_query_parameters
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_specifies_URL_fragment
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_specifies_URL_fragment
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_specifies_path
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_specifies_path
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_specifies_double_slash_path
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_specifies_double_slash_path
+=== RUN   TestInvalidConfiguration/PAYPAL_API_BASE_is_malformed_URL
+=== PAUSE TestInvalidConfiguration/PAYPAL_API_BASE_is_malformed_URL
+=== CONT  TestInvalidConfiguration/Whitespace-only_DATABASE_URL
+=== CONT  TestMissingConfiguration
+=== RUN   TestMissingConfiguration/Missing_DATABASE_URL
+=== PAUSE TestMissingConfiguration/Missing_DATABASE_URL
+=== RUN   TestMissingConfiguration/Missing_SESSION_SECRET
+=== PAUSE TestMissingConfiguration/Missing_SESSION_SECRET
+=== RUN   TestMissingConfiguration/Missing_ENCRYPTION_KEY
+=== PAUSE TestMissingConfiguration/Missing_ENCRYPTION_KEY
+=== RUN   TestMissingConfiguration/Missing_PAYPAL_ENV
+=== PAUSE TestMissingConfiguration/Missing_PAYPAL_ENV
+=== RUN   TestMissingConfiguration/Missing_PAYPAL_API_BASE
+=== PAUSE TestMissingConfiguration/Missing_PAYPAL_API_BASE
+=== RUN   TestMissingConfiguration/Missing_PAYPAL_CLIENT_ID
+=== PAUSE TestMissingConfiguration/Missing_PAYPAL_CLIENT_ID
+=== RUN   TestMissingConfiguration/Missing_PAYPAL_CLIENT_SECRET
+=== PAUSE TestMissingConfiguration/Missing_PAYPAL_CLIENT_SECRET
+=== CONT  TestMissingConfiguration/Missing_DATABASE_URL
+=== CONT  TestValidConfiguration/Case-insensitive_PAYPAL_ENV_normalization
+=== CONT  TestValidConfiguration/Uppercase_canonical_PayPal_sandbox_hostname_normalized
+=== CONT  TestValidConfiguration/Valid_postgresql://_scheme_with_trailing_slash_on_API_base
+=== CONT  TestValidConfiguration/Valid_base64-encoded_32-byte_encryption_key_(Doc_08_specification)
+--- PASS: TestValidConfiguration (0.00s)
+    --- PASS: TestValidConfiguration/Standard_valid_hex_encryption_key (0.00s)
+    --- PASS: TestValidConfiguration/Case-insensitive_PAYPAL_ENV_normalization (0.00s)
+    --- PASS: TestValidConfiguration/Uppercase_canonical_PayPal_sandbox_hostname_normalized (0.00s)
+    --- PASS: TestValidConfiguration/Valid_postgresql://_scheme_with_trailing_slash_on_API_base (0.00s)
+    --- PASS: TestValidConfiguration/Valid_base64-encoded_32-byte_encryption_key_(Doc_08_specification) (0.00s)
+=== CONT  TestZeroSecretExposureInValidationErrors/Invalid_ENCRYPTION_KEY_format_with_secret_present
+=== CONT  TestZeroSecretExposureInValidationErrors/Invalid_SESSION_SECRET_length_with_secret_present
+=== CONT  TestZeroSecretExposureInValidationErrors/Invalid_PAYPAL_ENV_(production)_with_secrets_present
+=== CONT  TestZeroSecretExposureInValidationErrors/Invalid_PAYPAL_API_BASE_(live_endpoint)_with_secrets_present
+--- PASS: TestZeroSecretExposureInValidationErrors (0.00s)
+    --- PASS: TestZeroSecretExposureInValidationErrors/Missing_DATABASE_URL_with_secrets_present (0.00s)
+    --- PASS: TestZeroSecretExposureInValidationErrors/Invalid_ENCRYPTION_KEY_format_with_secret_present (0.00s)
+    --- PASS: TestZeroSecretExposureInValidationErrors/Invalid_SESSION_SECRET_length_with_secret_present (0.00s)
+    --- PASS: TestZeroSecretExposureInValidationErrors/Invalid_PAYPAL_ENV_(production)_with_secrets_present (0.00s)
+    --- PASS: TestZeroSecretExposureInValidationErrors/Invalid_PAYPAL_API_BASE_(live_endpoint)_with_secrets_present (0.00s)
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_is_malformed_URL
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_specifies_double_slash_path
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_specifies_path
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_specifies_URL_fragment
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_specifies_query_parameters
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_specifies_default_port_explicitly_(rejected_per_canonical_rule)
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_specifies_custom_port
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_has_embedded_credentials
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_is_arbitrary_unknown_host
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_is_insecure_HTTP
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_sandbox_endpoint_with_trailing_dot_(rejected_non-canonical)
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_live_production_endpoint_with_trailing_dot_(PROHIBITED)
+=== CONT  TestInvalidConfiguration/PAYPAL_API_BASE_is_live_production_endpoint_(PROHIBITED)
+=== CONT  TestInvalidConfiguration/PAYPAL_ENV_is_arbitrary_test
+=== CONT  TestInvalidConfiguration/PAYPAL_ENV_is_live
+=== CONT  TestInvalidConfiguration/PAYPAL_ENV_is_live/production_(prohibited)
+=== CONT  TestInvalidConfiguration/ENCRYPTION_KEY_raw_32-character_ASCII_string_(rejected_as_ambiguous)
+=== CONT  TestInvalidConfiguration/ENCRYPTION_KEY_non-hex_characters_in_64-char_string
+=== CONT  TestInvalidConfiguration/ENCRYPTION_KEY_invalid_hex_length_(not_32_bytes)
+=== CONT  TestInvalidConfiguration/SESSION_SECRET_too_short_(<_32_chars)
+=== CONT  TestInvalidConfiguration/DATABASE_URL_missing_host
+=== CONT  TestInvalidConfiguration/DATABASE_URL_with_invalid_scheme_(http)
+=== CONT  TestInvalidConfiguration/Whitespace-only_PAYPAL_CLIENT_SECRET
+=== CONT  TestInvalidConfiguration/Whitespace-only_PAYPAL_CLIENT_ID
+=== CONT  TestInvalidConfiguration/Whitespace-only_ENCRYPTION_KEY
+=== CONT  TestInvalidConfiguration/Whitespace-only_SESSION_SECRET
+--- PASS: TestInvalidConfiguration (0.00s)
+    --- PASS: TestInvalidConfiguration/Whitespace-only_DATABASE_URL (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_is_malformed_URL (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_specifies_double_slash_path (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_specifies_path (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_specifies_URL_fragment (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_specifies_query_parameters (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_specifies_default_port_explicitly_(rejected_per_canonical_rule) (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_specifies_custom_port (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_has_embedded_credentials (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_is_arbitrary_unknown_host (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_is_insecure_HTTP (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_sandbox_endpoint_with_trailing_dot_(rejected_non-canonical) (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_live_production_endpoint_with_trailing_dot_(PROHIBITED) (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_API_BASE_is_live_production_endpoint_(PROHIBITED) (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_ENV_is_arbitrary_test (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_ENV_is_live (0.00s)
+    --- PASS: TestInvalidConfiguration/PAYPAL_ENV_is_live/production_(prohibited) (0.00s)
+    --- PASS: TestInvalidConfiguration/ENCRYPTION_KEY_raw_32-character_ASCII_string_(rejected_as_ambiguous) (0.00s)
+    --- PASS: TestInvalidConfiguration/ENCRYPTION_KEY_non-hex_characters_in_64-char_string (0.00s)
+    --- PASS: TestInvalidConfiguration/ENCRYPTION_KEY_invalid_hex_length_(not_32_bytes) (0.00s)
+    --- PASS: TestInvalidConfiguration/SESSION_SECRET_too_short_(<_32_chars) (0.00s)
+    --- PASS: TestInvalidConfiguration/DATABASE_URL_missing_host (0.00s)
+    --- PASS: TestInvalidConfiguration/DATABASE_URL_with_invalid_scheme_(http) (0.00s)
+    --- PASS: TestInvalidConfiguration/Whitespace-only_PAYPAL_CLIENT_SECRET (0.00s)
+    --- PASS: TestInvalidConfiguration/Whitespace-only_PAYPAL_CLIENT_ID (0.00s)
+    --- PASS: TestInvalidConfiguration/Whitespace-only_ENCRYPTION_KEY (0.00s)
+    --- PASS: TestInvalidConfiguration/Whitespace-only_SESSION_SECRET (0.00s)
+=== CONT  TestMissingConfiguration/Missing_PAYPAL_CLIENT_SECRET
+=== CONT  TestMissingConfiguration/Missing_PAYPAL_CLIENT_ID
+=== CONT  TestMissingConfiguration/Missing_PAYPAL_API_BASE
+=== CONT  TestMissingConfiguration/Missing_PAYPAL_ENV
+=== CONT  TestMissingConfiguration/Missing_ENCRYPTION_KEY
+=== CONT  TestMissingConfiguration/Missing_SESSION_SECRET
+--- PASS: TestMissingConfiguration (0.00s)
+    --- PASS: TestMissingConfiguration/Missing_DATABASE_URL (0.00s)
+    --- PASS: TestMissingConfiguration/Missing_PAYPAL_CLIENT_SECRET (0.00s)
+    --- PASS: TestMissingConfiguration/Missing_PAYPAL_CLIENT_ID (0.00s)
+    --- PASS: TestMissingConfiguration/Missing_PAYPAL_API_BASE (0.00s)
+    --- PASS: TestMissingConfiguration/Missing_PAYPAL_ENV (0.00s)
+    --- PASS: TestMissingConfiguration/Missing_ENCRYPTION_KEY (0.00s)
+    --- PASS: TestMissingConfiguration/Missing_SESSION_SECRET (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/config	0.048s
+=== RUN   TestCanonicalEventDigest
+--- PASS: TestCanonicalEventDigest (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/events	0.065s
+=== RUN   TestEvidenceValidation
+=== RUN   TestEvidenceValidation/tier_out_of_range_error
+=== RUN   TestEvidenceValidation/simulated_source_trust_must_be_tier_6
+=== RUN   TestEvidenceValidation/valid_tier_6_simulation_passes
+=== RUN   TestEvidenceValidation/compute_payload_SHA256
+--- PASS: TestEvidenceValidation (0.00s)
+    --- PASS: TestEvidenceValidation/tier_out_of_range_error (0.00s)
+    --- PASS: TestEvidenceValidation/simulated_source_trust_must_be_tier_6 (0.00s)
+    --- PASS: TestEvidenceValidation/valid_tier_6_simulation_passes (0.00s)
+    --- PASS: TestEvidenceValidation/compute_payload_SHA256 (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/evidence	0.059s
+=== RUN   TestHealthEndpoints
+=== RUN   TestHealthEndpoints/healthz_returns_200_OK
+=== RUN   TestHealthEndpoints/readyz_returns_200_when_database_is_healthy
+=== RUN   TestHealthEndpoints/readyz_returns_503_when_database_is_down
+--- PASS: TestHealthEndpoints (0.00s)
+    --- PASS: TestHealthEndpoints/healthz_returns_200_OK (0.00s)
+    --- PASS: TestHealthEndpoints/readyz_returns_200_when_database_is_healthy (0.00s)
+    --- PASS: TestHealthEndpoints/readyz_returns_503_when_database_is_down (0.00s)
+=== RUN   TestProblemDetails
+=== RUN   TestProblemDetails/WriteProblem_formats_RFC_7807_JSON_correctly
+=== RUN   TestProblemDetails/panic_recovery_returns_500_ProblemDetails
+2026/11/10 20:35:06 ERROR panic recovered in HTTP handler error="unexpected memory fault" request_id=c425b8bafa3542f48beb54ab2cad794a path=/panic
+--- PASS: TestProblemDetails (0.00s)
+    --- PASS: TestProblemDetails/WriteProblem_formats_RFC_7807_JSON_correctly (0.00s)
+    --- PASS: TestProblemDetails/panic_recovery_returns_500_ProblemDetails (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/httpx	0.056s
+=== RUN   TestProcessor_NilStoreSafe
+--- PASS: TestProcessor_NilStoreSafe (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/inbox	0.053s
+=== RUN   TestOrchestrator_RunDAGTimeoutScenario
+--- PASS: TestOrchestrator_RunDAGTimeoutScenario (0.00s)
+=== RUN   TestScenario01_NormalSuccessfulExecution
+--- PASS: TestScenario01_NormalSuccessfulExecution (0.00s)
+=== RUN   TestScenario02_InvalidUserInput
+--- PASS: TestScenario02_InvalidUserInput (0.00s)
+=== RUN   TestScenario03_MissingEvidenceCitation
+--- PASS: TestScenario03_MissingEvidenceCitation (0.00s)
+=== RUN   TestScenario04_ContradictoryOrNonExistentEvidence
+--- PASS: TestScenario04_ContradictoryOrNonExistentEvidence (0.00s)
+=== RUN   TestScenario05_UnknownPaymentState
+--- PASS: TestScenario05_UnknownPaymentState (0.00s)
+=== RUN   TestScenario06_ProviderTimeout
+--- PASS: TestScenario06_ProviderTimeout (0.00s)
+=== RUN   TestScenario07_AgentTimeout
+--- PASS: TestScenario07_AgentTimeout (0.00s)
+=== RUN   TestScenario08_AgentCrashResilience
+--- PASS: TestScenario08_AgentCrashResilience (0.00s)
+=== RUN   TestScenario09_InvalidAgentResponse
+--- PASS: TestScenario09_InvalidAgentResponse (0.00s)
+=== RUN   TestScenario10_MalformedDataWrapping
+--- PASS: TestScenario10_MalformedDataWrapping (0.00s)
+=== RUN   TestScenario11_DuplicateEventHandling
+--- PASS: TestScenario11_DuplicateEventHandling (0.00s)
+=== RUN   TestScenario12_RepeatedOrchestrationIdempotency
+--- PASS: TestScenario12_RepeatedOrchestrationIdempotency (0.00s)
+=== RUN   TestScenario13_CircularDependencyPrevention
+--- PASS: TestScenario13_CircularDependencyPrevention (0.00s)
+=== RUN   TestScenario14_DependencyUnavailableFallback
+--- PASS: TestScenario14_DependencyUnavailableFallback (0.00s)
+=== RUN   TestScenario15_PartialDAGCompletion
+--- PASS: TestScenario15_PartialDAGCompletion (0.00s)
+=== RUN   TestScenario16_RecoveryAfterRestart
+--- PASS: TestScenario16_RecoveryAfterRestart (0.00s)
+=== RUN   TestScenario17_ConcurrentCasesIsolation
+--- PASS: TestScenario17_ConcurrentCasesIsolation (0.00s)
+=== RUN   TestScenario18_ScopeVerification
+--- PASS: TestScenario18_ScopeVerification (0.00s)
+=== RUN   TestScenario19_UnauthorizedToolInvocation
+--- PASS: TestScenario19_UnauthorizedToolInvocation (0.00s)
+=== RUN   TestScenario20_AIFinancialMutationAttempt
+--- PASS: TestScenario20_AIFinancialMutationAttempt (0.00s)
+=== RUN   TestPerformance_StressMatrix
+[PERF] Concurrency= 1 | Total Time: 505.1µs | Avg Per Run: 505.1µs | Success: 1 | Fail: 0 | Alloc: 0.01 MB
+[PERF] Concurrency= 5 | Total Time: 613.8µs | Avg Per Run: 122.76µs | Success: 5 | Fail: 0 | Alloc: 0.06 MB
+[PERF] Concurrency=10 | Total Time: 1.0679ms | Avg Per Run: 106.79µs | Success: 10 | Fail: 0 | Alloc: 0.12 MB
+[PERF] Concurrency=25 | Total Time: 1.261ms | Avg Per Run: 50.44µs | Success: 25 | Fail: 0 | Alloc: 0.34 MB
+--- PASS: TestPerformance_StressMatrix (0.01s)
+=== RUN   TestLargePayloadStress
+[PERF] 1,000 Evidence Items Processed in: 506.8µs
+--- PASS: TestLargePayloadStress (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/orchestrator	0.071s
+=== RUN   TestDispatcher_NilStoreSafe
+--- PASS: TestDispatcher_NilStoreSafe (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/outbox	0.041s
+=== RUN   TestPayPalClient_OAuthTokenCaching
+--- PASS: TestPayPalClient_OAuthTokenCaching (0.00s)
+=== RUN   TestPayPalClient_CreateAndCaptureOrder
+--- PASS: TestPayPalClient_CreateAndCaptureOrder (0.00s)
+=== RUN   TestPayPalClient_WebhookSignatureVerification
+--- PASS: TestPayPalClient_WebhookSignatureVerification (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/paypal	0.051s
+=== RUN   TestPolicyAuthorization
+=== RUN   TestPolicyAuthorization/sender_can_create_case
+=== RUN   TestPolicyAuthorization/receiver_cannot_create_case
+=== RUN   TestPolicyAuthorization/merchant_admin_can_create_case
+=== RUN   TestPolicyAuthorization/sender_can_capture_payment
+=== RUN   TestPolicyAuthorization/analyst_cannot_capture_payment
+=== RUN   TestPolicyAuthorization/admin_can_execute_purge
+=== RUN   TestPolicyAuthorization/sender_cannot_execute_purge
+=== RUN   TestPolicyAuthorization/demo_operator_can_run_demo_scenario
+=== RUN   TestPolicyAuthorization/unknown_role_denied
+=== RUN   TestPolicyAuthorization/ai_agent_strictly_denied_from_capturing_payment
+=== RUN   TestPolicyAuthorization/ai_agent_strictly_denied_from_creating_orders
+=== RUN   TestPolicyAuthorization/investigator_agent_strictly_denied_from_capturing_payment
+=== RUN   TestPolicyAuthorization/ai_agent_strictly_denied_from_purge
+--- PASS: TestPolicyAuthorization (0.00s)
+    --- PASS: TestPolicyAuthorization/sender_can_create_case (0.00s)
+    --- PASS: TestPolicyAuthorization/receiver_cannot_create_case (0.00s)
+    --- PASS: TestPolicyAuthorization/merchant_admin_can_create_case (0.00s)
+    --- PASS: TestPolicyAuthorization/sender_can_capture_payment (0.00s)
+    --- PASS: TestPolicyAuthorization/analyst_cannot_capture_payment (0.00s)
+    --- PASS: TestPolicyAuthorization/admin_can_execute_purge (0.00s)
+    --- PASS: TestPolicyAuthorization/sender_cannot_execute_purge (0.00s)
+    --- PASS: TestPolicyAuthorization/demo_operator_can_run_demo_scenario (0.00s)
+    --- PASS: TestPolicyAuthorization/unknown_role_denied (0.00s)
+    --- PASS: TestPolicyAuthorization/ai_agent_strictly_denied_from_capturing_payment (0.00s)
+    --- PASS: TestPolicyAuthorization/ai_agent_strictly_denied_from_creating_orders (0.00s)
+    --- PASS: TestPolicyAuthorization/investigator_agent_strictly_denied_from_capturing_payment (0.00s)
+    --- PASS: TestPolicyAuthorization/ai_agent_strictly_denied_from_purge (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/policy	0.036s
+=== RUN   TestProjector_ReceiverConsentGating
+--- PASS: TestProjector_ReceiverConsentGating (0.00s)
+=== RUN   TestProjector_DLPRedaction
+--- PASS: TestProjector_DLPRedaction (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/projector	0.043s
+=== RUN   TestReconciliationInvariants
+=== RUN   TestReconciliationInvariants/matching_capture_amount_results_in_SYNCHRONISED
+=== RUN   TestReconciliationInvariants/amount_mismatch_preserves_CAPTURE_COMPLETED_but_sets_INCONSISTENT
+=== RUN   TestReconciliationInvariants/denied_capture_sets_CAPTURE_DENIED_and_CLOSED_UNRESOLVED
+--- PASS: TestReconciliationInvariants (0.00s)
+    --- PASS: TestReconciliationInvariants/matching_capture_amount_results_in_SYNCHRONISED (0.00s)
+    --- PASS: TestReconciliationInvariants/amount_mismatch_preserves_CAPTURE_COMPLETED_but_sets_INCONSISTENT (0.00s)
+    --- PASS: TestReconciliationInvariants/denied_capture_sets_CAPTURE_DENIED_and_CLOSED_UNRESOLVED (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/reconciliation	0.053s
+=== RUN   TestReducer_TimeoutDoesNotEqualFailure
+--- PASS: TestReducer_TimeoutDoesNotEqualFailure (0.00s)
+=== RUN   TestReducer_ReconcileAfterTimeout
+--- PASS: TestReducer_ReconcileAfterTimeout (0.00s)
+=== RUN   TestReducer_MonotonicityGuards
+--- PASS: TestReducer_MonotonicityGuards (0.00s)
+=== RUN   TestReducer_SimulatedEvidenceCannotModifyRealCase
+--- PASS: TestReducer_SimulatedEvidenceCannotModifyRealCase (0.00s)
+=== RUN   TestReducer_OutOfOrderEvents
+--- PASS: TestReducer_OutOfOrderEvents (0.00s)
+=== RUN   TestReducer_DuplicateEvents
+--- PASS: TestReducer_DuplicateEvents (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/reducer	0.047s
+=== RUN   TestSafeAction_BlocksRetryOnUnknownCapture
+=== RUN   TestSafeAction_BlocksRetryOnUnknownCapture/API_Timeout_with_Approved_provider_state
+=== RUN   TestSafeAction_BlocksRetryOnUnknownCapture/Unknown_provider_state
+=== RUN   TestSafeAction_BlocksRetryOnUnknownCapture/Attempt_status_CAPTURE_UNKNOWN
+--- PASS: TestSafeAction_BlocksRetryOnUnknownCapture (0.00s)
+    --- PASS: TestSafeAction_BlocksRetryOnUnknownCapture/API_Timeout_with_Approved_provider_state (0.00s)
+    --- PASS: TestSafeAction_BlocksRetryOnUnknownCapture/Unknown_provider_state (0.00s)
+    --- PASS: TestSafeAction_BlocksRetryOnUnknownCapture/Attempt_status_CAPTURE_UNKNOWN (0.00s)
+=== RUN   TestSafeAction_CompletedCapture
+--- PASS: TestSafeAction_CompletedCapture (0.00s)
+=== RUN   TestSafeAction_OrderUnknownBlocksRetry
+--- PASS: TestSafeAction_OrderUnknownBlocksRetry (0.00s)
+=== RUN   TestSafeAction_DeniedCaptureRequestsReview
+--- PASS: TestSafeAction_DeniedCaptureRequestsReview (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/safeaction	0.031s
+=== RUN   TestStoreConfigValidation
+=== RUN   TestStoreConfigValidation/empty_database_URL_returns_error
+=== RUN   TestStoreConfigValidation/default_config_sets_sensible_values
+=== RUN   TestStoreConfigValidation/nil_db_Ping_returns_ErrStoreClosed
+=== RUN   TestStoreConfigValidation/nil_db_WithTx_returns_ErrStoreClosed
+--- PASS: TestStoreConfigValidation (0.00s)
+    --- PASS: TestStoreConfigValidation/empty_database_URL_returns_error (0.00s)
+    --- PASS: TestStoreConfigValidation/default_config_sets_sensible_values (0.00s)
+    --- PASS: TestStoreConfigValidation/nil_db_Ping_returns_ErrStoreClosed (0.00s)
+    --- PASS: TestStoreConfigValidation/nil_db_WithTx_returns_ErrStoreClosed (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/store	0.022s
+=== RUN   TestTenancyContext
+--- PASS: TestTenancyContext (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/tenancy	0.021s
+=== RUN   TestWebhookGateway
+=== RUN   TestWebhookGateway/missing_headers_returns_400_Bad_Request
+=== RUN   TestWebhookGateway/invalid_signature_returns_400_Bad_Request
+2026/11/10 20:35:06 WARN webhook signature verification rejected transmission_id=tx-999
+=== RUN   TestWebhookGateway/verifier_network_error_returns_503_so_PayPal_retries
+2026/11/10 20:35:06 ERROR webhook signature verification service unavailable error="upstream PayPal signature verification service unavailable"
+=== RUN   TestWebhookGateway/valid_verified_webhook_returns_200_OK
+=== RUN   TestWebhookGateway/duplicate_webhook_delivery_is_accepted_idempotently
+--- PASS: TestWebhookGateway (0.00s)
+    --- PASS: TestWebhookGateway/missing_headers_returns_400_Bad_Request (0.00s)
+    --- PASS: TestWebhookGateway/invalid_signature_returns_400_Bad_Request (0.00s)
+    --- PASS: TestWebhookGateway/verifier_network_error_returns_503_so_PayPal_retries (0.00s)
+    --- PASS: TestWebhookGateway/valid_verified_webhook_returns_200_OK (0.00s)
+    --- PASS: TestWebhookGateway/duplicate_webhook_delivery_is_accepted_idempotently (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/webhook	0.037s

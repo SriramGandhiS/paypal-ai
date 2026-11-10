@@ -8,6 +8,19 @@ import { RecoveryMirrorScreen } from './screens/RecoveryMirrorScreen';
 import { GoldenPathDemoScreen } from './screens/GoldenPathDemoScreen';
 import { api } from './api/client';
 import { ShieldCheck, Info } from 'lucide-react';
+import {
+  LandingScreen,
+  AuthScreen,
+  NewPaymentScreen,
+  TimelineScreen,
+  SenderLensScreen,
+  ReceiverLensScreen,
+  SafeActionScreen,
+  EvidenceScreen,
+  NotificationsScreen,
+  OperationsScreen,
+  SettingsScreen,
+} from './features/screens/Screens';
 
 export const App: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>('dashboard');
@@ -111,6 +124,51 @@ export const App: React.FC = () => {
 
         {currentTab === 'mirror' && (
           <RecoveryMirrorScreen />
+        )}
+
+        {/* Vijay Extended 10 Screens */}
+        {currentTab === 'landing' && (
+          <LandingScreen onNavigate={() => handleTabChange('new-payment')} />
+        )}
+
+        {currentTab === 'auth' && (
+          <AuthScreen onLogin={() => handleTabChange('dashboard')} />
+        )}
+
+        {currentTab === 'new-payment' && (
+          <NewPaymentScreen onSimulateTimeout={() => handleTabChange('cases')} />
+        )}
+
+        {currentTab === 'timeline' && (
+          <TimelineScreen />
+        )}
+
+        {currentTab === 'sender-lens' && (
+          <SenderLensScreen />
+        )}
+
+        {currentTab === 'receiver-lens' && (
+          <ReceiverLensScreen />
+        )}
+
+        {currentTab === 'safe-action' && (
+          <SafeActionScreen />
+        )}
+
+        {currentTab === 'evidence' && (
+          <EvidenceScreen />
+        )}
+
+        {currentTab === 'notifications' && (
+          <NotificationsScreen />
+        )}
+
+        {currentTab === 'operations' && (
+          <OperationsScreen />
+        )}
+
+        {currentTab === 'settings' && (
+          <SettingsScreen />
         )}
       </main>
 

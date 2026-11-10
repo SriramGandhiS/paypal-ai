@@ -29,8 +29,12 @@ export const StatusPill: React.FC<StatusPillProps> = ({ status, type = 'case' })
     dot = 'bg-indigo-400';
   }
 
+  const tone = ['CAPTURE_COMPLETED', 'SYNCHRONISED', 'RESOLVED', 'CREDITED', 'SAFE', 'VERIFIED'].includes(s)
+    ? 'good' : ['API_TIMEOUT', 'RECONCILING', 'OBSERVING', 'CREDIT_PENDING', 'LOW'].includes(s)
+      ? 'pending' : ['INCONSISTENT', 'NEEDS_HUMAN_REVIEW', 'CAPTURE_DENIED', 'HIGH', 'UNVERIFIED'].includes(s)
+        ? 'review' : 'unknown';
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${bg}`}>
+    <span className={`status-pill ${tone} inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${bg}`}>
       <span className={`w-1.5 h-1.5 rounded-full ${dot}`}></span>
       <span>{status.replace(/_/g, ' ')}</span>
     </span>

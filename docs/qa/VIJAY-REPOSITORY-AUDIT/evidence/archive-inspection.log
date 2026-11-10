@@ -1,0 +1,25 @@
+================================================================================
+PAYBRIDGE AI — VIJAY REPOSITORY ZIP ARCHIVE INSPECTION LOG
+================================================================================
+Target Archive: C:\Users\iamra\Downloads\PayBridge-AI-Vijay-Final-Verified-Repository.zip
+File Size: 3,593,411 bytes (~3.6 MB)
+SHA-256: 3c5e0daebfd115aa025255ee9dd2a344ca21f57f62ec303d9804c8be8fa888c3
+
+Archive Metrics:
+  Total Member Entries: 87
+  Path Traversal Entries: 0 (PASSED)
+  Hidden Dot Files: .env.example, .gitignore, .github/workflows/ci.yml
+  Real .env Files: 0 (PASSED)
+  Private Keys (.pem, .key, id_rsa): 0 (PASSED)
+  Node Modules Folders: 0 (PASSED)
+  Git History Artifacts: 0 (PASSED)
+
+Quarantined Artifacts:
+  - services/api/worker.exe (5,637,632 bytes, SHA-256: a774725f0960f467d42a6658e20255d1d4e8d035a15842698bfeaa610b3cce5b)
+    Status: QUARANTINED (Executable binary in source ZIP, excluded from git repo)
+
+Scripts Audited Before Execution:
+  - scripts/demo-b.ps1 (Reviewed: Safe runner for cmd/demob/main.go)
+  - scripts/demo-b.sh (Reviewed: Safe bash runner for cmd/demob/main.go)
+  - scripts/package_repo.py (Reviewed: Safe packaging utility)
+================================================================================

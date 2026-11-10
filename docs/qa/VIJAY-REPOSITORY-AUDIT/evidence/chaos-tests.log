@@ -1,0 +1,26 @@
+=== RUN   TestCHAOS01_DroppedCaptureResponseRecovery
+--- PASS: TestCHAOS01_DroppedCaptureResponseRecovery (0.00s)
+=== RUN   TestCHAOS02_DuplicateWebhookDelivery
+--- PASS: TestCHAOS02_DuplicateWebhookDelivery (0.00s)
+=== RUN   TestCHAOS03_DelayedOutOfOrderWebhook
+--- PASS: TestCHAOS03_DelayedOutOfOrderWebhook (0.00s)
+=== RUN   TestCHAOS04_ForgedWebhookSignature
+--- PASS: TestCHAOS04_ForgedWebhookSignature (0.00s)
+=== RUN   TestCHAOS05_OutOfOrderMonotonicityViolation
+--- PASS: TestCHAOS05_OutOfOrderMonotonicityViolation (0.00s)
+=== RUN   TestCHAOS06_ConcurrentCheckoutDoubleMutationBlocked
+--- PASS: TestCHAOS06_ConcurrentCheckoutDoubleMutationBlocked (0.00s)
+=== RUN   TestCHAOS07_StaleSnapshotHandling
+--- PASS: TestCHAOS07_StaleSnapshotHandling (0.00s)
+=== RUN   TestCHAOS08_AmountMismatchDetection
+--- PASS: TestCHAOS08_AmountMismatchDetection (0.00s)
+=== RUN   TestCHAOS09_ReceiverConsentRevoked
+--- PASS: TestCHAOS09_ReceiverConsentRevoked (0.00s)
+=== RUN   TestCHAOS10_LLMServiceUnavailableFallback
+--- PASS: TestCHAOS10_LLMServiceUnavailableFallback (0.00s)
+=== RUN   TestCHAOS11_UnverifiedClaimRejection
+--- PASS: TestCHAOS11_UnverifiedClaimRejection (0.00s)
+=== RUN   TestCHAOS12_HighVolumeIdempotencyReplay
+--- PASS: TestCHAOS12_HighVolumeIdempotencyReplay (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/chaos	0.028s

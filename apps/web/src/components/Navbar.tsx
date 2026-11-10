@@ -74,8 +74,39 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Right Mode Switcher */}
+          {/* Right Mode Switcher & 16 Screens Selector */}
           <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 bg-slate-900 border border-slate-700/80 rounded-lg px-2 py-1">
+              <select
+                aria-label="Screen selector"
+                value={currentTab}
+                onChange={(e) => onTabChange(e.target.value)}
+                className="bg-transparent text-xs font-mono text-slate-200 focus:outline-none cursor-pointer"
+              >
+                <optgroup label="Core Foundation Screens (Sriram)">
+                  <option value="dashboard">Screen 3: Dashboard Matrix</option>
+                  <option value="cases">Screen 5: Payment Cases</option>
+                  <option value="demo">Screen 16: Golden Path Stepper</option>
+                  <option value="passport">Signature: Truth Passport</option>
+                  <option value="graph">Signature: Truth Gap Graph</option>
+                  <option value="mirror">Signature: Recovery Mirror</option>
+                </optgroup>
+                <optgroup label="Enterprise Specialist Screens (Vijay)">
+                  <option value="landing">Screen 1: Landing Page</option>
+                  <option value="auth">Screen 2: Login & RBAC Auth</option>
+                  <option value="new-payment">Screen 4: Checkout & Timeout</option>
+                  <option value="timeline">Screen 6: Lifecycle Timeline</option>
+                  <option value="sender-lens">Screen 8: Sender Lens</option>
+                  <option value="receiver-lens">Screen 9: Receiver Lens</option>
+                  <option value="safe-action">Screen 10: Safe Action Engine</option>
+                  <option value="evidence">Screen 12: Evidence Explorer</option>
+                  <option value="notifications">Screen 13: Communications</option>
+                  <option value="operations">Screen 14: Ops & Webhooks</option>
+                  <option value="settings">Screen 15: Privacy & Consent</option>
+                </optgroup>
+              </select>
+            </div>
+
             <button
               onClick={onToggleMode}
               title="Click to toggle between Live Backend and Sandbox Simulator mode"
@@ -86,7 +117,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <Radio className={`w-3.5 h-3.5 animate-pulse ${isSimulated ? 'text-cyan-400' : 'text-emerald-400'}`} />
-              <span>{isSimulated ? 'SIMULATOR MODE' : 'LIVE API CONNECTED'}</span>
+              <span className="hidden sm:inline">{isSimulated ? 'SIMULATOR MODE' : 'LIVE API CONNECTED'}</span>
             </button>
           </div>
         </div>

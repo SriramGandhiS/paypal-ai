@@ -1,0 +1,8 @@
+=== RUN   TestPerformance_StressMatrix
+[PERF] Concurrency= 1 | Total Time: 0s | Avg Per Run: 0s | Success: 1 | Fail: 0 | Alloc: 0.06 MB
+[PERF] Concurrency= 5 | Total Time: 524.4µs | Avg Per Run: 104.88µs | Success: 5 | Fail: 0 | Alloc: 0.18 MB
+[PERF] Concurrency=10 | Total Time: 512.4µs | Avg Per Run: 51.24µs | Success: 10 | Fail: 0 | Alloc: 0.21 MB
+[PERF] Concurrency=25 | Total Time: 1.2194ms | Avg Per Run: 48.776µs | Success: 25 | Fail: 0 | Alloc: 0.37 MB
+--- PASS: TestPerformance_StressMatrix (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/orchestrator	0.023s
