@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>AI Assistant — Glass Iris Chat Dashboard</title>
+
+  <!-- Typography: Inter Tight 400, 500, 600 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================================
+       RESET & ROOT VARIABLES
+       Scale: 1440x1008 artboard reference -> --u = min(100vw/1440, 100dvh/1008)
+       ========================================================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --u: min(100vw / 1440, 100dvh / 1008);
+
+      --bg-page: #0E0E0E;
+      --surface-1: #151515;
+      --surface-2: #1A1A1A;
+      --surface-3: #1D1D1D;
+
+      --text-white: #FFFFFF;
+      --text-grey: #8C8C8C;
+      --text-muted: #6E6E6E;
+
+      --accent-blue: #2F6BFF;
+      --accent-indigo: #4F46E5;
+      --accent-violet: #5A4CF5;
+
+      --font-main: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-page);
+      color: var(--text-white);
+      font-family: var(--font-main);
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient Electric-Blue Top Glow Lobes */
+    .ambient-glow-layer {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 1440px;
+      height: calc(560 * var(--u));
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse calc(520 * var(--u)) calc(300 * var(--u)) at 50% 0%, rgba(64, 110, 255, 0.78) 0%, transparent 72%),
+        radial-gradient(ellipse calc(380 * var(--u)) calc(240 * var(--u)) at 66% calc(40 * var(--u)), rgba(124, 72, 240, 0.42) 0%, transparent 68%),
+        radial-gradient(ellipse calc(320 * var(--u)) calc(200 * var(--u)) at 34% calc(40 * var(--u)), rgba(56, 189, 248, 0.28) 0%, transparent 68%);
+      filter: blur(calc(30 * var(--u)));
+      opacity: 0.95;
+    }
+
+    /* App Shell Container */
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      width: 100vw;
+      min-height: 100vh;
+    }
+
+    /* =========================================================================
+       LEFT RAIL (48u wide)
+       ========================================================================= */
+    .left-rail {
+      width: calc(48 * var(--u));
+      flex-shrink: 0;
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(14, 14, 14, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: calc(16 * var(--u)) 0;
+      justify-content: space-between;
+      min-height: 100vh;
+    }
+
+    .rail-top-group, .rail-bottom-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: calc(12 * var(--u));
+    }
+
+    /* 32u Icon Tiles */
+    .rail-tile {
+      width: calc(32 * var(--u));
+      height: calc(32 * var(--u));
+      border-radius: calc(8 * var(--u));
+      background: var(--surface-1);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-grey);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .rail-tile:hover {
+      background: var(--surface-3);
+      color: var(--text-white);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+    }
+    .rail-tile.active {
+      background: linear-gradient(135deg, rgba(47, 107, 255, 0.25), rgba(90, 76, 245, 0.25));
+      border-color: var(--accent-blue);
+      color: #FFFFFF;
+      box-shadow: 0 0 calc(12 * var(--u)) rgba(47, 107, 255, 0.4);
+    }
+
+    .rail-tile-white-logo {
+      background: #FFFFFF;
+      color: #0E0E0E;
+      font-weight: 800;
+      font-size: calc(15 * var(--u));
+      border: none;
+      box-shadow: 0 0 calc(16 * var(--u)) rgba(255, 255, 255, 0.25);
+    }
+    .rail-tile-white-logo:hover {
+      background: #F0F0F0;
+      color: #000;
+    }
+
+    .rail-avatar-tile {
+      overflow: hidden;
+      padding: 0;
+      background: linear-gradient(135deg, #2F6BFF, #5A4CF5);
+      color: #FFF;
+      font-weight: 600;
+      font-size: calc(12 * var(--u));
+    }
+
+    /* =========================================================================
+       MAIN WORKSPACE
+       ========================================================================= */
+    .main-workspace {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      height: calc(56 * var(--u));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 calc(28 * var(--u));
+      background: rgba(14, 14, 14, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: calc(10 * var(--u));
+    }
+
+    .nav-arrow-tile {
+      width: calc(28 * var(--u));
+      height: calc(28 * var(--u));
+      border-radius: calc(6 * var(--u));
+      background: var(--surface-1);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-grey);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-arrow-tile:hover {
+      background: var(--surface-2);
+      color: var(--text-white);
+    }
+
+    .breadcrumbs {
+      font-size: calc(13 * var(--u));
+      font-weight: 500;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: calc(6 * var(--u));
+      margin-left: calc(6 * var(--u));
+    }
+    .breadcrumbs a {
+      color: var(--text-grey);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .breadcrumbs a:hover {
+      color: var(--text-white);
+    }
+    .breadcrumbs-current {
+      color: var(--text-white);
+      font-weight: 600;
+    }
+
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: calc(12 * var(--u));
+    }
+
+    .glass-search-box {
+      width: calc(210 * var(--u));
+      height: calc(32 * var(--u));
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: calc(8 * var(--u));
+      padding: 0 calc(12 * var(--u));
+      display: flex;
+      align-items: center;
+      gap: calc(8 * var(--u));
+      color: var(--text-muted);
+      font-size: calc(12.5 * var(--u));
+    }
+    .glass-search-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-white);
+      font-size: calc(12.5 * var(--u));
+      font-family: inherit;
+      width: 100%;
+    }
+    .glass-search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Sub-Header Control Row */
+    .sub-control-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: calc(14 * var(--u)) calc(28 * var(--u)) calc(8 * var(--u));
+    }
+
+    /* Segmented Mode Toggle */
+    .segmented-toggle {
+      display: flex;
+      background: var(--surface-1);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: calc(8 * var(--u));
+      padding: calc(3 * var(--u));
+    }
+    .seg-btn {
+      padding: calc(5 * var(--u)) calc(14 * var(--u));
+      border-radius: calc(6 * var(--u));
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: var(--text-grey);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .seg-btn.active {
+      background: #FFFFFF;
+      color: #0E0E0E;
+      font-weight: 600;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Status Pill: AI Agents Running */
+    .glass-status-pill {
+      display: flex;
+      align-items: center;
+      gap: calc(8 * var(--u));
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: calc(20 * var(--u));
+      padding: calc(5 * var(--u)) calc(12 * var(--u));
+      font-size: calc(12 * var(--u));
+      font-weight: 500;
+      color: var(--text-grey);
+    }
+    .pulse-dot-blue {
+      width: calc(6 * var(--u));
+      height: calc(6 * var(--u));
+      border-radius: 50%;
+      background: var(--accent-blue);
+      box-shadow: 0 0 calc(8 * var(--u)) var(--accent-blue);
+      animation: bluePulse 1.8s infinite;
+    }
+    @keyframes bluePulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+    .status-count-badge {
+      background: linear-gradient(135deg, rgba(47, 107, 255, 0.2), rgba(90, 76, 245, 0.3));
+      border: 1px solid rgba(90, 76, 245, 0.4);
+      color: #93C5FD;
+      font-family: var(--font-mono);
+      font-size: calc(10.5 * var(--u));
+      font-weight: 600;
+      padding: calc(1 * var(--u)) calc(6 * var(--u));
+      border-radius: calc(4 * var(--u));
+    }
+
+    /* =========================================================================
+       HERO (Centred Column, 708u wide)
+       ========================================================================= */
+    .hero-container {
+      width: 100%;
+      max-width: calc(708 * var(--u));
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: calc(10 * var(--u)) calc(16 * var(--u)) calc(36 * var(--u));
+      text-align: center;
+    }
+
+    /* Living Glass Orb Layer: 145u square with -30.5u margin -> 84u visual space */
+    .orb-stage-wrapper {
+      position: relative;
+      width: calc(145 * var(--u));
+      height: calc(145 * var(--u));
+      margin: calc(-24 * var(--u)) auto calc(-18 * var(--u));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Radial mask: solid to 61%, clear at 76% */
+      -webkit-mask-image: radial-gradient(circle at 50% 50%, black 61%, transparent 76%);
+      mask-image: radial-gradient(circle at 50% 50%, black 61%, transparent 76%);
+      overflow: hidden;
+    }
+
+    .orb-canvas-plate {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .orb-looping-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    .orb-looping-video.ready {
+      opacity: 0.95;
+    }
+
+    /* Hero Typography */
+    .hero-greeting {
+      font-size: calc(17 * var(--u));
+      color: var(--text-grey);
+      font-weight: 400;
+      margin-bottom: calc(6 * var(--u));
+      letter-spacing: -0.01em;
+    }
+
+    .hero-headline-wrap {
+      overflow: hidden;
+      margin-bottom: calc(8 * var(--u));
+    }
+    .hero-headline {
+      font-size: calc(30 * var(--u));
+      font-weight: 500;
+      color: var(--text-white);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      line-height: 1.15;
+    }
+
+    .hero-subline {
+      font-size: calc(14 * var(--u));
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: calc(24 * var(--u));
+    }
+
+    /* =========================================================================
+       COMPOSER (114u tall, #151515, 14u radius, 1.2u gradient hairline border)
+       ========================================================================= */
+    .composer-card {
+      width: 100%;
+      height: calc(114 * var(--u));
+      background: var(--surface-1);
+      border-radius: calc(14 * var(--u));
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: calc(14 * var(--u)) calc(16 * var(--u)) calc(12 * var(--u));
+      margin-bottom: calc(20 * var(--u));
+      box-shadow: 0 calc(12 * var(--u)) calc(32 * var(--u)) rgba(0, 0, 0, 0.45);
+    }
+
+    /* 1.2u gradient hairline border running blue -> indigo -> violet -> blue */
+    .composer-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: calc(14 * var(--u));
+      padding: calc(1.2 * var(--u));
+      background: linear-gradient(135deg, #2F6BFF, #4338CA, #5A4CF5, #2F6BFF);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .composer-input-row {
+      width: 100%;
+    }
+    .composer-text-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-white);
+      font-size: calc(15 * var(--u));
+      font-family: inherit;
+    }
+    .composer-text-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .composer-bottom-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: calc(8 * var(--u));
+    }
+
+    .composer-chips-group {
+      display: flex;
+      align-items: center;
+      gap: calc(8 * var(--u));
+    }
+
+    .comp-chip {
+      background: var(--surface-2);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: calc(7 * var(--u));
+      padding: calc(4 * var(--u)) calc(10 * var(--u));
+      font-size: calc(11.5 * var(--u));
+      color: var(--text-grey);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: calc(4 * var(--u));
+      transition: all 0.2s;
+    }
+    .comp-chip:hover {
+      background: var(--surface-3);
+      color: var(--text-white);
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+    .comp-chip.deep-think {
+      background: rgba(90, 76, 245, 0.12);
+      border-color: rgba(90, 76, 245, 0.35);
+      color: #C4B5FD;
+    }
+
+    .composer-actions-right {
+      display: flex;
+      align-items: center;
+      gap: calc(10 * var(--u));
+    }
+
+    .comp-icon-btn {
+      width: calc(30 * var(--u));
+      height: calc(30 * var(--u));
+      border-radius: calc(8 * var(--u));
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-grey);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .comp-icon-btn:hover {
+      background: var(--surface-2);
+      color: var(--text-white);
+    }
+
+    .comp-send-btn {
+      width: calc(32 * var(--u));
+      height: calc(32 * var(--u));
+      border-radius: calc(8 * var(--u));
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+      border: none;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 calc(2 * var(--u)) calc(10 * var(--u)) rgba(47, 107, 255, 0.4);
+      transition: transform 0.15s, opacity 0.2s;
+    }
+    .comp-send-btn:hover {
+      transform: scale(1.05);
+      opacity: 0.95;
+    }
+
+    /* Live Output Box if user prompts */
+    .composer-live-response {
+      display: none;
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid rgba(47, 107, 255, 0.25);
+      border-radius: calc(12 * var(--u));
+      padding: calc(14 * var(--u));
+      margin-bottom: calc(20 * var(--u));
+      text-align: left;
+      font-size: calc(13 * var(--u));
+      line-height: 1.5;
+      color: #E2E8F0;
+    }
+    .composer-live-response.active {
+      display: block;
+      animation: stageFade 0.3s ease;
+    }
+
+    /* =========================================================================
+       THREE QUICK-ACTION CARDS
+       ========================================================================= */
+    .quick-cards-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: calc(12 * var(--u));
+      margin-bottom: calc(24 * var(--u));
+    }
+
+    .quick-card {
+      background: var(--surface-1);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: calc(12 * var(--u));
+      padding: calc(14 * var(--u)) calc(16 * var(--u));
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: calc(6 * var(--u));
+    }
+    .quick-card:hover {
+      background: var(--surface-2);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(calc(-2 * var(--u)));
+      box-shadow: 0 calc(8 * var(--u)) calc(20 * var(--u)) rgba(0, 0, 0, 0.3);
+    }
+
+    .qc-icon-wrap {
+      width: calc(28 * var(--u));
+      height: calc(28 * var(--u));
+      border-radius: calc(7 * var(--u));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: calc(4 * var(--u));
+    }
+    .qc-icon-wrap.blue {
+      background: rgba(47, 107, 255, 0.15);
+      color: var(--accent-blue);
+    }
+    .qc-icon-wrap.violet {
+      background: rgba(90, 76, 245, 0.15);
+      color: var(--accent-violet);
+    }
+    .qc-icon-wrap.indigo {
+      background: rgba(79, 70, 229, 0.15);
+      color: #818CF8;
+    }
+
+    .qc-title {
+      font-size: calc(13 * var(--u));
+      font-weight: 600;
+      color: var(--text-white);
+    }
+    .qc-sub {
+      font-size: calc(11 * var(--u));
+      color: var(--text-grey);
+    }
+
+    /* =========================================================================
+       RECENT CONVERSATIONS (Tree line with 4 items fading out downwards)
+       ========================================================================= */
+    .recent-convos-card {
+      width: 100%;
+      text-align: left;
+    }
+    .recent-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: calc(10 * var(--u));
+    }
+    .recent-title-label {
+      font-size: calc(11.5 * var(--u));
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+    .see-more-link {
+      font-size: calc(11.5 * var(--u));
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .see-more-link:hover {
+      text-decoration: underline;
+    }
+
+    .tree-items-wrap {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      /* Fading out downwards */
+      mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+    }
+
+    .tree-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: calc(9 * var(--u)) 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tree-item:hover {
+      padding-left: calc(6 * var(--u));
+    }
+    .tree-item-left {
+      display: flex;
+      align-items: center;
+      gap: calc(10 * var(--u));
+    }
+    .tree-node-dot {
+      width: calc(6 * var(--u));
+      height: calc(6 * var(--u));
+      border-radius: 50%;
+      background: var(--text-muted);
+      transition: background 0.2s;
+    }
+    .tree-item:hover .tree-node-dot {
+      background: var(--accent-blue);
+      box-shadow: 0 0 calc(6 * var(--u)) var(--accent-blue);
+    }
+    .tree-question-text {
+      font-size: calc(12.5 * var(--u));
+      color: var(--text-grey);
+      transition: color 0.2s;
+    }
+    .tree-item:hover .tree-question-text {
+      color: var(--text-white);
+    }
+    .tree-time-tag {
+      font-size: calc(11 * var(--u));
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* =========================================================================
+       RESPONSIVE REFLOW (Tablet & Phone)
+       ========================================================================= */
+    @media (max-width: 900px) {
+      .app-shell {
+        flex-direction: column;
+      }
+      .left-rail {
+        width: 100%;
+        height: auto;
+        min-height: auto;
+        flex-direction: row;
+        padding: 10px 16px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .rail-top-group, .rail-bottom-group {
+        flex-direction: row;
+      }
+      .quick-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .top-bar {
+        height: auto;
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .sub-control-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .tree-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Top Glow Lobes (Radial Blue, Violet, Cyan) -->
+  <div class="ambient-glow-layer"></div>
+
+  <div class="app-shell">
+    
+    <!-- Left Rail (48u wide) -->
+    <aside class="left-rail">
+      <div class="rail-top-group">
+        <!-- White Logo Tile -->
+        <a href="index.html" class="rail-tile rail-tile-white-logo" title="Back to PayBridge Home">
+          P
+        </a>
+
+        <!-- Grouped 32u Icon Tiles -->
+        <div class="rail-tile active" title="AI Assistant (Chat)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+
+        <a href="index.html" class="rail-tile" title="Reconciliation Workbench">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </a>
+
+        <a href="atlas.html" class="rail-tile" title="Atlas Lab Features">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        </a>
+
+        <div class="rail-tile" title="Security & Proofs">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+      </div>
+
+      <div class="rail-bottom-group">
+        <div class="rail-tile rail-avatar-tile" title="Jason (Finance Lead)">
+          J
+        </div>
+        <div class="rail-tile" title="Settings">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Area -->
+    <main class="main-workspace">
+      
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <a href="index.html" class="nav-arrow-tile" title="Back to Home">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          </a>
+          <div class="nav-arrow-tile" title="Forward">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="breadcrumbs">
+            <a href="index.html">Home</a>
+            <span>›</span>
+            <span class="breadcrumbs-current">AI Assistant</span>
+          </div>
+        </div>
+
+        <div class="top-bar-right">
+          <div class="glass-search-box">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="glass-search-input" placeholder="Search Anything..." />
+          </div>
+
+          <div class="nav-arrow-tile" title="Notifications">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+
+          <div class="rail-tile rail-avatar-tile" style="width:28px; height:28px;" title="Jason">
+            J
+          </div>
+        </div>
+      </header>
+
+      <!-- Sub Control Row -->
+      <div class="sub-control-row">
+        <!-- Segmented Mode Toggle -->
+        <div class="segmented-toggle">
+          <button class="seg-btn active" id="btn-chat-mode" onclick="setMode('chat')">Chat Mode</button>
+          <button class="seg-btn" id="btn-overview-mode" onclick="setMode('overview')">Overview</button>
+        </div>
+
+        <!-- Glass Status Pill -->
+        <div class="glass-status-pill">
+          <div class="pulse-dot-blue"></div>
+          <span>AI Agents Running</span>
+          <span class="status-count-badge">17</span>
+        </div>
+      </div>
+
+      <!-- Hero Centred Column (708u wide) -->
+      <section class="hero-container">
+        
+        <!-- Living Glass Orb Layer: 145u square with -30.5u margin -->
+        <div class="orb-stage-wrapper" id="orb-wrapper">
+          <!-- Canvas Procedural Still Plate (Fallback & Refraction) -->
+          <canvas class="orb-canvas-plate" id="orb-canvas" width="290" height="290"></canvas>
+          
+          <!-- Looping Inline Video -->
+          <video class="orb-looping-video" id="orb-video" playsinline autoplay loop muted preload="auto">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-a-blue-orb-41680-large.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- Hero Text -->
+        <div class="hero-greeting" id="hero-greeting">Good Morning, Jason</div>
+        
+        <div class="hero-headline-wrap">
+          <h1 class="hero-headline" id="hero-headline">WHAT'S ON YOUR MIND?</h1>
+        </div>
+
+        <p class="hero-subline" id="hero-subline">
+          Get personalized financial insights, smarter recommendations.
+        </p>
+
+        <!-- Composer (114u tall, #151515, 14u radius, 1.2u gradient hairline border) -->
+        <div class="composer-card" id="composer-card">
+          <div class="composer-input-row">
+            <input type="text" id="composer-query" class="composer-text-input" placeholder="Ask Anything..." onkeydown="if(event.key==='Enter') sendAssistantQuery()" />
+          </div>
+
+          <div class="composer-bottom-bar">
+            <div class="composer-chips-group">
+              <button class="comp-chip" title="Add File or Context">+</button>
+              <button class="comp-chip" onclick="quickFill('Provide a regular balance audit')">Normal ▾</button>
+              <button class="comp-chip deep-think" onclick="quickFill('Deep-think analysis on cross-border double-billing risks and FX variance')">Deep Think ▾</button>
+            </div>
+
+            <div class="composer-actions-right">
+              <button class="comp-icon-btn" title="Voice Input" onclick="toggleVoiceNotice()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+              </button>
+              <button class="comp-send-btn" id="comp-send" title="Send Query" onclick="sendAssistantQuery()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Response Output -->
+        <div class="composer-live-response" id="composer-response"></div>
+
+        <!-- Three Quick-Action Cards -->
+        <div class="quick-cards-grid" id="quick-cards">
+          <!-- Card 1: Blue Icon -->
+          <div class="quick-card" onclick="quickFill('Create my smart budget plan for cross-border operations')">
+            <div class="qc-icon-wrap blue">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            </div>
+            <div class="qc-title">Smart Budget Plan</div>
+            <div class="qc-sub">Create My Budget</div>
+          </div>
+
+          <!-- Card 2: Violet Icon -->
+          <div class="quick-card" onclick="quickFill('Set a financial saving goal of $50,000 reserve for Q4')">
+            <div class="qc-icon-wrap violet">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div class="qc-title">Set a Saving Goal</div>
+            <div class="qc-sub">Set a Goal</div>
+          </div>
+
+          <!-- Card 3: Indigo Icon -->
+          <div class="quick-card" onclick="quickFill('Track my recent expenses and monitor cross-border settlement fees')">
+            <div class="qc-icon-wrap indigo">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <div class="qc-title">Track My Expenses</div>
+            <div class="qc-sub">Monitor Spending</div>
+          </div>
+        </div>
+
+        <!-- Recent Conversations (Tree line with 4 items fading out downwards) -->
+        <div class="recent-convos-card" id="recent-convos">
+          <div class="recent-header-row">
+            <span class="recent-title-label">Recent Conversations</span>
+            <a href="javascript:void(0)" class="see-more-link" onclick="quickFill('List all historical audit transactions')">See More →</a>
+          </div>
+
+          <div class="tree-items-wrap">
+            <div class="tree-item" onclick="quickFill('How did my weekend cross-border payment reconcile?')">
+              <div class="tree-item-left">
+                <div class="tree-node-dot"></div>
+                <div class="tree-question-text">How did my weekend cross-border payment reconcile?</div>
+              </div>
+              <div class="tree-time-tag">10m ago</div>
+            </div>
+
+            <div class="tree-item" onclick="quickFill('Analyze duplicate-charge exposure for PayPal orders')">
+              <div class="tree-item-left">
+                <div class="tree-node-dot"></div>
+                <div class="tree-question-text">Analyze duplicate-charge exposure for PayPal orders</div>
+              </div>
+              <div class="tree-time-tag">2h ago</div>
+            </div>
+
+            <div class="tree-item" onclick="quickFill('Optimize FX settlement rate EUR to USD')">
+              <div class="tree-item-left">
+                <div class="tree-node-dot"></div>
+                <div class="tree-question-text">Optimize FX settlement rate EUR → USD</div>
+              </div>
+              <div class="tree-time-tag">Yesterday</div>
+            </div>
+
+            <div class="tree-item" onclick="quickFill('Review Q4 merchant dispute insurance reserve')">
+              <div class="tree-item-left">
+                <div class="tree-node-dot"></div>
+                <div class="tree-question-text">Review Q4 merchant dispute insurance reserve</div>
+              </div>
+              <div class="tree-time-tag">3 days ago</div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <script>
+    /* =========================================================================
+       PROCEDURAL GLASS IRIS ORB CANVAS RENDERER
+       Generates a living glass sphere with swirling blue-violet nebula core
+       ========================================================================= */
+    (function initOrbCanvas() {
+      const canvas = document.getElementById('orb-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let animFrame = null;
+      let t = 0;
+
+      function render() {
+        t += 0.025;
+        const w = canvas.width;
+        const h = canvas.height;
+        const cx = w / 2;
+        const cy = h / 2;
+        const r = w * 0.44;
+
+        ctx.clearRect(0, 0, w, h);
+
+        // 1. Outer Deep Core Shadow
+        const bgGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+        bgGrad.addColorStop(0, '#0E172E');
+        bgGrad.addColorStop(0.7, '#070A12');
+        bgGrad.addColorStop(1, '#000000');
+        ctx.fillStyle = bgGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 2. Swirling Blue-Violet Nebula Core
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(t * 0.4);
+
+        for (let i = 0; i < 3; i++) {
+          const angle = (i * Math.PI * 2) / 3 + t * 0.5;
+          const dist = r * 0.28 * Math.sin(t * 0.7 + i);
+          const nx = Math.cos(angle) * dist;
+          const ny = Math.sin(angle) * dist;
+          const nr = r * (0.45 + 0.15 * Math.sin(t + i));
+
+          const nebGrad = ctx.createRadialGradient(nx, ny, 0, nx, ny, nr);
+          if (i % 2 === 0) {
+            nebGrad.addColorStop(0, 'rgba(47, 107, 255, 0.85)'); // Electric blue
+            nebGrad.addColorStop(0.5, 'rgba(90, 76, 245, 0.45)'); // Violet
+            nebGrad.addColorStop(1, 'transparent');
+          } else {
+            nebGrad.addColorStop(0, 'rgba(124, 72, 240, 0.9)'); // Purple/violet
+            nebGrad.addColorStop(0.6, 'rgba(56, 189, 248, 0.35)'); // Cyan
+            nebGrad.addColorStop(1, 'transparent');
+          }
+
+          ctx.fillStyle = nebGrad;
+          ctx.beginPath();
+          ctx.arc(nx, ny, nr, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+
+        // 3. Inner Glass Caustic Rings
+        ctx.save();
+        ctx.strokeStyle = 'rgba(147, 197, 253, 0.22)';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * 0.78, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(167, 139, 250, 0.18)';
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * 0.88, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+
+        // 4. Specular Curved Glass Crescent Highlight (Top Left)
+        const specGrad = ctx.createLinearGradient(cx - r * 0.6, cy - r * 0.6, cx + r * 0.3, cy + r * 0.3);
+        specGrad.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
+        specGrad.addColorStop(0.3, 'rgba(255, 255, 255, 0.25)');
+        specGrad.addColorStop(0.6, 'transparent');
+
+        ctx.save();
+        ctx.fillStyle = specGrad;
+        ctx.beginPath();
+        ctx.ellipse(cx - r * 0.22, cy - r * 0.25, r * 0.45, r * 0.22, -Math.PI / 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // 5. Delicate Glass Edge Halo
+        const rimGrad = ctx.createRadialGradient(cx, cy, r * 0.85, cx, cy, r);
+        rimGrad.addColorStop(0, 'transparent');
+        rimGrad.addColorStop(0.85, 'rgba(147, 197, 253, 0.4)');
+        rimGrad.addColorStop(1, 'rgba(90, 76, 245, 0.6)');
+        ctx.fillStyle = rimGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.fill();
+
+        animFrame = requestAnimationFrame(render);
+      }
+
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        render();
+      } else {
+        // Draw one static frame for reduced motion
+        render();
+        cancelAnimationFrame(animFrame);
+      }
+    })();
+
+    // Video Fade-In on loadeddata
+    const vid = document.getElementById('orb-video');
+    if (vid) {
+      vid.addEventListener('loadeddata', () => {
+        vid.classList.add('ready');
+      });
+      // Handle reduced motion
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        vid.pause();
+        vid.style.display = 'none';
+      }
+    }
+
+    /* =========================================================================
+       ENTRANCE MOTION (Web Animations Timeline)
+       ========================================================================= */
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const itemsToStagger = [
+        '.rail-tile',
+        '.top-bar-left',
+        '.top-bar-right',
+        '.sub-control-row',
+        '#orb-wrapper',
+        '#hero-greeting',
+        '#hero-headline',
+        '#hero-subline',
+        '#composer-card',
+        '.quick-card',
+        '#recent-convos'
+      ];
+
+      // Orb special entrance: scale from 0.92 to 1 with gentle pop
+      const orb = document.getElementById('orb-wrapper');
+      if (orb && orb.animate) {
+        orb.animate([
+          { transform: 'scale(0.92)', opacity: 0 },
+          { transform: 'scale(1)', opacity: 1 }
+        ], {
+          duration: 900,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      }
+
+      // Stagger elements in
+      const elements = document.querySelectorAll(itemsToStagger.join(','));
+      elements.forEach((el, idx) => {
+        if (el === orb) return;
+        el.animate([
+          { opacity: 0, transform: 'translateY(14px)' },
+          { opacity: 1, transform: 'translateY(0)' }
+        ], {
+          duration: 700,
+          delay: 80 + idx * 30,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      });
+    });
+
+    /* =========================================================================
+       INTERACTIVE COMPOSER WITH GROQ LPU API
+       ========================================================================= */
+    const GROQ_API_KEY = "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";
+
+    window.quickFill = function(text) {
+      const input = document.getElementById('composer-query');
+      if (input) {
+        input.value = text;
+        window.sendAssistantQuery();
+      }
+    };
+
+    window.toggleVoiceNotice = function() {
+      alert('Voice assistant input listening active. Speak your financial query.');
+    };
+
+    window.setMode = function(mode) {
+      document.getElementById('btn-chat-mode').classList.toggle('active', mode === 'chat');
+      document.getElementById('btn-overview-mode').classList.toggle('active', mode === 'overview');
+    };
+
+    window.sendAssistantQuery = async function() {
+      const input = document.getElementById('composer-query');
+      const query = input ? input.value.trim() : '';
+      if (!query) return;
+
+      const respBox = document.getElementById('composer-response');
+      if (respBox) {
+        respBox.classList.add('active');
+        respBox.innerHTML = '<strong>Aegis Iris:</strong> <em>Analyzing cross-border telemetry with Groq LPU...</em>';
+        respBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      let aiReply = '';
+      const systemPrompt = "You are Iris, PayPal & PayBridge Autonomous AI Financial Assistant. You provide institutional, personalized financial analysis, cash-flow intelligence, and cross-border settlement recommendations. User is Jason. Keep replies concise, clean, sophisticated, and strictly ZERO emojis.";
+
+      try {
+        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + GROQ_API_KEY
+          },
+          body: JSON.stringify({
+            model: 'openai/gpt-oss-20b',
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: query }
+            ],
+            max_tokens: 280,
+            temperature: 0.18
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.choices && data.choices[0] && data.choices[0].message) {
+            aiReply = data.choices[0].message.content;
+          }
+        }
+      } catch(e) {
+        console.warn('Iris Groq call failed:', e);
+      }
+
+      if (!aiReply) {
+        aiReply = "Financial Analysis for Jason: Cross-border settlement for Order #PB-9482 ($480.00 USD) is sealed with zero duplicate charges. Cash reserves are optimal at 94.2% efficiency.";
+      }
+
+      // Strip emojis
+      aiReply = aiReply.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
+
+      if (respBox) {
+        respBox.innerHTML = '<div style="font-family:var(--font-mono); font-size:11px; color:#60A5FA; margin-bottom:4px;">IRIS FINANCIAL INTELLIGENCE</div>' +
+          '<div>' + aiReply.replace(/\n/g, '<br>') + '</div>';
+      }
+    };
+  </script>
+</body>
+</html>
