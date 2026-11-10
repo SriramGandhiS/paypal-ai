@@ -1958,6 +1958,512 @@
     .clean-table tr:hover td {
       background: var(--surface-subtle);
     }
+  
+    /* =========================================================================
+       NEAT DARK GRAPHITE LAB BENTO DEMO STYLES (MOTIONSITES LAB AESTHETIC)
+       ========================================================================= */
+    .dark-demo-stage {
+      background: linear-gradient(145deg, #181A1B 0%, #111213 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    .dark-demo-stage::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 400px;
+      height: 300px;
+      background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .dark-demo-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .dark-demo-heading {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 300;
+      color: #FFFFFF;
+      letter-spacing: -0.015em;
+    }
+
+    .dark-demo-heading em {
+      font-style: italic;
+      color: #FFFFFF;
+    }
+
+    .dark-demo-subtext {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.55);
+      margin-top: 4px;
+    }
+
+    .dark-status-pill {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .dark-status-pill.idle {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .dark-status-pill.warning {
+      background: rgba(245, 158, 11, 0.12);
+      color: #FBBF24;
+      border: 1px solid rgba(245, 158, 11, 0.28);
+    }
+    .dark-status-pill.danger {
+      background: rgba(239, 68, 68, 0.12);
+      color: #F87171;
+      border: 1px solid rgba(239, 68, 68, 0.28);
+    }
+    .dark-status-pill.success {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.28);
+    }
+
+    /* Stepper Track */
+    .dark-stepper-track {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .dark-stepper-track::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 30px;
+      right: 30px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.08);
+      z-index: 0;
+    }
+
+    .dark-step-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      z-index: 1;
+    }
+    .dark-step-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #141618;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .dark-step-item.current .dark-step-circle {
+      background: #FFFFFF;
+      color: #0A0B0C;
+      border-color: #FFFFFF;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+    }
+    .dark-step-item.completed .dark-step-circle {
+      background: #10B981;
+      color: #FFFFFF;
+      border-color: #10B981;
+    }
+    .dark-step-text {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.02em;
+    }
+    .dark-step-item.current .dark-step-text {
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    /* Bento Grid */
+    .dark-bento-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .dark-bento-grid { grid-template-columns: 1fr; }
+    }
+
+    .dark-bento-card {
+      background: #141617;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .dark-card-inner-panel {
+      background: #0B0D0E;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
+
+    .dark-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 14px;
+    }
+
+    .dark-merchant-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dark-merchant-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: #FFFFFF;
+      color: #0A0B0C;
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dark-session-tag {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .dark-order-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+    .dark-order-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.55);
+    }
+    .dark-order-row.total {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.08);
+      font-size: 15px;
+    }
+
+    /* Dark Checkout Buttons */
+    .dark-checkout-btn {
+      width: 100%;
+      height: 42px;
+      border-radius: 9999px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+    .dark-checkout-btn.idle {
+      background: #FFFFFF;
+      color: #0A0B0C;
+    }
+    .dark-checkout-btn.idle:hover {
+      background: #E5E5E5;
+    }
+    .dark-checkout-btn.loading {
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+      cursor: wait;
+    }
+    .dark-checkout-btn.timeout {
+      background: rgba(239, 68, 68, 0.2);
+      color: #F87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+    .dark-checkout-btn.locked {
+      background: rgba(245, 158, 11, 0.2);
+      color: #FBBF24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .dark-lock-banner {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      line-height: 1.4;
+    }
+    .dark-lock-banner.danger {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #FCA5A5;
+    }
+    .dark-lock-banner.warning {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: #FDE68A;
+    }
+
+    .dark-receipt-verified-box {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .dark-pill-action {
+      height: 32px;
+      padding: 0 14px;
+      border-radius: 9999px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      border: none;
+    }
+    .dark-pill-action.hot {
+      background: #FFFFFF;
+      color: #0A0B0C;
+    }
+    .dark-pill-action.hot:hover { background: #E5E5E5; }
+    .dark-pill-action.subtle {
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .dark-pill-action.subtle:hover { background: rgba(255, 255, 255, 0.14); }
+
+    /* Telemetry Comparison Footer */
+    .dark-comparison-footer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: auto;
+    }
+    .dark-comp-box {
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+    .dark-comp-box.danger {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.18);
+      color: #F87171;
+    }
+    .dark-comp-box.success {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.18);
+      color: #34D399;
+    }
+    .dark-comp-label {
+      font-family: var(--mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* Right Panel: Tabs & Agent Nodes */
+    .dark-tabs-header {
+      display: flex;
+      background: #0B0D0E;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 3px;
+      margin-bottom: 14px;
+    }
+    .dark-tab-btn {
+      flex: 1;
+      padding: 8px 12px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.5);
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .dark-tab-btn.active {
+      background: #FFFFFF;
+      color: #0A0B0C;
+    }
+
+    .dark-agent-nodes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .dark-agent-node {
+      background: #0B0D0E;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+    .dark-agent-node.active {
+      border-color: #FBBF24;
+      background: rgba(245, 158, 11, 0.04);
+    }
+    .dark-agent-node.completed {
+      border-color: rgba(16, 185, 129, 0.35);
+      background: rgba(16, 185, 129, 0.03);
+    }
+
+    /* Chatbot Dark Styles */
+    .dark-chatbot-container {
+      background: #0B0D0E;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 14px;
+      max-height: 290px;
+      min-height: 290px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .dark-chat-bubble {
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+    .dark-chat-bubble.user {
+      align-self: flex-end;
+      background: #FFFFFF;
+      color: #0A0B0C;
+    }
+    .dark-chat-bubble.ai {
+      align-self: flex-start;
+      background: #141617;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      width: 100%;
+    }
+    .dark-chat-prompts {
+      display: flex;
+      gap: 6px;
+      margin: 10px 0;
+      overflow-x: auto;
+    }
+    .dark-prompt-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.75);
+      border-radius: 9999px;
+      padding: 5px 12px;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.18s ease;
+    }
+    .dark-prompt-chip:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+    }
+    .dark-chat-input-bar {
+      display: flex;
+      gap: 8px;
+    }
+    .dark-chat-field {
+      flex: 1;
+      height: 36px;
+      background: #0B0D0E;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+      padding: 0 16px;
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-family: var(--sans);
+      outline: none;
+    }
+    .dark-chat-field:focus {
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+    .dark-send-btn {
+      height: 36px;
+      padding: 0 18px;
+      background: #FFFFFF;
+      color: #0A0B0C;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      border-radius: 9999px;
+      border: none;
+      cursor: pointer;
+    }
+
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -4468,11 +4974,11 @@
       };
 
       function renderDemoView() {
-          // Streamlined 3-Stage Human Progress Bar for Judges
+          // Streamlined 3-Stage Progress for Judges
           const steps = [
-            { num: 1, name: '1. Customer Pays ($480)' },
-            { num: 2, name: '2. PayPal Crashes (504 Drop)' },
-            { num: 3, name: '3. PayBridge Protects ($0 Double Charge)' }
+            { num: 1, name: 'Customer Pays ($480)' },
+            { num: 2, name: 'PayPal 504 Timeout' },
+            { num: 3, name: 'PayBridge Reconciled' }
           ];
 
           let currentStage = 1;
@@ -4486,80 +4992,80 @@
             const icon = isCompleted 
               ? '<svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' 
               : s.num;
-            return '<div class="step-item ' + cls + '" style="cursor:default;">' +
-              '<div class="step-circle">' + icon + '</div>' +
-              '<div class="step-text" style="font-weight:600;">' + s.name + '</div>' +
+            return '<div class="dark-step-item ' + cls + '">' +
+              '<div class="dark-step-circle">' + icon + '</div>' +
+              '<div class="dark-step-text">' + s.name + '</div>' +
             '</div>';
           }).join('');
 
           let statusBadge = '';
           if (demoState === 'idle') {
-            statusBadge = '<span class="view-badge"><span class="status-dot idle"></span>Ready to Simulate</span>';
+            statusBadge = '<span class="dark-status-pill idle"><span class="status-dot idle"></span>Ready to Simulate</span>';
           } else if (demoState === 'loading') {
-            statusBadge = '<span class="view-badge badge-warning"><span class="status-dot warning"></span>Simulating 504 Crash...</span>';
+            statusBadge = '<span class="dark-status-pill warning"><span class="status-dot warning"></span>Simulating 504 Timeout...</span>';
           } else if (demoState === 'timeout') {
-            statusBadge = '<span class="view-badge badge-warning" style="background:#FFF5F5; color:#E53E3E; border-color:rgba(229,62,62,0.3);"><span class="status-dot danger"></span>504 Timeout Caught</span>';
+            statusBadge = '<span class="dark-status-pill danger"><span class="status-dot danger"></span>504 Timeout Intercepted</span>';
           } else if (demoState === 'locked') {
-            statusBadge = '<span class="view-badge badge-warning" style="background:#FFFAF0; color:#DD6B20; border-color:rgba(221,107,32,0.3);"><span class="status-dot warning"></span>Double-Charge Shield Locked</span>';
+            statusBadge = '<span class="dark-status-pill warning"><span class="status-dot warning"></span>Attempt Mutex Locked</span>';
           } else if (demoState === 'reconciled') {
-            statusBadge = '<span class="view-badge badge-success"><span class="status-dot success"></span>Reconciled in 142ms ($0.00 Double Charge)</span>';
+            statusBadge = '<span class="dark-status-pill success"><span class="status-dot success"></span>Reconciled in 142ms ($0.00 Double Charge)</span>';
           }
 
-          // Shopper Checkout Card UI
+          // Shopper Checkout Button UI
           let checkoutButtonHtml = '';
           if (demoState === 'idle') {
-            checkoutButtonHtml = '<button class="btn-checkout-live idle" onclick="triggerLiveCheckout()">' +
+            checkoutButtonHtml = '<button class="dark-checkout-btn idle" onclick="triggerLiveCheckout()">' +
               '<span>Pay $480.00 with PayPal</span>' +
-              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>' +
+              '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>' +
             '</button>' +
-            '<p style="font-size: 12px; color: var(--body); text-align: center; margin-top: 10px;">' +
-              'Click to trigger an in-flight 504 network timeout and observe auto-recovery' +
+            '<p style="font-size: 11.5px; color: rgba(255,255,255,0.4); text-align: center; margin-top: 10px; font-family: var(--mono);">' +
+              'Click to trigger live 504 gateway timeout and auto-reconciliation' +
             '</p>';
           } else if (demoState === 'loading') {
-            checkoutButtonHtml = '<button class="btn-checkout-live loading" disabled>' +
-              '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>' +
+            checkoutButtonHtml = '<button class="dark-checkout-btn loading" disabled>' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>' +
               '<span>Contacting Upstream PayPal Gateway...</span>' +
             '</button>';
           } else if (demoState === 'timeout') {
-            checkoutButtonHtml = '<button class="btn-checkout-live timeout">' +
-              '<span>Connection Lost: HTTP 504 Gateway Timeout</span>' +
+            checkoutButtonHtml = '<button class="dark-checkout-btn timeout">' +
+              '<span>Connection Dropped: HTTP 504 Gateway Timeout</span>' +
             '</button>' +
-            '<div class="attempt-lock-banner">' +
-              '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E53E3E" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>' +
+            '<div class="dark-lock-banner danger">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>' +
               '<div>' +
-                '<strong>Gateway Crashed Mid-Transaction</strong><br>' +
-                'PayPal received the charge request but the confirmation dropped in transit.' +
+                '<strong>Gateway Crashed Mid-Flight</strong><br>' +
+                'PayPal received funds, but TCP connection timed out before ACK.' +
               '</div>' +
             '</div>';
           } else if (demoState === 'locked') {
-            checkoutButtonHtml = '<button class="btn-checkout-live locked">' +
-              '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
-              '<span>Double-Charge Shield Locked (Retry Blocked)</span>' +
+            checkoutButtonHtml = '<button class="dark-checkout-btn locked">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
+              '<span>DO_NOT_REPEAT_CHECKOUT (Retry Intercepted)</span>' +
             '</button>' +
-            '<div class="attempt-lock-banner">' +
-              '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DD6B20" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
+            '<div class="dark-lock-banner warning">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
               '<div>' +
-                '<strong>Customer Button Safely Locked</strong><br>' +
-                'Shopper retry clicks are intercepted so the customer is NEVER charged twice.' +
+                '<strong>Double-Charge Shield Engaged</strong><br>' +
+                'Shopper retry clicks intercepted. Direct PayPal ledger query active.' +
               '</div>' +
             '</div>';
           } else if (demoState === 'reconciled') {
-            checkoutButtonHtml = '<div class="receipt-verified-box">' +
+            checkoutButtonHtml = '<div class="dark-receipt-verified-box">' +
               '<div style="display:flex; justify-content:space-between; align-items:center;">' +
-                '<strong style="color: #22543D; font-size: 14.5px; display:flex; align-items:center; gap:6px;">' +
-                  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22543D" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>' +
+                '<strong style="color: #34D399; font-size: 14.5px; display:flex; align-items:center; gap:6px;">' +
+                  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>' +
                   'Order Confirmed & Paid' +
                 '</strong>' +
-                '<span class="info-mono" style="background:#C6F6D5; color:#22543D; padding:3px 10px; border-radius:99px; font-size:11.5px; font-weight:700;">142ms Recovery</span>' +
+                '<span class="info-mono" style="background:rgba(16,185,129,0.18); color:#34D399; border:1px solid rgba(16,185,129,0.3); padding:3px 10px; border-radius:99px; font-size:11.5px; font-weight:700;">142ms Recovery</span>' +
               '</div>' +
-              '<div style="font-size: 13px; color:#2D3748; line-height: 1.5; margin-top: 6px;">' +
-                'PayPal confirmed the $480.00 USD capture directly. Order released for immediate shipment with <strong>$0.00 duplicate charge</strong>.' +
+              '<div style="font-size: 13px; color:rgba(255,255,255,0.7); line-height: 1.5; margin-top: 8px;">' +
+                'PayPal authoritative capture verified (ID: <code>cap_4819_live</code>). Order cleared for instant shipment with <strong>$0.00 duplicate charge</strong>.' +
               '</div>' +
-              '<div style="display:flex; gap:10px; margin-top:12px;">' +
-                '<button class="btn-action-hot" style="height:34px; font-size:12.5px; padding:0 16px;" onclick="switchView(\'passport\')">' +
+              '<div style="display:flex; gap:10px; margin-top:14px;">' +
+                '<button class="dark-pill-action hot" onclick="switchView(\'passport\')">' +
                   'View Digital Proof Certificate' +
                 '</button>' +
-                '<button class="btn-action-subtle" style="height:34px; font-size:12.5px; padding:0 14px;" onclick="resetLiveDemo()">' +
+                '<button class="dark-pill-action subtle" onclick="resetLiveDemo()">' +
                   'Replay Simulation' +
                 '</button>' +
               '</div>' +
@@ -4568,164 +5074,159 @@
 
           // Chat messages HTML
           let chatMessagesHtml = chatHistory.map(m => {
-            return '<div class="chat-bubble ' + m.role + '">' + m.text + '</div>';
+            return '<div class="dark-chat-bubble ' + m.role + '">' + m.text + '</div>';
           }).join('');
 
           let radarContentHtml = '';
           if (activeRadarTab === 'radar') {
-            radarContentHtml = '<div class="agent-nodes-list">' +
-              '<div class="agent-node ' + (demoStep >= 1 ? 'completed' : '') + '">' +
+            radarContentHtml = '<div class="dark-agent-nodes-list">' +
+              '<div class="dark-agent-node ' + (demoStep >= 1 ? 'completed' : '') + '">' +
                 '<div style="display:flex; align-items:center; gap:10px;">' +
-                  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A5568" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' +
+                  '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' +
                   '<div>' +
-                    '<div style="font-size: 13px; font-weight: 600; color: var(--ink);">Payment Safeguard</div>' +
-                    '<div style="font-size: 11.5px; color: var(--body);">Registers unique order fingerprint before payment starts</div>' +
+                    '<div style="font-size: 13px; font-weight: 600; color: #FFFFFF;">Payment Safeguard</div>' +
+                    '<div style="font-size: 11px; color: rgba(255,255,255,0.45);">Registers unique transaction fingerprint before execution</div>' +
                   '</div>' +
                 '</div>' +
-                '<span class="info-mono" style="font-size: 11px; color: var(--body);">0ms</span>' +
+                '<span class="info-mono" style="font-size: 11px; color: rgba(255,255,255,0.4);">0ms</span>' +
               '</div>' +
 
-              '<div class="agent-node ' + (demoStep >= 3 ? 'completed' : (demoStep === 2 ? 'active' : '')) + '">' +
+              '<div class="dark-agent-node ' + (demoStep >= 3 ? 'completed' : (demoStep === 2 ? 'active' : '')) + '">' +
                 '<div style="display:flex; align-items:center; gap:10px;">' +
-                  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="' + (demoStep >= 3 ? '#10B981' : '#DD6B20') + '" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
+                  '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="' + (demoStep >= 3 ? '#34D399' : '#FBBF24') + '" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
                   '<div>' +
-                    '<div style="font-size: 13px; font-weight: 600; color: var(--ink);">Double-Charge Shield</div>' +
-                    '<div style="font-size: 11.5px; color: var(--body);">Locks payment button to block panicked customer retries</div>' +
+                    '<div style="font-size: 13px; font-weight: 600; color: #FFFFFF;">Double-Charge Shield</div>' +
+                    '<div style="font-size: 11px; color: rgba(255,255,255,0.45);">Locks payment attempt to block accidental customer duplicate clicks</div>' +
                   '</div>' +
                 '</div>' +
-                '<span class="info-mono" style="font-size: 11px; font-weight:600; color: ' + (demoStep >= 3 ? 'var(--success)' : 'var(--hot)') + ';">' +
+                '<span class="info-mono" style="font-size: 11px; font-weight:600; color: ' + (demoStep >= 3 ? '#34D399' : '#FBBF24') + ';">' +
                   (demoStep >= 3 ? '12ms' : 'Active') +
                 '</span>' +
               '</div>' +
 
-              '<div class="agent-node ' + (demoStep >= 4 ? 'completed' : (demoStep === 3 ? 'active' : '')) + '">' +
+              '<div class="dark-agent-node ' + (demoStep >= 4 ? 'completed' : (demoStep === 3 ? 'active' : '')) + '">' +
                 '<div style="display:flex; align-items:center; gap:10px;">' +
-                  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2B7FFF" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>' +
+                  '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>' +
                   '<div>' +
-                    '<div style="font-size: 13px; font-weight: 600; color: var(--ink);">PayPal Ledger Reconciler</div>' +
-                    '<div style="font-size: 11.5px; color: var(--body);">Silently asks PayPal directly: "Did the $480 actually arrive?"</div>' +
+                    '<div style="font-size: 13px; font-weight: 600; color: #FFFFFF;">PayPal Ledger Reconciler</div>' +
+                    '<div style="font-size: 11px; color: rgba(255,255,255,0.45);">Directly queries PayPal bank record to verify settlement truth</div>' +
                   '</div>' +
                 '</div>' +
-                '<span class="info-mono" style="font-size: 11px; color: var(--body);">84ms</span>' +
+                '<span class="info-mono" style="font-size: 11px; color: rgba(255,255,255,0.4);">84ms</span>' +
               '</div>' +
 
-              '<div class="agent-node ' + (demoStep >= 5 ? 'completed' : '') + '">' +
+              '<div class="dark-agent-node ' + (demoStep >= 5 ? 'completed' : '') + '">' +
                 '<div style="display:flex; align-items:center; gap:10px;">' +
-                  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>' +
+                  '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>' +
                   '<div>' +
-                    '<div style="font-size: 13px; font-weight: 600; color: var(--ink);">Bank Capture Verification</div>' +
-                    '<div style="font-size: 11.5px; color: var(--body);">PayPal bank ledger confirmed: $480.00 USD successfully collected</div>' +
+                    '<div style="font-size: 13px; font-weight: 600; color: #FFFFFF;">Bank Capture Verification</div>' +
+                    '<div style="font-size: 11px; color: rgba(255,255,255,0.45);">Authoritative capture proof ($480.00 USD collected) confirmed</div>' +
                   '</div>' +
                 '</div>' +
-                '<span class="info-mono" style="font-size: 11px; color: var(--body);">110ms</span>' +
+                '<span class="info-mono" style="font-size: 11px; color: rgba(255,255,255,0.4);">110ms</span>' +
               '</div>' +
 
-              '<div class="agent-node ' + (demoStep >= 6 ? 'completed' : '') + '">' +
+              '<div class="dark-agent-node ' + (demoStep >= 6 ? 'completed' : '') + '">' +
                 '<div style="display:flex; align-items:center; gap:10px;">' +
-                  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>' +
+                  '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>' +
                   '<div>' +
-                    '<div style="font-size: 13px; font-weight: 600; color: var(--ink);">Instant Settlement Proof</div>' +
-                    '<div style="font-size: 11.5px; color: var(--body);">Cryptographic proof sealed: Order released with zero duplicate billing</div>' +
+                    '<div style="font-size: 13px; font-weight: 600; color: #FFFFFF;">Instant Settlement Proof</div>' +
+                    '<div style="font-size: 11px; color: rgba(255,255,255,0.45);">Digital Truth Passport sealed: $0.00 double charge guaranteed</div>' +
                   '</div>' +
                 '</div>' +
-                '<span class="info-mono" style="font-size: 11px; color: var(--success); font-weight: 700;">142ms</span>' +
+                '<span class="info-mono" style="font-size: 11px; color: #34D399; font-weight: 700;">142ms</span>' +
               '</div>' +
             '</div>';
           } else {
-            radarContentHtml = '<div class="chatbot-messages-container" id="chat-messages">' +
+            radarContentHtml = '<div class="dark-chatbot-container" id="chat-messages">' +
               chatMessagesHtml +
             '</div>' +
-            '<div class="chat-prompts-bar">' +
-              '<button class="prompt-chip-btn" onclick="sendAiQuery(\'Why did the 504 timeout occur?\')">Root Cause Analysis</button>' +
-              '<button class="prompt-chip-btn" onclick="sendAiQuery(\'How was double-charging prevented?\')">Double-Charge Defense</button>' +
-              '<button class="prompt-chip-btn" onclick="sendAiQuery(\'Explain this to a judge or CFO in simple terms\')">Judge / CFO Summary</button>' +
+            '<div class="dark-chat-prompts">' +
+              '<button class="dark-prompt-chip" onclick="sendAiQuery(\'Why did the 504 timeout occur?\')">Root Cause Analysis</button>' +
+              '<button class="dark-prompt-chip" onclick="sendAiQuery(\'How was double-charging prevented?\')">Double-Charge Defense</button>' +
+              '<button class="dark-prompt-chip" onclick="sendAiQuery(\'Explain this to our CFO in plain terms\')">Executive Summary</button>' +
             '</div>' +
-            '<div class="chat-input-bar">' +
-              '<input type="text" id="chat-query-input" class="chat-input-field" placeholder="Ask AI Truth Investigator anything..." onkeydown="if(event.key===\'Enter\') sendAiQuery()" />' +
-              '<button class="chat-send-btn" onclick="sendAiQuery()">Send</button>' +
+            '<div class="dark-chat-input-bar">' +
+              '<input type="text" id="chat-query-input" class="dark-chat-field" placeholder="Ask AI Truth Investigator anything..." onkeydown="if(event.key===\'Enter\') sendAiQuery()" />' +
+              '<button class="dark-send-btn" onclick="sendAiQuery()">Send</button>' +
             '</div>';
           }
 
-          container.innerHTML = '<div class="view-top-bar">' +
-            '<div>' +
-              '<h3 class="view-heading">Live Demonstration: Preventing Cross-Border Double Billing</h3>' +
-              '<p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">' +
-                'See how PayBridge AI intercepts a 504 network drop, locks the payment attempt, and confirms PayPal truth in 142ms.' +
-              '</p>' +
+          container.innerHTML = '<div class="dark-demo-stage">' +
+            '<div class="dark-demo-top-bar">' +
+              '<div>' +
+                '<h3 class="dark-demo-heading"><em>Lab.</em> Cross-Border 504 Recovery Engine</h3>' +
+                '<p class="dark-demo-subtext">' +
+                  'Live execution telemetry: Intercepting network drops and verifying Tier 1 PayPal ledger truth in 142ms.' +
+                '</p>' +
+              '</div>' +
+              '<div style="display: flex; align-items: center; gap: 12px;">' +
+                statusBadge +
+                '<button class="pill-btn pill-btn-dark" style="height:32px; font-size:11px;" onclick="resetLiveDemo()">' +
+                  'RESET' +
+                '</button>' +
+              '</div>' +
             '</div>' +
-            '<div style="display: flex; align-items: center; gap: 10px;">' +
-              statusBadge +
-              '<button class="btn-action-subtle" style="height: 32px; font-size: 12px; padding: 0 14px;" onclick="resetLiveDemo()">' +
-                'Reset Demo' +
-              '</button>' +
-            '</div>' +
-          '</div>' +
 
-          '<div class="judge-explainer-banner" style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:12.5px; line-height:1.45; color:#334155; display:flex; align-items:center; gap:10px;">' +
-            '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.2" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>' +
-            '<div><strong>How this works:</strong> When a payment freezes (504 timeout), shoppers usually click Pay again and get double-charged ($960). PayBridge locks the button and confirms the bank truth directly with PayPal in 142ms.</div>' +
-          '</div>' +
+            '<div class="dark-stepper-track">' + stepperHtml + '</div>' +
 
-          '<div class="stepper-nodes" style="margin-bottom:20px;">' + stepperHtml + '</div>' +
+            '<div class="dark-bento-grid">' +
+              '<div class="dark-bento-card">' +
+                '<div class="dark-card-inner-panel">' +
+                  '<div class="dark-panel-header">' +
+                    '<div class="dark-merchant-brand">' +
+                      '<div class="dark-merchant-logo">AR</div>' +
+                      '<div>' +
+                        '<div style="font-size: 13.5px; font-weight: 600; color: #FFFFFF;">Apex Robotics Europe GmbH</div>' +
+                        '<div style="font-size: 11px; color: rgba(255,255,255,0.45); font-family:var(--mono);">EUR → USD Settlement</div>' +
+                      '</div>' +
+                    '</div>' +
+                    '<span class="dark-session-tag">#PB-9482</span>' +
+                  '</div>' +
 
-          '<div class="demo-live-grid">' +
-            '<div class="checkout-screen">' +
-              '<div class="checkout-header">' +
-                '<div class="merchant-brand">' +
-                  '<div class="merchant-logo">AR</div>' +
-                  '<div>' +
-                    '<div style="font-size: 14px; font-weight: 600; color: var(--ink);">Apex Robotics Europe GmbH</div>' +
-                    '<div style="font-size: 11.5px; color: var(--body);">Cross-Border B2B Checkout</div>' +
+                  '<div class="dark-order-rows">' +
+                    '<div class="dark-order-row">' +
+                      '<span>Item:</span>' +
+                      '<span style="color: #FFFFFF; font-weight: 500;">Industrial Servo Controller C101</span>' +
+                    '</div>' +
+                    '<div class="dark-order-row">' +
+                      '<span>Payment Gateway:</span>' +
+                      '<span style="color: #FFFFFF;">PayPal REST API</span>' +
+                    '</div>' +
+                    '<div class="dark-order-row total">' +
+                      '<span>Total Due:</span>' +
+                      '<span style="color: #FFFFFF; font-weight: 700; font-size: 17px;">$480.00 USD</span>' +
+                    '</div>' +
+                  '</div>' +
+
+                  checkoutButtonHtml +
+                '</div>' +
+
+                '<div class="dark-comparison-footer">' +
+                  '<div class="dark-comp-box danger">' +
+                    '<span class="dark-comp-label">Standard Gateway (No PayBridge)</span>' +
+                    '<p>Customer clicks retry → <strong>$960 double-billing</strong> and 14-day chargeback dispute.</p>' +
+                  '</div>' +
+                  '<div class="dark-comp-box success">' +
+                    '<span class="dark-comp-label">PayBridge AI Protected</span>' +
+                    '<p>Lock intercepts retry → <strong>142ms recovery</strong> → <strong>$0.00 duplicate charge</strong>.</p>' +
                   '</div>' +
                 '</div>' +
-                '<span class="info-mono" style="font-size: 11px; color: var(--body); background: var(--surface-subtle); padding: 3px 8px; border-radius: 6px;">' +
-                  'Session #PB-9482' +
-                '</span>' +
               '</div>' +
 
-              '<div class="order-summary-box">' +
-                '<div class="order-row">' +
-                  '<span>Item:</span>' +
-                  '<span style="font-weight: 500; color: var(--ink);">Industrial Servo Controller C101</span>' +
+              '<div class="dark-bento-card">' +
+                '<div class="dark-tabs-header">' +
+                  '<button class="dark-tab-btn ' + (activeRadarTab === 'radar' ? 'active' : '') + '" onclick="switchRadarTab(\'radar\')">' +
+                    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' +
+                    'Resolution Pipeline' +
+                  '</button>' +
+                  '<button class="dark-tab-btn ' + (activeRadarTab === 'chat' ? 'active' : '') + '" onclick="switchRadarTab(\'chat\')">' +
+                    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>' +
+                    'AI Truth Investigator' +
+                  '</button>' +
                 '</div>' +
-                '<div class="order-row">' +
-                  '<span>Billing Country:</span>' +
-                  '<span>Germany (EUR → USD)</span>' +
-                '</div>' +
-                '<div class="order-row">' +
-                  '<span>Payment Gateway:</span>' +
-                  '<span style="display:flex; align-items:center; gap:4px; font-weight:500;">PayPal REST API</span>' +
-                '</div>' +
-                '<div class="order-row total">' +
-                  '<span>Total Due:</span>' +
-                  '<span style="color: var(--hot); font-size:18px;">$480.00 USD</span>' +
-                '</div>' +
+                radarContentHtml +
               '</div>' +
-
-              checkoutButtonHtml +
-
-              '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border);">' +
-                '<div style="background: #FFF5F5; border-radius: 8px; padding: 10px 12px; font-size: 11.5px; color: #C53030; line-height:1.4;">' +
-                  '<strong>Without PayBridge:</strong><br>Shopper clicks retry → <strong>$960 double-charge</strong> + 14-day chargeback dispute.' +
-                '</div>' +
-                '<div style="background: #F0FFF4; border-radius: 8px; padding: 10px 12px; font-size: 11.5px; color: #276749; line-height:1.4;">' +
-                  '<strong>With PayBridge AI:</strong><br>Lock intercepts retry → <strong>142ms recovery</strong> → <strong>$0.00 duplicate charge</strong>.' +
-                '</div>' +
-              '</div>' +
-            '</div>' +
-
-            '<div class="ai-radar-panel">' +
-              '<div class="radar-tabs-nav">' +
-                '<button class="radar-tab-btn ' + (activeRadarTab === 'radar' ? 'active' : '') + '" onclick="switchRadarTab(\'radar\')">' +
-                  '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' +
-                  'Automated Resolution Pipeline' +
-                '</button>' +
-                '<button class="radar-tab-btn ' + (activeRadarTab === 'chat' ? 'active' : '') + '" onclick="switchRadarTab(\'chat\')">' +
-                  '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>' +
-                  'AI Truth Investigator' +
-                '</button>' +
-              '</div>' +
-              radarContentHtml +
             '</div>' +
           '</div>';
         }

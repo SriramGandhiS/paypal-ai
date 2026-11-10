@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Atlas Cognition — Lab Features</title>
+  <title>Lab. Post-train your own self improving agents — Atlas Cognition</title>
   
-  <!-- Typography -->
+  <!-- Typography: Newsreader, Inter, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
@@ -21,18 +21,18 @@
     }
 
     :root {
-      --bg-page: #0F1112;
+      --bg-page: #0C0D0E;
+      --card-bg-start: #191B1C;
+      --card-bg-end: #121314;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-border-hover: rgba(255, 255, 255, 0.18);
+      
+      --panel-bg: #090A0B;
+      --panel-border: rgba(255, 255, 255, 0.06);
+
       --ink: #FFFFFF;
-      --body-text: rgba(255, 255, 255, 0.58);
-      --body-muted: rgba(255, 255, 255, 0.40);
-      
-      --card-bg-start: #1B1D1E;
-      --card-bg-end: #141617;
-      --card-border: rgba(255, 255, 255, 0.06);
-      --card-border-hover: rgba(255, 255, 255, 0.16);
-      
-      --panel-bg: rgba(14, 16, 17, 0.72);
-      --panel-border: rgba(255, 255, 255, 0.05);
+      --body-text: rgba(255, 255, 255, 0.62);
+      --body-muted: rgba(255, 255, 255, 0.38);
 
       --font-serif: 'Newsreader', serif;
       --font-sans: 'Inter', sans-serif;
@@ -52,107 +52,33 @@
     body {
       min-height: 100vh;
       background-color: var(--bg-page);
-      background-image: 
-        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.035) 0%, transparent 55%),
-        radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.015) 0%, transparent 40%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 40px 24px 80px;
-    }
-
-    /* Subtle Navigation Header */
-    .lab-nav {
-      width: 100%;
-      max-width: 1200px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0 48px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      margin-bottom: 56px;
-    }
-
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--ink);
-    }
-
-    .brand-mark {
-      width: 20px;
-      height: 20px;
-    }
-
-    .brand-name {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--ink);
-    }
-
-    .nav-status {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--body-muted);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #10B981;
-      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+      padding: 72px 24px 100px;
     }
 
     /* =========================================================================
-       HERO & HEADLINE SECTION
+       HERO HEADLINE & BUTTONS (Identical to reference screenshot)
        ========================================================================= */
-    .lab-hero {
+    .hero-wrap {
       width: 100%;
       max-width: 900px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 64px;
-    }
-
-    .hero-pre-badge {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.45);
-      margin-bottom: 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 5px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 56px;
     }
 
     .hero-headline {
       font-family: var(--font-serif);
-      font-size: clamp(42px, 5.2vw, 68px);
-      line-height: 1.08;
+      font-size: clamp(38px, 4.4vw, 56px);
+      line-height: 1.15;
       font-weight: 300;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.02em;
       color: var(--ink);
-      margin-bottom: 28px;
-      max-width: 820px;
+      margin-bottom: 24px;
     }
 
     .hero-headline em {
@@ -160,61 +86,72 @@
       font-family: var(--font-serif);
       font-weight: 400;
       color: #FFFFFF;
+      margin-right: 4px;
     }
 
     .hero-actions {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
+      gap: 12px;
     }
 
-    /* Small Mono Buttons */
-    .btn-mono {
+    /* Small Mono Pill Buttons */
+    .pill-btn {
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       text-decoration: none;
-      height: 36px;
-      padding: 0 16px;
+      height: 35px;
+      padding: 0 18px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      border-radius: 4px;
-      transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+      gap: 6px;
+      border-radius: 9999px;
+      transition: all 0.2s ease;
       cursor: pointer;
     }
 
-    .btn-mono-light {
+    .pill-btn-white {
       background-color: #FFFFFF;
-      color: #0F1112;
+      color: #0C0D0E;
       border: 1px solid #FFFFFF;
     }
 
-    .btn-mono-dark {
-      background-color: transparent;
+    .pill-btn-white:hover {
+      background-color: #E8E8E8;
+      border-color: #E8E8E8;
+    }
+
+    .pill-btn-dark {
+      background-color: rgba(255, 255, 255, 0.05);
       color: #FFFFFF;
-      border: 1px solid rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .pill-btn-dark:hover {
+      background-color: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.28);
     }
 
     /* =========================================================================
-       BENTO STAGE & CONTAINER QUERY SYSTEM
+       BENTO GRID STAGE
        ========================================================================= */
-    .features-stage {
+    .bento-stage {
       width: 100%;
-      max-width: 1180px;
+      max-width: 1164px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
     }
 
     .bento-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: 18px;
       width: 100%;
     }
 
@@ -233,136 +170,146 @@
       position: relative;
       background: linear-gradient(145deg, var(--card-bg-start) 0%, var(--card-bg-end) 100%);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
+      border-radius: 20px;
+      padding: 24px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       transition: border-color 0.25s ease, box-shadow 0.25s ease;
-      container-type: inline-size;
-      will-change: transform, opacity;
     }
 
-    /* Soft top-left radial highlight */
     .card::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
-      width: 320px;
-      height: 240px;
-      background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.065) 0%, transparent 70%);
+      width: 340px;
+      height: 260px;
+      background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
       pointer-events: none;
       z-index: 1;
-      transition: opacity 0.3s ease;
     }
 
-    /* Desktop Reworked Bento Layouts */
+    /* Desktop Bento Structure (>= 1164px) */
     @media (min-width: 1164px) {
-      /* Row 1: Environments -> panel on LEFT, copy on RIGHT */
+      /* Card 1: Environments -> Panel on LEFT, Copy on RIGHT */
       .card-environments {
         display: grid;
         grid-template-columns: 1.15fr 0.85fr;
+        gap: 24px;
+        align-items: center;
       }
 
       .card-environments .card-panel {
         order: 1;
-        border-right: 1px solid var(--border-inner);
-        border-bottom: none;
+        min-height: 340px;
       }
 
       .card-environments .card-content {
         order: 2;
+        padding-left: 12px;
       }
 
-      /* Row 2: Evaluations & Hosted Training side by side */
+      /* Card 2 & 3: Side by Side -> Panel on TOP, Copy on BOTTOM */
       .card-split {
         display: flex;
         flex-direction: column;
+        gap: 20px;
       }
 
       .card-split .card-panel {
-        border-bottom: 1px solid var(--border-inner);
-        height: 290px;
+        height: 270px;
       }
 
-      /* Row 3: Inference -> Mirrored! Panel on RIGHT, copy on LEFT */
+      /* Card 4: Inference -> Mirrored! Copy on LEFT, Panel on RIGHT */
       .card-inference {
         display: grid;
         grid-template-columns: 0.85fr 1.15fr;
+        gap: 24px;
+        align-items: center;
       }
 
       .card-inference .card-content {
         order: 1;
-        border-right: 1px solid var(--border-inner);
+        padding-right: 12px;
       }
 
       .card-inference .card-panel {
         order: 2;
-        border-bottom: none;
+        min-height: 340px;
       }
     }
 
-    /* Narrower Fallback (< 1164px) */
+    /* Narrower Screen Fallback (< 1164px) */
     @media (max-width: 1163px) {
       .card {
         display: flex;
         flex-direction: column;
+        gap: 20px;
       }
 
       .card-panel {
         order: 1 !important;
-        border-bottom: 1px solid var(--border-inner);
-        border-right: none !important;
         height: 280px;
       }
 
       .card-content {
         order: 2 !important;
-        border-right: none !important;
       }
     }
 
     /* =========================================================================
-       CARD CONTENT STYLES
+       INSET SOFTLY LIT PANELS (Reference Inset Styling)
        ========================================================================= */
-    .card-content {
-      padding: clamp(28px, 4cqw, 40px);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .card-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.35);
+      border-radius: 14px;
       position: relative;
-      z-index: 2;
-      background: transparent;
-    }
-
-    .content-top {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-label-row {
+      overflow: hidden;
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
+      justify-content: center;
+      padding: 20px;
     }
 
-    .mono-tag {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--body-muted);
+    .panel-highlight {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 45% 45%, rgba(255, 255, 255, 0.04) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .panel-grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+
+    /* =========================================================================
+       CARD CONTENT & TYPOGRAPHY
+       ========================================================================= */
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
     }
 
     .card-title {
       font-family: var(--font-serif);
-      font-size: clamp(24px, 2.5cqw, 32px);
+      font-size: 30px;
       line-height: 1.15;
       font-weight: 300;
-      color: var(--ink);
-      margin-bottom: 12px;
       letter-spacing: -0.015em;
+      color: var(--ink);
+      margin-bottom: 14px;
     }
 
     .card-title em {
@@ -370,94 +317,36 @@
       font-family: var(--font-serif);
       font-weight: 400;
       color: #FFFFFF;
+      margin-right: 2px;
     }
 
-    .card-desc {
+    .card-paragraph {
       font-family: var(--font-sans);
-      font-size: 14px;
-      line-height: 1.55;
+      font-size: 13.5px;
+      line-height: 1.6;
       color: var(--body-text);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       max-width: 440px;
     }
 
-    /* Numbered Points (Mono numbers & Inter copy) */
-    .points-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 32px;
-    }
-
-    .point-item {
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
-      font-size: 13.5px;
-      line-height: 1.45;
-      color: var(--body-text);
-    }
-
-    .point-num {
+    .mono-bold-num {
       font-family: var(--font-mono);
-      font-size: 11.5px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.35);
-      flex-shrink: 0;
-      letter-spacing: 0.04em;
+      font-size: 12px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-right: 2px;
     }
 
-    .card-actions {
-      margin-top: auto;
+    .card-action-wrap {
+      margin-top: 4px;
     }
 
     /* =========================================================================
-       INNER PANELS & TECHNICAL LINE ILLUSTRATIONS
+       PANEL 1: RL ENVIRONMENTS (Diamond Loop with Concentric Circles)
        ========================================================================= */
-    .card-panel {
-      background: var(--panel-bg);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: clamp(20px, 3cqw, 36px);
-      overflow: hidden;
-      min-height: 290px;
-    }
-
-    /* Panel Ambient Drifting Highlight */
-    .panel-highlight {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(60% 60% at 50% 50%, rgba(255, 255, 255, 0.045) 0%, transparent 100%);
-      pointer-events: none;
-      animation: driftHighlight 14s infinite alternate ease-in-out;
-    }
-
-    @keyframes driftHighlight {
-      0% { transform: translate(-10%, -10%) scale(0.95); }
-      50% { transform: translate(12%, 8%) scale(1.05); }
-      100% { transform: translate(-8%, 12%) scale(1.0); }
-    }
-
-    /* Background coordinate grid lines */
-    .panel-grid-lines {
-      position: absolute;
-      inset: 0;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 32px 32px;
-      pointer-events: none;
-    }
-
-    /* -------------------------------------------------------------------------
-       PANEL 1: RL Environments (Diamond Loop Diagram)
-       ------------------------------------------------------------------------- */
-    .env-diagram-wrap {
+    .env-diagram-container {
       width: 100%;
-      max-width: 460px;
+      max-width: 440px;
       position: relative;
       z-index: 2;
     }
@@ -469,172 +358,27 @@
       overflow: visible;
     }
 
-    .svg-draw-stroke {
-      stroke-dasharray: 400;
-      stroke-dashoffset: 400;
-      transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+    .env-node-label {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      fill: #FFFFFF;
+      letter-spacing: 0.08em;
     }
 
-    .card.in-view .svg-draw-stroke {
-      stroke-dashoffset: 0;
-    }
-
-    .env-cli-text {
+    .env-caption {
       font-family: var(--font-mono);
       font-size: 9.5px;
       fill: rgba(255, 255, 255, 0.42);
       letter-spacing: 0.04em;
     }
 
-    .env-node-title {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 600;
-      fill: #FFFFFF;
-      letter-spacing: 0.08em;
-    }
-
-    /* -------------------------------------------------------------------------
-       PANEL 2: Evaluations (Model Picker & Benchmark Results)
-       ------------------------------------------------------------------------- */
-    .eval-panel-content {
+    /* =========================================================================
+       PANEL 2: EVALUATIONS (Picker + White Evaluate Bar + Benchmark List)
+       ========================================================================= */
+    .eval-box {
       width: 100%;
-      max-width: 380px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .model-picker-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
-      padding: 9px 12px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: #FFFFFF;
-    }
-
-    .model-name {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .model-tag {
-      color: rgba(255, 255, 255, 0.45);
-    }
-
-    .eval-trigger-bar {
-      background: #FFFFFF;
-      color: #0F1112;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      border-radius: 4px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: background-color 0.18s ease;
-    }
-
-    .eval-results-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .eval-result-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 7px 10px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-    }
-
-    .benchmark-name {
-      color: rgba(255, 255, 255, 0.65);
-    }
-
-    .benchmark-score {
-      color: #FFFFFF;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .benchmark-delta {
-      font-size: 9.5px;
-      color: #10B981;
-      background: rgba(16, 185, 129, 0.12);
-      padding: 2px 5px;
-      border-radius: 3px;
-    }
-
-    /* -------------------------------------------------------------------------
-       PANEL 3: Hosted Training (Reward Curve & Grid)
-       ------------------------------------------------------------------------- */
-    .training-panel-content {
-      width: 100%;
-      max-width: 390px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .training-top-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.45);
-    }
-
-    .training-status-tag {
-      color: #10B981;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .training-curve-svg {
-      width: 100%;
-      height: 160px;
-      display: block;
-      overflow: visible;
-    }
-
-    .curve-axis-label {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      fill: rgba(255, 255, 255, 0.35);
-      letter-spacing: 0.04em;
-    }
-
-    /* -------------------------------------------------------------------------
-       PANEL 4: Inference (Stacked Deployment Rows & LoRA Adapter Tags)
-       ------------------------------------------------------------------------- */
-    .inference-panel-content {
-      width: 100%;
-      max-width: 480px;
+      max-width: 360px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -642,32 +386,118 @@
       z-index: 2;
     }
 
-    .deploy-row {
-      background: rgba(255, 255, 255, 0.025);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 6px;
+    .eval-picker-row {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
       padding: 10px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-family: var(--font-mono);
       font-size: 11px;
-      transition: border-color 0.2s ease, background 0.2s ease;
+      color: #FFFFFF;
     }
 
-    .deploy-row:hover {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: rgba(255, 255, 255, 0.12);
+    .eval-pill-bar {
+      background: #FFFFFF;
+      color: #0C0D0E;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      border-radius: 9999px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.18s ease;
     }
 
-    .deploy-cluster-meta {
+    .eval-pill-bar:hover {
+      background: #E5E5E5;
+    }
+
+    .eval-faint-row {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 6px;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* =========================================================================
+       PANEL 3: HOSTED TRAINING (Reward Graph with 0.92 Max)
+       ========================================================================= */
+    .training-box {
+      width: 100%;
+      max-width: 370px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .training-header-labels {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 6px;
+    }
+
+    .training-chart-svg {
+      width: 100%;
+      height: 140px;
+      display: block;
+      overflow: visible;
+    }
+
+    .training-bottom-labels {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: rgba(255, 255, 255, 0.35);
+      margin-top: 4px;
+    }
+
+    /* =========================================================================
+       PANEL 4: INFERENCE (Stacked Clusters with LoRA Badges)
+       ========================================================================= */
+    .inference-box {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .inf-row {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .inf-left {
       display: flex;
       flex-direction: column;
       gap: 3px;
     }
 
-    .cluster-name {
-      font-size: 11.5px;
+    .inf-name {
       font-weight: 600;
       color: #FFFFFF;
       display: flex;
@@ -675,242 +505,151 @@
       gap: 8px;
     }
 
-    .lora-badge {
+    .inf-badge {
       font-size: 9.5px;
       color: #A78BFA;
-      background: rgba(167, 139, 250, 0.1);
-      border: 1px solid rgba(167, 139, 250, 0.25);
+      background: rgba(167, 139, 250, 0.12);
+      border: 1px solid rgba(167, 139, 250, 0.28);
       padding: 1px 6px;
       border-radius: 3px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
     }
 
-    .deploy-model-desc {
+    .inf-desc {
       font-size: 10px;
-      color: rgba(255, 255, 255, 0.42);
+      color: rgba(255, 255, 255, 0.4);
     }
 
-    .deploy-stats {
+    .inf-right {
       text-align: right;
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
 
-    .latency-val {
-      font-size: 11.5px;
-      font-weight: 600;
+    .inf-latency {
       color: #10B981;
+      font-weight: 600;
     }
 
-    .status-text {
+    .inf-status {
       font-size: 9px;
-      letter-spacing: 0.06em;
-      color: rgba(255, 255, 255, 0.38);
+      color: rgba(255, 255, 255, 0.35);
     }
 
     /* =========================================================================
-       HOVER & INTERACTION STATES
+       HOVER & ENTRANCE ANIMATIONS
        ========================================================================= */
     @media (hover: hover) {
       .card:hover {
         border-color: var(--card-border-hover);
-        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
-      }
-
-      .card:hover::before {
-        opacity: 1.4;
-      }
-
-      .btn-mono-light:hover {
-        background-color: #E9E9E9;
-        border-color: #E9E9E9;
-      }
-
-      .btn-mono-dark:hover {
-        background-color: #2F2F2F;
-        border-color: #2F2F2F;
-      }
-
-      .eval-trigger-bar:hover {
-        background-color: #E9E9E9;
       }
     }
 
-    /* Touch screens - disable hover effects */
-    @media (hover: none) {
-      .card:hover {
-        border-color: var(--card-border);
-      }
-      .btn-mono-light:hover, .btn-mono-dark:hover {
-        background-color: initial;
-      }
-    }
-
-    /* =========================================================================
-       ENTRANCE MOTION & ACCESSIBILITY
-       ========================================================================= */
-    .anim-fade-up {
+    .anim-in {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(20px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .anim-fade-up.in-view {
+    .anim-in.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* Reduced motion override */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-      }
+    .stroke-draw {
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+      transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+    }
 
-      .anim-fade-up {
-        opacity: 1 !important;
-        transform: none !important;
-      }
-
-      .svg-draw-stroke {
-        stroke-dashoffset: 0 !important;
-      }
+    .card.visible .stroke-draw {
+      stroke-dashoffset: 0;
     }
   </style>
 </head>
 <body>
 
-  <!-- Minimal Lab Header -->
-  <header class="lab-nav">
-    <a href="#" class="brand-group">
-      <!-- Minimalist geometric Atlas Cognition mark -->
-      <svg class="brand-mark" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2L2 22h20L12 2z" stroke="#FFFFFF" stroke-width="1.6" stroke-linejoin="round"/>
-        <line x1="6" y1="14" x2="18" y2="14" stroke="#FFFFFF" stroke-width="1.6"/>
-      </svg>
-      <span class="brand-name">Atlas Cognition</span>
-    </a>
-
-    <div class="nav-status">
-      <span class="status-dot"></span>
-      <span>Lab Cluster: Online</span>
-    </div>
-  </header>
-
-  <!-- Centered Hero -->
-  <section class="lab-hero">
-    <div class="hero-pre-badge anim-fade-up">
-      <span>//</span> ATLAS RESEARCH SUITE
-    </div>
-    
-    <h1 class="hero-headline anim-fade-up">
-      <em>Lab.</em> Post-train your own self / improving agents
+  <!-- Clean Centered Hero matching reference screenshot -->
+  <section class="hero-wrap">
+    <h1 class="hero-headline anim-in">
+      <em>Lab.</em> Post-train your own self<br>improving agents
     </h1>
 
-    <div class="hero-actions anim-fade-up">
-      <a href="#training" class="btn-mono btn-mono-light">
+    <div class="hero-actions anim-in">
+      <a href="#training" class="pill-btn pill-btn-white">
         START TRAINING →
       </a>
-      <a href="#demo" class="btn-mono btn-mono-dark">
+      <a href="#demo" class="pill-btn pill-btn-dark">
         BOOK A DEMO
       </a>
     </div>
   </section>
 
   <!-- Bento Stage -->
-  <main class="features-stage">
+  <main class="bento-stage">
     <div class="bento-grid">
 
       <!-- =====================================================================
            CARD 1: RL Environments (Full-width row, panel LEFT, copy RIGHT)
            ===================================================================== -->
-      <article class="card card-full-width card-environments anim-fade-up" id="environments">
+      <article class="card card-full-width card-environments anim-in" id="environments">
         
-        <!-- Panel LEFT: Diamond loop diagram -->
+        <!-- Panel LEFT: Inset diamond loop with concentric background rings -->
         <div class="card-panel">
           <div class="panel-highlight"></div>
           <div class="panel-grid-lines"></div>
 
-          <div class="env-diagram-wrap">
-            <svg class="env-svg" viewBox="0 0 460 260" fill="none">
-              <defs>
-                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="rgba(255,255,255,0.7)"/>
-                </marker>
-              </defs>
+          <div class="env-diagram-container">
+            <svg class="env-svg" viewBox="0 0 440 260" fill="none">
+              <!-- Concentric faint guide rings behind diamond -->
+              <circle cx="220" cy="130" r="105" stroke="rgba(255,255,255,0.04)" stroke-width="1" fill="none" />
+              <circle cx="220" cy="130" r="70" stroke="rgba(255,255,255,0.04)" stroke-width="1" fill="none" />
+              <line x1="110" y1="130" x2="330" y2="130" stroke="rgba(255,255,255,0.03)" stroke-width="1" />
+              <line x1="220" y1="20" x2="220" y2="240" stroke="rgba(255,255,255,0.03)" stroke-width="1" />
 
               <!-- Central Precision Cross -->
-              <line x1="225" y1="130" x2="235" y2="130" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
-              <line x1="230" y1="125" x2="230" y2="135" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+              <line x1="216" y1="130" x2="224" y2="130" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+              <line x1="220" y1="126" x2="220" y2="134" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
 
-              <!-- Diamond connecting paths with arrowheads -->
-              <!-- INIT (Top) -> DEVELOP (Right) -->
-              <path class="svg-draw-stroke" d="M 230 46 L 360 130" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
-              <!-- DEVELOP (Right) -> EVAL (Bottom) -->
-              <path class="svg-draw-stroke" d="M 360 130 L 230 214" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
-              <!-- EVAL (Bottom) -> PUSH (Left) -->
-              <path class="svg-draw-stroke" d="M 230 214 L 100 130" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
-              <!-- PUSH (Left) -> INIT (Top) -->
-              <path class="svg-draw-stroke" d="M 100 130 L 230 46" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+              <!-- Diamond connecting paths -->
+              <path class="stroke-draw" d="M 220 50 L 345 130" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-dasharray="3 3"/>
+              <path class="stroke-draw" d="M 345 130 L 220 210" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-dasharray="3 3"/>
+              <path class="stroke-draw" d="M 220 210 L 95 130" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-dasharray="3 3"/>
+              <path class="stroke-draw" d="M 95 130 L 220 50" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-dasharray="3 3"/>
 
               <!-- Node 1: INIT (Top) -->
-              <circle cx="230" cy="46" r="16" fill="#141617" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
-              <text x="230" y="50" text-anchor="middle" class="env-node-title">INIT</text>
-              <text x="230" y="24" text-anchor="middle" class="env-cli-text">$ atlas env init &lt;name&gt;</text>
+              <circle cx="220" cy="50" r="16" fill="#141617" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
+              <text x="220" y="54" text-anchor="middle" class="env-node-label">INIT</text>
+              <text x="220" y="26" text-anchor="middle" class="env-caption">$ atlas env init</text>
 
               <!-- Node 2: DEVELOP (Right) -->
-              <circle cx="360" cy="130" r="16" fill="#141617" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
-              <text x="360" y="134" text-anchor="middle" class="env-node-title">DEV</text>
-              <text x="360" y="162" text-anchor="middle" class="env-cli-text">$ atlas env dev</text>
+              <circle cx="345" cy="130" r="16" fill="#141617" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
+              <text x="345" y="134" text-anchor="middle" class="env-node-label" style="font-size:9.5px;">DEVELOP</text>
+              <text x="345" y="162" text-anchor="middle" class="env-caption">$ uv pip install -e .</text>
 
               <!-- Node 3: EVAL (Bottom) -->
-              <circle cx="230" cy="214" r="16" fill="#141617" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
-              <text x="230" y="218" text-anchor="middle" class="env-node-title">EVAL</text>
-              <text x="230" y="244" text-anchor="middle" class="env-cli-text">$ atlas env eval --fast</text>
+              <circle cx="220" cy="210" r="16" fill="#141617" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
+              <text x="220" y="214" text-anchor="middle" class="env-node-label">EVAL</text>
+              <text x="220" y="240" text-anchor="middle" class="env-caption">$ uv run vf-eval</text>
 
               <!-- Node 4: PUSH (Left) -->
-              <circle cx="100" cy="130" r="16" fill="#141617" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
-              <text x="100" y="134" text-anchor="middle" class="env-node-title">PUSH</text>
-              <text x="100" y="162" text-anchor="middle" class="env-cli-text">$ atlas env push</text>
+              <circle cx="95" cy="130" r="16" fill="#141617" stroke="rgba(255,255,255,0.6)" stroke-width="1.2"/>
+              <text x="95" y="134" text-anchor="middle" class="env-node-label">PUSH</text>
+              <text x="95" y="162" text-anchor="middle" class="env-caption">$ atlas env push</text>
             </svg>
           </div>
         </div>
 
         <!-- Copy RIGHT -->
         <div class="card-content">
-          <div class="content-top">
-            <div class="card-label-row">
-              <span class="mono-tag">[ 01 // FRAMEWORK ]</span>
-            </div>
-            
-            <h2 class="card-title"><em>RL</em> Environments</h2>
-            
-            <p class="card-desc">
-              Turn any task into an RL environment. Init, develop, eval, and push with the Atlas CLI.
-            </p>
+          <h2 class="card-title"><em>RL</em> Environments</h2>
+          
+          <p class="card-paragraph">
+            Turn any task into an RL environment. Init, develop, eval, and push with the Atlas CLI. <span class="mono-bold-num">11.</span> Built on the open-source Verifiers library. <span class="mono-bold-num">12.</span> One CLI loop: init, develop, eval, push. <span class="mono-bold-num">13.</span> 2,500+ community environments on the Hub
+          </p>
 
-            <ul class="points-list">
-              <li class="point-item">
-                <span class="point-num">11.</span>
-                <span>Built on the open-source Verifiers library.</span>
-              </li>
-              <li class="point-item">
-                <span class="point-num">12.</span>
-                <span>One CLI loop: init, develop, eval, push.</span>
-              </li>
-              <li class="point-item">
-                <span class="point-num">13.</span>
-                <span>2,500+ community environments on the Hub.</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="card-actions">
-            <a href="#env-create" class="btn-mono btn-mono-dark">
+          <div class="card-action-wrap">
+            <a href="#env" class="pill-btn pill-btn-white">
               CREATE ENVIRONMENTS →
             </a>
           </div>
@@ -921,74 +660,41 @@
       <!-- =====================================================================
            CARD 2: Evaluations (Side by side with Training)
            ===================================================================== -->
-      <article class="card card-split anim-fade-up" id="evaluations">
+      <article class="card card-split anim-in" id="evaluations">
         
-        <!-- Panel TOP: Model picker & results list -->
+        <!-- Panel TOP -->
         <div class="card-panel">
           <div class="panel-highlight"></div>
           <div class="panel-grid-lines"></div>
 
-          <div class="eval-panel-content">
-            <div class="model-picker-bar">
-              <div class="model-name">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
-                <span>atlas-cognition/hermes-reasoner-v3</span>
-              </div>
-              <span class="model-tag">▼</span>
+          <div class="eval-box">
+            <div class="eval-picker-row">
+              <span style="font-weight:600;">atlas-cognition/logic-env</span>
+              <span style="color:rgba(255,255,255,0.45); font-size:10px;">0.2.21</span>
+              <span style="color:rgba(255,255,255,0.35); font-size:9.5px; letter-spacing:0.04em;">ATLAS COGNITION</span>
             </div>
 
-            <div class="eval-trigger-bar">
-              <span>EVALUATE →</span>
+            <div class="eval-pill-bar">
+              EVALUATE →
             </div>
 
-            <div class="eval-results-list">
-              <div class="eval-result-row">
-                <span class="benchmark-name">GSM8K-CoT</span>
-                <span class="benchmark-score">94.2% <span class="benchmark-delta">+6.4%</span></span>
-              </div>
-              <div class="eval-result-row">
-                <span class="benchmark-name">HumanEval-Python</span>
-                <span class="benchmark-score">88.6% <span class="benchmark-delta">+4.1%</span></span>
-              </div>
-              <div class="eval-result-row">
-                <span class="benchmark-name">SWE-Bench-Verified</span>
-                <span class="benchmark-score">42.8% <span class="benchmark-delta">+8.9%</span></span>
-              </div>
+            <div class="eval-faint-row">
+              <span>orbit-ai/lifeval</span>
+              <span>GSM8K: 94.2%</span>
             </div>
           </div>
         </div>
 
         <!-- Copy BOTTOM -->
         <div class="card-content">
-          <div class="content-top">
-            <div class="card-label-row">
-              <span class="mono-tag">[ 02 // BENCHMARK ]</span>
-            </div>
-            
-            <h2 class="card-title">Evaluations</h2>
-            
-            <p class="card-desc">
-              Hosted evaluations for you to benchmark the performance of your models.
-            </p>
+          <h2 class="card-title">Evaluations</h2>
+          
+          <p class="card-paragraph">
+            Hosted evaluations for you to benchmark the performance of your models. <span class="mono-bold-num">21.</span> Automated benchmarks across reasoning, coding, and tool use. <span class="mono-bold-num">22.</span> Custom evaluation suites with verifiable reward rubrics. <span class="mono-bold-num">23.</span> Side-by-side model diffs and regression tracking.
+          </p>
 
-            <ul class="points-list">
-              <li class="point-item">
-                <span class="point-num">21.</span>
-                <span>Automated benchmarks across reasoning, coding, and tool use.</span>
-              </li>
-              <li class="point-item">
-                <span class="point-num">22.</span>
-                <span>Custom evaluation suites with verifiable reward rubrics.</span>
-              </li>
-              <li class="point-item">
-                <span class="point-num">23.</span>
-                <span>Side-by-side model diffs and regression tracking.</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="card-actions">
-            <a href="#run-eval" class="btn-mono btn-mono-dark">
+          <div class="card-action-wrap">
+            <a href="#eval" class="pill-btn pill-btn-white">
               RUN YOUR FIRST EVAL →
             </a>
           </div>
@@ -999,92 +705,57 @@
       <!-- =====================================================================
            CARD 3: Hosted Training (Side by side with Evaluations)
            ===================================================================== -->
-      <article class="card card-split anim-fade-up" id="training">
+      <article class="card card-split anim-in" id="training">
         
-        <!-- Panel TOP: Jagged reward curve on fine grid -->
+        <!-- Panel TOP: Reward chart -->
         <div class="card-panel">
           <div class="panel-highlight"></div>
           <div class="panel-grid-lines"></div>
 
-          <div class="training-panel-content">
-            <div class="training-top-meta">
-              <span>Metric: Mean Policy Reward</span>
-              <span class="training-status-tag">
-                <span class="status-dot"></span>
-                <span>CONVERGING</span>
-              </span>
+          <div class="training-box">
+            <div class="training-header-labels">
+              <span>Reward</span>
+              <span>0.92</span>
             </div>
 
-            <svg class="training-curve-svg" viewBox="0 0 380 150" fill="none">
-              <!-- Coordinate Grid Axes -->
-              <line x1="35" y1="130" x2="370" y2="130" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-              <line x1="35" y1="15" x2="35" y2="130" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+            <svg class="training-chart-svg" viewBox="0 0 370 140" fill="none">
+              <!-- Grid lines -->
+              <line x1="10" y1="125" x2="360" y2="125" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <line x1="10" y1="80" x2="360" y2="80" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="2 3"/>
+              <line x1="10" y1="35" x2="360" y2="35" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="2 3"/>
 
-              <!-- Axis Labels -->
-              <text x="30" y="24" text-anchor="end" class="curve-axis-label">1.0</text>
-              <text x="30" y="75" text-anchor="end" class="curve-axis-label">0.5</text>
-              <text x="30" y="128" text-anchor="end" class="curve-axis-label">0.0</text>
-
-              <text x="38" y="144" class="curve-axis-label">0k</text>
-              <text x="145" y="144" class="curve-axis-label">25k</text>
-              <text x="255" y="144" class="curve-axis-label">50k</text>
-              <text x="365" y="144" text-anchor="end" class="curve-axis-label">100k</text>
-
-              <!-- Subtle horizontal reference grid line -->
-              <line x1="35" y1="72" x2="370" y2="72" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 3"/>
-
-              <!-- Baseline model line (faint) -->
-              <path d="M 35 125 Q 120 115 200 102 T 370 92" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="3 3"/>
-
-              <!-- Jagged White Reward Curve Rising Left to Right -->
-              <path class="svg-draw-stroke" 
-                d="M 35 125 
-                   L 55 122 L 68 126 L 82 114 L 98 116 L 115 102 L 132 105 L 148 94 
-                   L 165 92 L 182 81 L 202 83 L 218 69 L 235 71 L 254 58 L 272 61 
-                   L 290 48 L 310 50 L 330 38 L 350 36 L 370 28" 
+              <!-- Jagged white reward curve rising to 0.92 plateau -->
+              <path class="stroke-draw" 
+                d="M 15 120 
+                   L 30 115 L 42 118 L 56 106 L 70 109 L 88 95 L 104 98 L 122 84 
+                   L 138 82 L 158 72 L 176 74 L 194 60 L 212 62 L 232 48 L 250 51 
+                   L 268 38 L 288 40 L 308 34 L 328 35 L 345 32 L 360 30" 
                 stroke="#FFFFFF" 
                 stroke-width="1.8" 
                 stroke-linecap="round" 
                 stroke-linejoin="round"/>
 
-              <!-- Active Frontier End-Point Glow -->
-              <circle cx="370" cy="28" r="4" fill="#FFFFFF"/>
-              <circle cx="370" cy="28" r="8" fill="none" stroke="#FFFFFF" stroke-opacity="0.3"/>
+              <!-- Active point at end -->
+              <circle cx="360" cy="30" r="3.5" fill="#FFFFFF"/>
             </svg>
+
+            <div class="training-bottom-labels">
+              <span>0</span>
+              <span>max steps 10 000</span>
+            </div>
           </div>
         </div>
 
         <!-- Copy BOTTOM -->
         <div class="card-content">
-          <div class="content-top">
-            <div class="card-label-row">
-              <span class="mono-tag">[ 03 // COMPUTE ]</span>
-            </div>
-            
-            <h2 class="card-title">Hosted Training</h2>
-            
-            <p class="card-desc">
-              Train large-scale models optimized for agentic workflows.
-            </p>
+          <h2 class="card-title">Hosted Training</h2>
+          
+          <p class="card-paragraph">
+            Train large-scale models optimized for agentic workflows. <span class="mono-bold-num">31.</span> Train on 2,500+ RL environments. <span class="mono-bold-num">32.</span> Managed training workflows with full visibility and control. <span class="mono-bold-num">33.</span> Hands on support from our applied research team.
+          </p>
 
-            <ul class="points-list">
-              <li class="point-item">
-                <span class="point-num">31.</span>
-                <span>Train on 2,500+ RL environments.</span>
-              </li>
-              <li class="point-item">
-                <span class="point-num">32.</span>
-                <span>Managed training workflows with full visibility and control.</span>
-              </li>
-              <li class="point-item">
-                <span class="point-num">33.</span>
-                <span>Hands on support from our applied research team.</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="card-actions">
-            <a href="#training" class="btn-mono btn-mono-dark">
+          <div class="card-action-wrap">
+            <a href="#train" class="pill-btn pill-btn-white">
               START TRAINING →
             </a>
           </div>
@@ -1095,92 +766,71 @@
       <!-- =====================================================================
            CARD 4: Inference (Full-width row, MIRRORED: copy LEFT, panel RIGHT)
            ===================================================================== -->
-      <article class="card card-full-width card-inference anim-fade-up" id="inference">
+      <article class="card card-full-width card-inference anim-in" id="inference">
         
         <!-- Copy LEFT -->
         <div class="card-content">
-          <div class="content-top">
-            <div class="card-label-row">
-              <span class="mono-tag">[ 04 // SERVING ]</span>
-            </div>
-            
-            <h2 class="card-title">Inference</h2>
-            
-            <p class="card-desc">
-              Dedicated or serverless inference for your custom models, with native LoRA support.
-            </p>
+          <h2 class="card-title">Inference</h2>
+          
+          <p class="card-paragraph">
+            Dedicated or serverless inference for your custom models, with native LoRA support. <span class="mono-bold-num">41.</span> Sub-10ms time-to-first-token on dedicated clusters. <span class="mono-bold-num">42.</span> Dynamic LoRA adapter hot-swapping at runtime. <span class="mono-bold-num">43.</span> Global edge routing with 99.99% availability SLAs.
+          </p>
 
-            <ul class="points-list">
-              <li class="point-item">
-                <span class="point-num">41.</span>
-                <span>Sub-10ms time-to-first-token on dedicated clusters.</span>
-              </li>
-              <li class="point-item">
-                <span class="point-num">42.</span>
-                <span>Dynamic LoRA adapter hot-swapping at runtime.</span>
-              </li>
-              <li class="point-item">
-                <span class="point-num">43.</span>
-                <span>Global edge routing with 99.99% availability SLAs.</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="card-actions">
-            <a href="#call" class="btn-mono btn-mono-dark">
+          <div class="card-action-wrap">
+            <a href="#call" class="pill-btn pill-btn-white">
               BOOK A CALL →
             </a>
           </div>
         </div>
 
-        <!-- Panel RIGHT (Mirrored): Stacked deployment rows with LoRA tags -->
+        <!-- Panel RIGHT (Mirrored): Inset stacked deployment clusters -->
         <div class="card-panel">
           <div class="panel-highlight"></div>
           <div class="panel-grid-lines"></div>
 
-          <div class="inference-panel-content">
+          <div class="inference-box">
             <!-- Row 1 -->
-            <div class="deploy-row">
-              <div class="deploy-cluster-meta">
-                <div class="cluster-name">
+            <div class="inf-row">
+              <div class="inf-left">
+                <div class="inf-name">
                   <span>cluster-us-east-1</span>
-                  <span class="lora-badge">LoRA: agent-code-v4</span>
+                  <span class="inf-badge">LoRA: AGENT-CODE-V4</span>
                 </div>
-                <div class="deploy-model-desc">atlas-70b-reasoner // Active Base</div>
+                <div class="inf-desc">atlas-70b-reasoner // Active Base</div>
               </div>
-              <div class="deploy-stats">
-                <span class="latency-val">8.2ms</span>
-                <span class="status-text">HEALTHY</span>
+              <div class="inf-right">
+                <span class="inf-latency">8.2ms</span>
+                <span class="inf-status">HEALTHY</span>
               </div>
             </div>
 
             <!-- Row 2 -->
-            <div class="deploy-row">
-              <div class="deploy-cluster-meta">
-                <div class="cluster-name">
+            <div class="inf-row">
+              <div class="inf-left">
+                <div class="inf-name">
                   <span>cluster-eu-west-1</span>
-                  <span class="lora-badge">LoRA: math-verifier</span>
+                  <span class="inf-badge">LoRA: MATH-VERIFIER</span>
                 </div>
-                <div class="deploy-model-desc">atlas-8b-fast // Active Base</div>
+                <div class="inf-desc">atlas-8b-fast // Active Base</div>
               </div>
-              <div class="deploy-stats">
-                <span class="latency-val">4.1ms</span>
-                <span class="status-text">HEALTHY</span>
+              <div class="inf-right">
+                <span class="inf-latency">4.1ms</span>
+                <span class="inf-status">HEALTHY</span>
               </div>
             </div>
 
             <!-- Row 3 -->
-            <div class="deploy-row">
-              <div class="deploy-cluster-meta">
-                <div class="cluster-name">
+            <div class="inf-row">
+              <div class="inf-left">
+                <div class="inf-name">
                   <span>cluster-ap-south-1</span>
-                  <span class="lora-badge">LoRA: cot-planner</span>
+                  <span class="inf-badge">LoRA: COT-PLANNER</span>
                 </div>
-                <div class="deploy-model-desc">atlas-70b-reasoner // Hot Standby</div>
+                <div class="inf-desc">atlas-70b-reasoner // Hot Standby</div>
               </div>
-              <div class="deploy-stats">
-                <span class="latency-val">9.4ms</span>
-                <span class="status-text">HEALTHY</span>
+              <div class="inf-right">
+                <span class="inf-latency">9.4ms</span>
+                <span class="inf-status">HEALTHY</span>
               </div>
             </div>
           </div>
@@ -1191,45 +841,19 @@
     </div>
   </main>
 
-  <!-- Vanilla JS: IntersectionObserver & Staggered Entrance Animations -->
   <script>
-    (function initAtlasFeatures() {
-      // Check prefers-reduced-motion
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      
-      const animElements = document.querySelectorAll('.anim-fade-up');
-      
-      if (prefersReducedMotion || !('IntersectionObserver' in window)) {
-        // Fallback for reduced motion or legacy browsers
-        animElements.forEach(el => el.classList.add('in-view'));
-        return;
-      }
-
-      let entranceDelay = 0;
+    (function initAnimations() {
+      const items = document.querySelectorAll('.anim-in');
       const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            const target = entry.target;
-            setTimeout(() => {
-              target.classList.add('in-view');
-            }, entranceDelay);
-            
-            // Stagger by 90ms
-            entranceDelay += 90;
-            obs.unobserve(target);
-
-            // Reset stagger clock after burst
-            setTimeout(() => {
-              entranceDelay = 0;
-            }, 600);
+            entry.target.classList.add('visible');
+            obs.unobserve(entry.target);
           }
         });
-      }, {
-        threshold: 0.08,
-        rootMargin: '120px 0px 120px 0px'
-      });
+      }, { threshold: 0.08, rootMargin: '100px' });
 
-      animElements.forEach(el => observer.observe(el));
+      items.forEach(el => observer.observe(el));
     })();
   </script>
 </body>
