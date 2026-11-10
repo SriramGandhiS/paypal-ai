@@ -32,6 +32,8 @@ type Config struct {
 	PayPalAPIBase      string
 	PayPalClientID     string
 	PayPalClientSecret string
+	AppEnv             string
+	AllowDevAuth       bool
 }
 
 // String implements fmt.Stringer to prevent accidental credential leakage in logs and formatters.
@@ -40,8 +42,8 @@ func (c Config) String() string {
 	if u, err := url.Parse(c.DatabaseURL); err == nil && u.User != nil {
 		safeDB = u.Redacted()
 	}
-	return fmt.Sprintf("Config{DatabaseURL:%s, SessionSecret:%s, EncryptionKey:%s, PayPalEnv:%s, PayPalAPIBase:%s, PayPalClientID:%s, PayPalClientSecret:%s}",
-		safeDB, RedactedPlaceholder, RedactedPlaceholder, c.PayPalEnv, c.PayPalAPIBase, c.PayPalClientID, RedactedPlaceholder)
+	return fmt.Sprintf("Config{DatabaseURL:%s, SessionSecret:%s, EncryptionKey:%s, PayPalEnv:%s, PayPalAPIBase:%s, PayPalClientID:%s, PayPalClientSecret:%s, AppEnv:%s, AllowDevAuth:%t}",
+		safeDB, RedactedPlaceholder, RedactedPlaceholder, c.PayPalEnv, c.PayPalAPIBase, c.PayPalClientID, RedactedPlaceholder, c.AppEnv, c.AllowDevAuth)
 }
 
 // GoString implements fmt.GoStringer to prevent credential leakage via %#v format specifiers.
@@ -63,6 +65,8 @@ func (c Config) MarshalJSON() ([]byte, error) {
 		PayPalAPIBase      string `json:"paypal_api_base"`
 		PayPalClientID     string `json:"paypal_client_id"`
 		PayPalClientSecret string `json:"paypal_client_secret"`
+		AppEnv             string `json:"app_env"`
+		AllowDevAuth       string `json:"allow_dev_auth"`
 	}
 	return json.Marshal(safeConfig{
 		DatabaseURL:        safeDB,
@@ -72,6 +76,8 @@ func (c Config) MarshalJSON() ([]byte, error) {
 		PayPalAPIBase:      c.PayPalAPIBase,
 		PayPalClientID:     c.PayPalClientID,
 		PayPalClientSecret: RedactedPlaceholder,
+		AppEnv:             c.AppEnv,
+		AllowDevAuth:       fmt.Sprintf("%t", c.AllowDevAuth),
 	})
 }
 
@@ -203,6 +209,23 @@ func LoadFromEnv(lookup func(string) string) (Config, error) {
 		addErr("PAYPAL_CLIENT_SECRET", "is required")
 	}
 
+	// 8. APP_ENV (Optional, defaults to development)
+	appEnv := strings.TrimSpace(strings.ToLower(lookup("APP_ENV")))
+	if appEnv == "" {
+		appEnv = "development"
+	}
+
+	// 9. ALLOW_DEV_AUTH (Strictly prohibited in production)
+	allowDevAuth := false
+	rawDevAuth := strings.TrimSpace(strings.ToLower(lookup("ALLOW_DEV_AUTH")))
+	if rawDevAuth == "true" || rawDevAuth == "1" {
+		if appEnv == "production" {
+			addErr("ALLOW_DEV_AUTH", "cannot be enabled in production environment")
+		} else {
+			allowDevAuth = true
+		}
+	}
+
 	if len(valErrors) > 0 {
 		return Config{}, &ConfigError{Errors: valErrors}
 	}
@@ -215,6 +238,8 @@ func LoadFromEnv(lookup func(string) string) (Config, error) {
 		PayPalAPIBase:      rawAPIBase,
 		PayPalClientID:     rawClientID,
 		PayPalClientSecret: rawClientSecret,
+		AppEnv:             appEnv,
+		AllowDevAuth:       allowDevAuth,
 	}, nil
 }
 

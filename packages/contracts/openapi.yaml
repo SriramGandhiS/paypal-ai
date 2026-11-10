@@ -1,0 +1,413 @@
+openapi: 3.1.0
+info:
+  title: PayBridge AI Platform API
+  version: 1.0.0
+  description: Authoritative OpenAPI 3.1 specification for PayBridge AI Core Payment Reconciliation Engine.
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local Development Server
+
+paths:
+  /healthz:
+    get:
+      summary: Liveness health check
+      operationId: getHealthz
+      responses:
+        '200':
+          description: Service is alive
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+
+  /readyz:
+    get:
+      summary: Readiness health check (database connection verification)
+      operationId: getReadyz
+      responses:
+        '200':
+          description: Service is ready to accept traffic
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+        '503':
+          description: Service dependency is down
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+
+  /cases:
+    post:
+      summary: Create a new payment reconciliation case
+      operationId: createCase
+      security:
+        - sessionCookie: []
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCaseRequest'
+      responses:
+        '201':
+          description: Case successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentCase'
+        '400':
+          $ref: '#/components/responses/ProblemDetailsResponse'
+        '401':
+          $ref: '#/components/responses/ProblemDetailsResponse'
+        '409':
+          $ref: '#/components/responses/ProblemDetailsResponse'
+
+    get:
+      summary: List cases for active tenant
+      operationId: listCases
+      security:
+        - sessionCookie: []
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 20
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Paginated list of cases
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PaymentCaseSummary'
+                  total:
+                    type: integer
+
+  /cases/{id}:
+    get:
+      summary: Get case details by ID
+      operationId: getCaseByID
+      security:
+        - sessionCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Case details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentCase'
+        '404':
+          $ref: '#/components/responses/ProblemDetailsResponse'
+
+  /cases/{id}/attempts:
+    post:
+      summary: Initiate a payment attempt for a case
+      operationId: createAttempt
+      security:
+        - sessionCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '201':
+          description: Attempt created
+        '409':
+          description: Active attempt already exists
+    get:
+      summary: List payment attempts for a case
+      operationId: listAttempts
+      security:
+        - sessionCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of attempts
+
+  /cases/{id}/evidence:
+    post:
+      summary: Ingest evidence for a case
+      operationId: ingestEvidence
+      security:
+        - sessionCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '201':
+          description: Evidence ingested
+    get:
+      summary: List evidence items for a case
+      operationId: listEvidence
+      security:
+        - sessionCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of evidence items
+
+  /cases/{id}/reconcile:
+    post:
+      summary: Reconcile case with provider ground truth
+      operationId: reconcileCase
+      security:
+        - sessionCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Reconciliation outcome
+
+  /cases/{id}/checkout/paypal:
+    post:
+      summary: Create PayPal Sandbox order and initiate attempt
+      operationId: paypalCheckout
+      security:
+        - sessionCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '201':
+          description: PayPal order created
+
+  /cases/{id}/checkout/paypal/capture:
+    post:
+      summary: Capture PayPal Sandbox order and execute reconciliation
+      operationId: paypalCapture
+      security:
+        - sessionCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: PayPal order captured and case reconciled
+
+  /webhooks/paypal:
+    post:
+      summary: Receive and verify raw PayPal webhook event
+      operationId: ingestPayPalWebhook
+      responses:
+        '200':
+          description: Webhook received and queued
+        '400':
+          description: Signature verification failed
+        '503':
+          description: Upstream verification unavailable
+
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: paybridge_session
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Cryptographic bearer session token
+
+  responses:
+    ProblemDetailsResponse:
+      description: Standard RFC 7807 error envelope
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+
+  schemas:
+    HealthStatus:
+      type: object
+      required:
+        - status
+        - service
+      properties:
+        status:
+          type: string
+          enum: [UP, DOWN, READY]
+        service:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        reason:
+          type: string
+
+    ProblemDetails:
+      type: object
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+        code:
+          type: string
+
+    CreateCaseRequest:
+      type: object
+      required:
+        - amount_cents
+        - currency
+        - merchant_order_id
+        - sender_country
+        - receiver_country
+        - payment_purpose
+      properties:
+        amount_cents:
+          type: integer
+          minimum: 1
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        merchant_order_id:
+          type: string
+        sender_country:
+          type: string
+          minLength: 2
+          maxLength: 2
+        receiver_country:
+          type: string
+          minLength: 2
+          maxLength: 2
+        payment_purpose:
+          type: string
+
+    PaymentCase:
+      type: object
+      required:
+        - id
+        - tenant_id
+        - amount
+        - currency
+        - provider_state
+        - application_state
+        - receiver_state
+        - case_status
+        - state_version
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        external_reference:
+          type: string
+        amount:
+          type: string
+        currency:
+          type: string
+        provider_state:
+          type: string
+        application_state:
+          type: string
+        receiver_state:
+          type: string
+        case_status:
+          type: string
+        state_version:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    PaymentCaseSummary:
+      type: object
+      required:
+        - id
+        - amount
+        - currency
+        - case_status
+        - provider_state
+      properties:
+        id:
+          type: string
+          format: uuid
+        external_reference:
+          type: string
+        amount:
+          type: string
+        currency:
+          type: string
+        case_status:
+          type: string
+        provider_state:
+          type: string
+        updated_at:
+          type: string
+          format: date-time
