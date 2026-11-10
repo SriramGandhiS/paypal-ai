@@ -3572,9 +3572,9 @@
       </a>
 
       <nav class="distill-links">
-        <a href="ai-assistant.html" class="distill-nav-ai-btn" title="Open Glass Iris AI Assistant Dashboard">
+        <a href="ai-assistant.html" class="distill-nav-ai-btn" title="Open Aeries AI Financial Copilot">
           <span class="ai-sparkle-dot"></span>
-          <span>Aegis · PayPal AI Assistant</span>
+          <span>Aeries · PayPal AI Copilot</span>
         </a>
         <button class="distill-link" onclick="switchView('demo')">
           Reconciliation
@@ -5118,6 +5118,10 @@
         <span class="pill-tab-dot"></span>
         Golden Path Stepper
       </button>
+      <button class="pill-tab" id="tab-aeries" onclick="switchView('aeries')">
+        <span class="pill-tab-dot" style="background: #2563EB;"></span>
+        Aeries AI Copilot
+      </button>
       <button class="pill-tab" id="tab-passport" onclick="switchView('passport')">
         <span class="pill-tab-dot"></span>
         Payment Truth Passport
@@ -5761,6 +5765,7 @@
 
         // Render selected view
         if (viewId === 'demo') renderDemoView();
+        else if (viewId === 'aeries') renderAeriesView();
         else if (viewId === 'passport') renderPassportView();
         else if (viewId === 'graph') renderGraphView();
         else if (viewId === 'mirror') renderMirrorView();
@@ -6999,6 +7004,163 @@ Response: HTTP 200 OK
 [VAULT HASH]: 4f8b91a27e01b8941097e3ca0129bcfe5a687c9d</div>
         `;
       }
+
+      /* View 9: Aeries AI Financial Copilot (ChatGPT / Gemini Clean Light Theme) */
+      function renderAeriesView() {
+        container.innerHTML = `
+          <div class="view-top-bar" style="background: #FFFFFF; border-bottom: 1px solid var(--border); padding: 18px 24px; border-radius: 12px 12px 0 0; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #0070BA, #2563EB); display: flex; align-items: center; justify-content: center; color: #FFFFFF;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              </div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <h3 class="view-heading" style="margin: 0; font-size: 17px; font-weight: 700; color: #0F172A;">Aeries</h3>
+                  <span style="font-size: 10px; background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; padding: 2px 7px; border-radius: 999px; font-weight: 700;">PAYPAL AI COPILOT</span>
+                  <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #059669; font-weight: 600;">
+                    <span style="width: 7px; height: 7px; border-radius: 50%; background: #059669;"></span> Live Engine
+                  </span>
+                </div>
+                <p style="font-size: 12px; color: var(--body); margin-top: 2px;">Connected to Order #PB-9482 ($480.00 USD) · Single-Flight Mutex Active</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <a href="ai-assistant.html" target="_blank" class="btn-action-subtle" style="display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font-size: 12px; font-weight: 600; padding: 7px 14px; border-radius: 8px; border: 1px solid #E2E8F0; background: #FFFFFF; color: #0F172A;">
+                <span>Full-Screen Chat</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+              <button class="btn-action-subtle" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 7px 14px; border-radius: 8px; border: 1px solid #2563EB; background: #2563EB; color: #FFFFFF;" onclick="triggerLiveCheckout()">
+                <span>Run 504 Demo</span>
+              </button>
+            </div>
+          </div>
+
+          <div style="background: #F8FAFC; padding: 24px; min-height: 480px; display: flex; flex-direction: column; justify-content: space-between; border-radius: 0 0 12px 12px;">
+            
+            <!-- Messages Stream -->
+            <div id="workbench-aeries-stream" style="display: flex; flex-direction: column; gap: 16px; max-height: 380px; overflow-y: auto; padding-right: 8px; margin-bottom: 20px;">
+              
+              <div style="display: flex; gap: 12px; align-items: flex-start;">
+                <div style="width: 32px; height: 32px; border-radius: 10px; background: linear-gradient(135deg, #0070BA, #2563EB); display: flex; align-items: center; justify-content: center; color: #FFFFFF; flex-shrink: 0;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 4px 16px 16px 16px; padding: 16px 20px; max-width: 85%; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                  <div style="font-size: 11.5px; font-weight: 700; color: #2563EB; margin-bottom: 4px; text-transform: uppercase;">Aeries Financial Copilot</div>
+                  <div style="font-size: 15px; line-height: 1.6; color: #1E293B;">
+                    Hello Alex. I am tracking Session <strong>#PB-9482</strong> for <strong>$480.00 USD</strong>.
+                    When the upstream 504 timeout dropped the checkout handshake, I placed a single-flight mutex lock to block retry duplicates. Our reconciler verified PayPal capture ID <strong>cap-4819</strong> and issued an automated refund to the cardholder with <strong>$0.00 double billing</strong>.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Suggestion Chips -->
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+              <button class="side-chip-btn" onclick="sendWorkbenchAeriesQuery('Why did the 504 timeout occur on Order PB-9482?')">Why did 504 timeout occur?</button>
+              <button class="side-chip-btn" onclick="sendWorkbenchAeriesQuery('When will the $480.00 refund credit to Visa 9558?')">When will refund arrive?</button>
+              <button class="side-chip-btn" onclick="sendWorkbenchAeriesQuery('How does the mutex lock physically prevent duplicate charges?')">How mutex stops double billing</button>
+              <button class="side-chip-btn" onclick="sendWorkbenchAeriesQuery('Verify PayPal Tier 1 capture proof cap-4819')">Verify PayPal capture proof</button>
+            </div>
+
+            <!-- Composer Input Pill -->
+            <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 16px; padding: 8px 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+              <input type="text" id="workbench-aeries-input" placeholder="Ask Aeries anything about payments, refunds, or transaction truth..." style="flex: 1; border: none; outline: none; font-size: 14.5px; color: #0F172A; background: transparent;" onkeydown="if(event.key==='Enter') sendWorkbenchAeriesQuery()" />
+              <button onclick="sendWorkbenchAeriesQuery()" style="width: 34px; height: 34px; border-radius: 50%; background: #2563EB; border: none; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+              </button>
+            </div>
+
+          </div>
+        `;
+      }
+
+      window.sendWorkbenchAeriesQuery = async function(textOverride) {
+        const input = document.getElementById('workbench-aeries-input');
+        const query = textOverride || (input ? input.value.trim() : '');
+        if (!query) return;
+        if (input) input.value = '';
+
+        const stream = document.getElementById('workbench-aeries-stream');
+        if (!stream) return;
+
+        // User message
+        stream.innerHTML += `
+          <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
+            <div style="background: #E2E8F0; border-radius: 16px 16px 4px 16px; padding: 12px 18px; max-width: 75%; font-size: 14.5px; color: #0F172A; line-height: 1.5;">
+              ${query.replace(/</g, '&lt;').replace(/>/g, '&gt;')}
+            </div>
+          </div>
+        `;
+
+        const pendingId = 'wb-pending-' + Date.now();
+        stream.innerHTML += `
+          <div style="display: flex; gap: 12px; align-items: flex-start; margin-top: 8px;" id="${pendingId}">
+            <div style="width: 32px; height: 32px; border-radius: 10px; background: linear-gradient(135deg, #0070BA, #2563EB); display: flex; align-items: center; justify-content: center; color: #FFFFFF; flex-shrink: 0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 4px 16px 16px 16px; padding: 14px 18px; max-width: 85%; font-size: 14px; color: #64748B;">
+              <em>Aeries is auditing live PayPal telemetry...</em>
+            </div>
+          </div>
+        `;
+        stream.scrollTop = stream.scrollHeight;
+
+        let replyText = '';
+        const systemPrompt = "You are Aeries, the AI Payment & Financial Copilot for PayBridge and PayPal. You help Alex with payment operations, 504 timeouts, auto-reconciliation, and refunds for Order #PB-9482 ($480.00 USD). Speak in a clean, natural, helpful voice like ChatGPT or Gemini. Never use raw asterisks (**) or markdown tables. Strictly ZERO emojis.";
+
+        try {
+          const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_API_KEY },
+            body: JSON.stringify({
+              model: 'llama-3.3-70b-versatile',
+              messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: query }],
+              max_tokens: 280,
+              temperature: 0.18
+            })
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.choices && data.choices[0] && data.choices[0].message) {
+              replyText = data.choices[0].message.content;
+            }
+          }
+        } catch(e) {}
+
+        if (!replyText) {
+          const q = query.toLowerCase();
+          if (q.includes('504') || q.includes('why') || q.includes('timeout')) {
+            replyText = "Order #PB-9482 timed out because PayPal's upstream gateway server did not deliver an HTTP 200 within the 3,000ms SLA. PayBridge AI caught the drop, engaged the single-flight mutex lock, and reconciled the ledger in the background.";
+          } else if (q.includes('when') || q.includes('refund') || q.includes('money')) {
+            replyText = "Your $480.00 USD refund has been authorized against capture cap-4819 and routed directly to Visa ending in 9558. Credit will reflect within 2 to 3 business days with $0.00 duplicate charge.";
+          } else if (q.includes('mutex') || q.includes('double') || q.includes('charge')) {
+            replyText = "The single-flight mutex lock registers idempotency key key:c101:user_c101. When a shopper retries after a network drop, the lock intercepts the attempt in 142ms, preventing duplicate debits.";
+          } else {
+            replyText = "Order #PB-9482 ($480.00 USD) is cryptographically sealed in the PayBridge Truth Vault. PayPal capture ID cap-4819 confirmed with zero duplicate exposure.";
+          }
+        }
+
+        // Clean formatting: strip emojis and raw asterisks
+        replyText = replyText.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
+        replyText = replyText.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        replyText = replyText.replace(/\*\*/g, '');
+        replyText = replyText.replace(/\*/g, '');
+
+        const pending = document.getElementById(pendingId);
+        if (pending) {
+          pending.innerHTML = `
+            <div style="width: 32px; height: 32px; border-radius: 10px; background: linear-gradient(135deg, #0070BA, #2563EB); display: flex; align-items: center; justify-content: center; color: #FFFFFF; flex-shrink: 0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 4px 16px 16px 16px; padding: 14px 18px; max-width: 85%; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+              <div style="font-size: 11.5px; font-weight: 700; color: #2563EB; margin-bottom: 4px; text-transform: uppercase;">Aeries Financial Copilot</div>
+              <div style="font-size: 14.5px; line-height: 1.6; color: #1E293B;">${replyText}</div>
+            </div>
+          `;
+        }
+        stream.scrollTop = stream.scrollHeight;
+      };
 
       // Initial view render
       switchView('demo');
