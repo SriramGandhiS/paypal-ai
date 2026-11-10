@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Distill — Built for people. Read by machines.</title>
+  <title>PayBridge AI — Financial Truth & Reconciliation Architecture</title>
   
-  <!-- Fonts -->
+  <!-- Canonical Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
 
   <style>
     /* =========================================================================
@@ -20,6 +20,11 @@
       --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 
       --bg: #EEF0F2;
+      --surface: #FFFFFF;
+      --surface-subtle: #F6F8FA;
+      --border: #DCE1E7;
+      --border-dark: #C4C9CF;
+
       --ink: #0F1115;
       --body: #2A2E35;
       --muted: #8B9098;
@@ -27,6 +32,12 @@
       --comment: #B3B8BF;
       --hot: #FF5A1F;
       --hot-soft: #FFE1D3;
+      --hot-glow: rgba(255, 90, 31, 0.35);
+
+      --success: #0E8345;
+      --success-bg: #EAF7EE;
+      --warning: #B25E02;
+      --warning-bg: #FEF3E6;
 
       --cw: 46vw;
       --ch: 52vh;
@@ -55,31 +66,34 @@
       padding: 0;
     }
 
-    html, body {
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
       width: 100%;
-      height: 100%;
-      overflow: hidden;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
       background-color: var(--bg);
       color: var(--ink);
       font-family: var(--sans);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      user-select: none;
-      -webkit-user-select: none;
     }
 
-    .stage {
-      position: absolute;
-      inset: 0;
+    /* =========================================================================
+       Hero Section (Single Full Viewport Stage)
+       ========================================================================= */
+    .hero-stage {
+      position: relative;
       width: 100vw;
       height: 100vh;
       overflow: hidden;
       background-color: var(--bg);
     }
 
-    /* =========================================================================
-       Top Nav Bar (56px tall, 20px padding, flex, 56px gap)
-       ========================================================================= */
+    /* Top Nav Bar (56px tall, 20px padding, flex, 56px gap) */
     .distill-nav {
       height: 56px;
       padding: 0 20px;
@@ -93,30 +107,43 @@
     .distill-brand {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
       text-decoration: none;
       color: var(--ink);
     }
 
-    .distill-logo-drop {
-      width: 19px;
-      height: 23px;
+    .brand-bridge-mark {
+      width: 22px;
+      height: 22px;
       flex-shrink: 0;
       display: block;
+      color: var(--hot);
     }
 
     .distill-brand-name {
       font-weight: 600;
-      font-size: 23px;
+      font-size: 22px;
       letter-spacing: -0.035em;
       color: var(--ink);
       line-height: 1;
     }
 
+    .distill-brand-badge {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      background: var(--hot-soft);
+      color: #D9430F;
+      letter-spacing: 0.04em;
+      margin-left: 2px;
+    }
+
     .distill-links {
       display: flex;
       align-items: center;
-      gap: 38px;
+      gap: 34px;
     }
 
     .distill-link {
@@ -145,7 +172,7 @@
       margin-left: auto;
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
       font-weight: 500;
       font-size: 12.5px;
     }
@@ -168,18 +195,21 @@
     .distill-btn-trial {
       height: 32px;
       padding: 0 17px;
-      border: 1px solid #C4C9CF;
-      background: rgba(255, 255, 255, 0.35);
+      border: 1px solid var(--border-dark);
+      background: rgba(255, 255, 255, 0.4);
       border-radius: 9999px;
       color: var(--body);
       font-weight: 500;
       font-size: 12.5px;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
       transition: all 0.2s ease;
     }
 
     .distill-btn-trial:hover {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.85);
       border-color: #A9B0B8;
       color: var(--ink);
     }
@@ -194,6 +224,10 @@
       font-weight: 500;
       font-size: 12.5px;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(255, 90, 31, 0.25);
       transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
@@ -219,9 +253,7 @@
       }
     }
 
-    /* =========================================================================
-       Hero Copy Grid
-       ========================================================================= */
+    /* Hero Copy Grid */
     .distill-hero-copy {
       display: grid;
       grid-template-columns: 1fr 34vw;
@@ -287,6 +319,10 @@
       font-size: 13px;
       border: none;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       box-shadow: 0 2px 8px rgba(255, 90, 31, 0.25);
       transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
     }
@@ -315,9 +351,7 @@
       }
     }
 
-    /* =========================================================================
-       The Belt & Layers
-       ========================================================================= */
+    /* The Conveyor Belt */
     .distill-belt {
       position: absolute;
       left: 0;
@@ -362,9 +396,7 @@
       z-index: 8;
     }
 
-    /* =========================================================================
-       The Scanner Line & Glowing Halo
-       ========================================================================= */
+    /* Scanner Line & Glow */
     .distill-scanner {
       position: absolute;
       left: 50%;
@@ -397,9 +429,7 @@
       pointer-events: none;
     }
 
-    /* =========================================================================
-       Floating Counter Badge
-       ========================================================================= */
+    /* Floating Counter Badge */
     .distill-counter-badge {
       position: absolute;
       left: 50%;
@@ -457,9 +487,7 @@
       white-space: nowrap;
     }
 
-    /* =========================================================================
-       Card Elements (Scale via cqw)
-       ========================================================================= */
+    /* Kessler / PayBridge Card Shells */
     .k-card {
       position: absolute;
       top: 70px;
@@ -477,7 +505,6 @@
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.25);
     }
 
-    /* Shared Card Nav */
     .k-nav {
       position: absolute;
       left: 4.4cqw;
@@ -519,10 +546,6 @@
       align-items: center;
     }
 
-    .k-menu span {
-      position: relative;
-    }
-
     .k-menu .k-pill {
       border: 1px solid rgba(255, 255, 255, 0.6);
       border-radius: 9999px;
@@ -530,7 +553,6 @@
       margin: -0.7cqw -1.6cqw;
     }
 
-    /* Card 1: Home (Dunes) */
     .k-card-home {
       background: linear-gradient(to bottom, rgba(20, 10, 4, 0.25) 0%, transparent 30%, rgba(20, 10, 4, 0.55) 100%),
                   url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/0e201fcd-ffc0-46a0-bd06-faa07bf0e84b.webp") center / cover no-repeat;
@@ -585,14 +607,28 @@
       opacity: 0.9;
     }
 
-    /* Card 2: Price (Radial Gradient) */
     .k-card-price {
       background: radial-gradient(120% 90% at 20% 110%, #FF6A1F 0%, #FF9A4A 35%, #F7C79A 62%, #EFD9C4 100%);
       color: #2A1406;
     }
 
+    .k-card-price,
+    .k-card-price .k-brand-name,
+    .k-card-price .k-menu,
+    .k-card-price .k-menu span,
+    .k-card-price .k-price-figure,
+    .k-card-price .k-price-sub,
+    .k-card-price .k-plan-row,
+    .k-card-price .k-plan-row span {
+      color: #2A1406 !important;
+    }
+
+    .k-card-price .k-logo-svg {
+      stroke: #2A1406 !important;
+    }
+
     .k-card-price .k-menu .k-pill {
-      border-color: rgba(42, 20, 6, 0.6);
+      border-color: rgba(42, 20, 6, 0.6) !important;
     }
 
     .k-price-figure {
@@ -656,7 +692,6 @@
       cursor: pointer;
     }
 
-    /* Card 3: Case (Mineral) */
     .k-card-case {
       background: #190E08;
     }
@@ -728,7 +763,6 @@
       margin-top: 0.4cqw;
     }
 
-    /* Card 4: Vision */
     .k-card-vision {
       background: #1B1311;
     }
@@ -783,7 +817,6 @@
       z-index: 2;
     }
 
-    /* Card 5: Alloy (Fire) */
     .k-card-alloy {
       background: #140C08;
     }
@@ -831,7 +864,6 @@
       font-size: 1.8cqw;
     }
 
-    /* Card 6: Journal */
     .k-card-journal {
       background: #E9ECF1;
       color: #121A2A;
@@ -902,9 +934,7 @@
       color: #121A2A;
     }
 
-    /* =========================================================================
-       Code Twins
-       ========================================================================= */
+    /* Twin Code Blocks */
     .code-block {
       position: absolute;
       top: 70px;
@@ -943,59 +973,475 @@
       white-space: pre;
       user-select: none;
     }
+
+    /* =========================================================================
+       AREA DOWN: Interactive Verification Workspace
+       ========================================================================= */
+    .workspace-section {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 60px 4vw 120px;
+      position: relative;
+    }
+
+    /* Section Header */
+    .workspace-header {
+      margin-bottom: 40px;
+    }
+
+    .workspace-eyebrow {
+      font-family: var(--mono);
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--hot);
+      margin-bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .workspace-title {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(32px, 3.2vw, 52px);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
+
+    .workspace-title em {
+      font-style: italic;
+    }
+
+    .workspace-subtitle {
+      margin-top: 16px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--body);
+      max-width: 760px;
+    }
+
+    /* Styled Pill Tabs Navigation (Same Design as Distill) */
+    .pill-tabs-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pill-tab {
+      height: 36px;
+      padding: 0 18px;
+      border-radius: 9999px;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--border-dark);
+      background: var(--surface);
+      color: var(--body);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .pill-tab:hover {
+      border-color: #9AA1A9;
+      color: var(--ink);
+      transform: translateY(-1px);
+    }
+
+    .pill-tab.active {
+      background: var(--hot);
+      border-color: var(--hot);
+      color: #FFFFFF;
+      box-shadow: 0 2px 10px var(--hot-glow);
+    }
+
+    .pill-tab-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--hot);
+    }
+
+    .pill-tab.active .pill-tab-dot {
+      background: #FFFFFF;
+    }
+
+    /* View Container Surface */
+    .view-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: 0 12px 36px -10px rgba(15, 17, 21, 0.05);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Shared Editorial Styles Inside Views */
+    .view-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .view-heading {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+    }
+
+    .view-badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--body);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-success {
+      background: var(--success-bg);
+      border-color: rgba(14, 131, 69, 0.2);
+      color: var(--success);
+    }
+
+    .badge-warning {
+      background: var(--warning-bg);
+      border-color: rgba(178, 94, 2, 0.2);
+      color: var(--warning);
+    }
+
+    /* Button Controls (Same Style) */
+    .btn-action-hot {
+      height: 38px;
+      padding: 0 20px;
+      border-radius: 9999px;
+      background: var(--hot);
+      color: #FFFFFF;
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 2px 8px rgba(255, 90, 31, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .btn-action-hot:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px var(--hot-glow);
+    }
+
+    .btn-action-subtle {
+      height: 38px;
+      padding: 0 18px;
+      border-radius: 9999px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-dark);
+      color: var(--body);
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action-subtle:hover {
+      background: var(--surface);
+      color: var(--ink);
+      border-color: #9AA1A9;
+    }
+
+    /* Grid & Cards inside views */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .grid-3col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    .grid-4col {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2col, .grid-3col, .grid-4col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .info-pane {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+    }
+
+    .info-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .info-value {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .info-mono {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: var(--body);
+      line-height: 1.5;
+    }
+
+    /* Monospace Terminal / Code Box */
+    .terminal-box {
+      background: #14161A;
+      border: 1px solid #23272F;
+      border-radius: 12px;
+      padding: 18px;
+      color: #D1D5DB;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    .terminal-box .hl-orange { color: #FF7A3C; font-weight: 600; }
+    .terminal-box .hl-green { color: #34D399; }
+    .terminal-box .hl-gray { color: #6B7280; }
+
+    /* Stepper UI */
+    .stepper-nodes {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .stepper-nodes::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      right: 20px;
+      height: 2px;
+      background: var(--border);
+      z-index: 1;
+    }
+
+    .step-item {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--border-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      transition: all 0.25s ease;
+    }
+
+    .step-item.completed .step-circle {
+      border-color: var(--hot);
+      background: var(--hot);
+      color: #FFFFFF;
+    }
+
+    .step-item.current .step-circle {
+      border-color: var(--hot);
+      color: var(--hot);
+      box-shadow: 0 0 0 4px var(--hot-soft);
+    }
+
+    .step-text {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--body);
+      text-align: center;
+      max-width: 100px;
+    }
+
+    /* Truth Gap Nodes */
+    .gap-node {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .gap-node:hover, .gap-node.selected {
+      border-color: var(--hot);
+      box-shadow: 0 4px 16px var(--hot-glow);
+      transform: translateY(-2px);
+    }
+
+    /* Comparison Lab Columns */
+    .mirror-col {
+      border-radius: 16px;
+      padding: 26px;
+      border: 1px solid var(--border);
+      background: var(--surface-subtle);
+    }
+
+    .mirror-col.authoritative {
+      border-color: var(--hot);
+      background: #FFFFFF;
+      box-shadow: 0 8px 24px -6px var(--hot-glow);
+    }
+
+    /* Tables */
+    .clean-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .clean-table th {
+      text-align: left;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .clean-table td {
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--body);
+      vertical-align: middle;
+    }
+
+    .clean-table tr:hover td {
+      background: var(--surface-subtle);
+    }
   </style>
 </head>
 <body>
-  <div class="stage">
+
+  <!-- =======================================================================
+       1. HERO SECTION (Full-Viewport Distill-Grade Showcase)
+       ======================================================================= -->
+  <div class="hero-stage" id="hero">
     
-    <!-- Top Nav Bar -->
+    <!-- Top Nav Bar (56px) -->
     <header class="distill-nav">
-      <a href="#" class="distill-brand">
-        <!-- 19x23 Droplet SVG -->
-        <svg class="distill-logo-drop" viewBox="0 0 19 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M9.5 0.5C9.5 0.5 0.5 11 0.5 15.5C0.5 20.4706 4.52944 24.5 9.5 24.5C14.4706 24.5 18.5 20.4706 18.5 15.5C18.5 11 9.5 0.5 9.5 0.5Z" fill="currentColor"/>
-          <path d="M14.5 15C14.5 12.2 12 8 9.5 5" stroke="#EEF0F2" stroke-width="1.7" stroke-linecap="round"/>
+      <a href="#hero" class="distill-brand">
+        <!-- Geometric Bridge Mark -->
+        <svg class="brand-bridge-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 17C6 11 18 11 21 17"/>
+          <path d="M3 17V8"/>
+          <path d="M21 17V8"/>
+          <path d="M12 12V20"/>
+          <circle cx="12" cy="7" r="1.5" fill="currentColor"/>
         </svg>
-        <span class="distill-brand-name">Distill</span>
+        <span class="distill-brand-name">PayBridge</span>
+        <span class="distill-brand-badge">TRUTH V2.0</span>
       </a>
 
       <nav class="distill-links">
-        <button class="distill-link">
-          Product
+        <button class="distill-link" onclick="switchView('demo')">
+          Reconciliation
           <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button class="distill-link">
-          Use cases
+        <button class="distill-link" onclick="switchView('passport')">
+          Truth Passport
           <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button class="distill-link">
-          Resources
+        <button class="distill-link" onclick="switchView('graph')">
+          Truth Gap Graph
           <svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button class="distill-link">Pricing</button>
+        <button class="distill-link" onclick="switchView('cases')">Cases Register</button>
       </nav>
 
       <div class="distill-nav-right">
-        <button class="distill-btn-signin">Sign in</button>
-        <button class="distill-btn-trial">Start a free trial</button>
-        <button class="distill-btn-demo">Book a demo</button>
+        <a href="#workbench" class="distill-btn-signin" onclick="switchView('evidence')">Tier 1–6 Vault</a>
+        <a href="#workbench" class="distill-btn-trial" onclick="switchView('mirror')">Recovery Mirror</a>
+        <a href="#workbench" class="distill-btn-demo" onclick="switchView('demo')">Launch Demo B</a>
       </div>
     </header>
 
     <!-- Two-Column Hero Copy -->
     <section class="distill-hero-copy">
       <div class="distill-hero-left">
-        <div class="distill-eyebrow">AI READABILITY</div>
+        <div class="distill-eyebrow">PAYMENT TRUTH ARCHITECTURE</div>
         <h1 class="distill-headline">
-          Built for people.<br>
-          <em>Read by machines.</em>
+          Built for commerce.<br>
+          <em>Reconciled by truth.</em>
         </h1>
       </div>
       <div class="distill-hero-right">
         <p class="distill-paragraph">
-          Distill detects AI agents at the edge and serves them a clean, token&#x2011;light version of every page, without changing a pixel of what people see.
+          PayBridge isolates ambiguous payment timeouts at the edge and reconstructs cryptographic truth between merchants, providers, and buyers — strictly preventing blind duplicate retries.
         </p>
-        <button class="distill-btn-explore">Explore Distill</button>
+        <a href="#workbench" class="distill-btn-explore" onclick="switchView('demo')">
+          Explore Truth Engine
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
       </div>
     </section>
 
@@ -1014,184 +1460,229 @@
 
     <!-- Floating Counter Badge -->
     <div class="distill-counter-badge">
-      <span class="distill-counter-label">Token reduction</span>
+      <span class="distill-counter-label">Reconciliation certainty</span>
       <div class="distill-counter-pill">
-        <span class="distill-counter-num" id="counter-num">−48,193</span>
-        <span class="distill-counter-pct" id="counter-pct">91% less</span>
+        <span class="distill-counter-num" id="counter-num">−$48,193</span>
+        <span class="distill-counter-pct" id="counter-pct">100% verified</span>
       </div>
     </div>
 
   </div>
 
+  <!-- =======================================================================
+       2. WORKSPACE SECTION ("AREA DOWN" with Unified Editorial Styling)
+       ======================================================================= -->
+  <section class="workspace-section" id="workbench">
+    
+    <div class="workspace-header">
+      <div class="workspace-eyebrow">
+        <span class="pill-tab-dot"></span>
+        INTERACTIVE VERIFICATION SUITE
+      </div>
+      <h2 class="workspace-title">
+        One payment. Two parties.<br>
+        <em>One verified truth.</em>
+      </h2>
+      <p class="workspace-subtitle">
+        Directly execute every capability of the PayBridge AI engine below. Each interface adheres to the same editorial standards: authoritative Tier 1 PayPal evidence, tamper-evident cryptographic state, and zero AI hallucinations.
+      </p>
+    </div>
+
+    <!-- Styled Pill Buttons Navigation Bar -->
+    <div class="pill-tabs-bar" role="tablist">
+      <button class="pill-tab active" id="tab-demo" onclick="switchView('demo')">
+        <span class="pill-tab-dot"></span>
+        Golden Path Stepper
+      </button>
+      <button class="pill-tab" id="tab-passport" onclick="switchView('passport')">
+        <span class="pill-tab-dot"></span>
+        Payment Truth Passport
+      </button>
+      <button class="pill-tab" id="tab-graph" onclick="switchView('graph')">
+        <span class="pill-tab-dot"></span>
+        Truth Gap Graph
+      </button>
+      <button class="pill-tab" id="tab-mirror" onclick="switchView('mirror')">
+        <span class="pill-tab-dot"></span>
+        Recovery Mirror Lab
+      </button>
+      <button class="pill-tab" id="tab-lens" onclick="switchView('lens')">
+        <span class="pill-tab-dot"></span>
+        Two-Lens Privacy
+      </button>
+      <button class="pill-tab" id="tab-safe" onclick="switchView('safe')">
+        <span class="pill-tab-dot"></span>
+        Next Safe Action
+      </button>
+      <button class="pill-tab" id="tab-cases" onclick="switchView('cases')">
+        <span class="pill-tab-dot"></span>
+        Cases Register
+      </button>
+      <button class="pill-tab" id="tab-evidence" onclick="switchView('evidence')">
+        <span class="pill-tab-dot"></span>
+        Evidence Vault
+      </button>
+    </div>
+
+    <!-- Dynamic View Display Container -->
+    <div class="view-card" id="view-container">
+      <!-- Injected by JavaScript -->
+    </div>
+
+  </section>
+
+  <!-- =======================================================================
+       3. LOGIC & DATASET
+       ======================================================================= -->
   <script>
     (function () {
       'use strict';
 
-      /* --- Cards Dataset --- */
+      /* --- Cards Dataset (Real Payment Scenarios) --- */
       const CARDS_DATA = [
         {
-          id: 'home',
-          title: 'Home',
+          id: 'c101',
+          title: 'Case #C101: Upstream 504 Timeout',
           original: 70411,
           distilled: 6140,
           saved: 64271,
-          pct: '91% less',
-          url: 'kessler.co/',
+          pct: '100% verified',
+          url: 'paybridge.ai/cases/c101-timeout',
           html: 
-`<h1>Kessler — Advanced materials</h1>
+`<h1>PayBridge — Authoritative Capture</h1>
 <p>
-  Advanced materials for a stronger
-  tomorrow. Ceramic-matrix alloys made
-  with desert sand and solar heat.
+  Case C101: USD 480.00 Cross-Border Checkout.
+  Upstream gateway encountered HTTP 504.
+  Authoritative record reconciled.
 </p>
-<h2>At a glance</h2>
+<h2>Authoritative Resolution</h2>
 <ul>
-  <li>Strength: 200x steel by weight</li>
-  <li>Emissions: 87% lower</li>
-  <li>Plants: Nevada, Atacama, Oman</li>
-  <li>Founded: 2019</li>
+  <li>Lock: DO_NOT_REPEAT_CHECKOUT (engaged)</li>
+  <li>Provider: PayPal Sandbox REST API</li>
+  <li>Provider State: CAPTURE_COMPLETED</li>
+  <li>Reconciliation: Idempotent Single-Attempt</li>
 </ul>
-<h2>Products</h2>
+<h2>Evidence Verification</h2>
 <ul>
-  <li>K-Alloy 7 — structural</li>
-  <li>Basalt fibre — tensile</li>
-  <li>Ceramic matrix — thermal</li>
+  <li>Tier 1: Show Order #9K201824</li>
+  <li>Tier 2: Webhook PAYMENT.CAPTURE.COMPLETED</li>
+  <li>SHA-256: 4f8b91a2...c89012</li>
 </ul>
-<a href="/demo">Book a demo</a>`
+<a href="#workbench">Inspect Truth Passport</a>`
         },
         {
-          id: 'price',
-          title: 'Pricing',
+          id: 'c102',
+          title: 'Case #C102: Cross-Border FX',
           original: 41208,
           distilled: 4960,
           saved: 36248,
-          pct: '88% less',
-          url: 'kessler.co/pricing',
+          pct: '94% less risk',
+          url: 'paybridge.ai/cases/c102-fx-settlement',
           html:
-`<h1>Kessler — Pricing</h1>
+`<h1>PayBridge — Cross-Border FX</h1>
 <p>
-  Three plans for every scale of
-  production. Start small, scale to
-  full foundry output.
+  Dual-ledger settlement across EUR / USD.
+  Zero speculative chargebacks.
 </p>
-<h2>Pilot — $299 / mo</h2>
+<h2>Pricing & Fees</h2>
 <ul>
-  <li>Sample batches: 4 / mo</li>
-  <li>Alloy grades: 2</li>
-  <li>Support: email</li>
+  <li>Principal: $2,400.00 USD</li>
+  <li>FX Spread: 0.18% (ISO 20022 compliant)</li>
+  <li>Settlement: T+0 Cryptographic Proof</li>
 </ul>
-<h2>Industrial — $2,400 / mo</h2>
+<h2>Reconciliation Matrix</h2>
 <ul>
-  <li>Tonnage: up to 40 t / mo</li>
-  <li>Alloy grades: all</li>
-  <li>Certification: ISO 9001</li>
-  <li>Support: dedicated engineer</li>
+  <li>Internal Ledger: BALANCED</li>
+  <li>Provider Match: 100.0% Authoritative</li>
+  <li>Audit Trail: Immutable SHA-256 Chain</li>
 </ul>`
         },
         {
-          id: 'case',
-          title: 'Case Study',
+          id: 'c103',
+          title: 'Case #C103: Contradiction Graph',
           original: 98432,
           distilled: 6300,
           saved: 92132,
-          pct: '94% less',
-          url: 'kessler.co/cases/atlas-rail',
+          pct: '100% truth',
+          url: 'paybridge.ai/cases/c103-truth-gap',
           html:
-`<h1>Case study: Atlas Rail</h1>
+`<h1>Truth Gap Graph Analysis</h1>
 <p>
-  How Atlas Rail cut track weight by
-  a third in eighteen months.
+  Atlas Rail $14,200 Equipment Checkout.
+  Four independent state projections.
 </p>
-<h2>The challenge</h2>
-<p>
-  1,200 km of desert line, rails
-  warping above 50 °C every summer.
-</p>
-<h2>The result</h2>
+<h2>Contradiction Matrix</h2>
 <ul>
-  <li>34% lighter track sections</li>
-  <li>3.4x longer service life</li>
-  <li>0 unplanned closures in 2025</li>
+  <li>Browser: UNKNOWN (Dropped TCP connection)</li>
+  <li>Merchant DB: PENDING (Timeout waiting)</li>
+  <li>PayPal Gateway: COMPLETED (Capture successful)</li>
+  <li>Resolution: Merchant DB updated to COMPLETED</li>
 </ul>
 <p>
-  "We stopped losing summers."
-  — Head of Infrastructure
+  "Zero double charges. Zero merchant disputes."
 </p>`
         },
         {
-          id: 'vision',
-          title: 'Vision',
+          id: 'c104',
+          title: 'Case #C104: Cryptographic Vault',
           original: 55870,
           distilled: 8215,
           saved: 47655,
-          pct: '85% less',
-          url: 'kessler.co/vision',
+          pct: 'Tier 1–6 Proof',
+          url: 'paybridge.ai/cases/c104-vault',
           html:
 `<article>
-  <h1>The Kessler vision</h1>
+  <h1>Cryptographic Evidence Vault</h1>
   <p>
-    Materials that outlast the people
-    who made them.
+    Immutable proof chain stored off-ledger.
+    Accessible to auditors & human controllers.
   </p>
-  <p>
-    We build where the sun is
-    strongest and the sand is free:
-    three plants, one closed loop.
-  </p>
-  <h2>Principles</h2>
+  <h2>Invariants Enforced</h2>
   <ol>
-    <li>Heat from the sun, not gas</li>
-    <li>Sand in, scrap back in</li>
-    <li>Publish every number</li>
+    <li>AI Never Moves Money (Read-Only)</li>
+    <li>Timeout Is Not Failure (State Isolation)</li>
+    <li>Authoritative Provider Read Trumps Cache</li>
   </ol>
 </article>`
         },
         {
-          id: 'alloy',
-          title: 'Alloy',
+          id: 'c105',
+          title: 'Case #C105: Next Safe Action',
           original: 63904,
           distilled: 5512,
           saved: 58392,
-          pct: '91% less',
-          url: 'kessler.co/products/k-alloy-7',
+          pct: 'Deterministic',
+          url: 'paybridge.ai/cases/c105-safe-action',
           html:
-`<h1>K-Alloy 7</h1>
-<p>The carbon-negative alloy.</p>
-<h2>Specification</h2>
+`<h1>Next Safe Action Engine</h1>
+<p>Deterministic action dispatch catalogue.</p>
+<h2>Catalog Status</h2>
 <ul>
-  <li>Tensile strength: 1,940 MPa</li>
-  <li>Density: 2.9 g/cm³</li>
-  <li>Max service temp: 1,150 °C</li>
-  <li>CO₂: −0.4 kg per kg made</li>
+  <li>Retry Checkout: PROHIBITED (Active Lock)</li>
+  <li>Deliver Digital Goods: APPROVED</li>
+  <li>Customer Notification: SENT (Two-Lens)</li>
+  <li>Internal Reconciliation: EXECUTED</li>
 </ul>
-<h2>Uses</h2>
-<ul>
-  <li>Rail, bridges, turbine housings</li>
-</ul>
-<a href="/k-alloy-7.pdf">Datasheet</a>`
+<a href="#workbench">View Action Catalogue</a>`
         },
         {
-          id: 'journal',
-          title: 'Journal',
+          id: 'c106',
+          title: 'Case #C106: Recovery Mirror',
           original: 47316,
           distilled: 7602,
           saved: 39714,
-          pct: '84% less',
-          url: 'kessler.co/journal',
+          pct: '100% saved',
+          url: 'paybridge.ai/cases/c106-mirror',
           html:
-`<h1>Kessler Journal</h1>
-<p>Field notes from the flats.</p>
+`<h1>Counterfactual Recovery Mirror</h1>
+<p>Dual-track failure simulation.</p>
 <article>
-  <h2>Mining nothing but light</h2>
-  <time>2026-03-14</time>
+  <h2>Traditional Gateway Panic</h2>
+  <time>Customer charged twice: $960.00</time>
 </article>
 <article>
-  <h2>Atacama, year one</h2>
-  <time>2026-02-02</time>
-</article>
-<article>
-  <h2>Why we melt sand at noon</h2>
-  <time>2026-01-09</time>
+  <h2>PayBridge Auto-Reconciliation</h2>
+  <time>Customer charged once: $480.00</time>
 </article>`
         }
       ];
@@ -1205,118 +1696,118 @@
                 <polygon points="2 38 18 6 34 38"></polygon>
                 <polygon points="22 38 36 14 50 38"></polygon>
               </svg>
-              <span class="k-brand-name">Kessler</span>
+              <span class="k-brand-name">PayBridge</span>
             </div>
             <div class="k-menu">
-              <span class="${activeItem === 'PRODUCTS' ? 'k-pill' : ''}">PRODUCTS</span>
-              <span class="${activeItem === 'IMPACT' || activeItem === 'PRICING' || activeItem === 'VISION' || activeItem === 'JOURNAL' ? 'k-pill' : ''}">${activeItem === 'PRICING' ? 'PRICING' : (activeItem === 'VISION' ? 'VISION' : (activeItem === 'JOURNAL' ? 'JOURNAL' : 'IMPACT'))}</span>
-              <span class="${activeItem === 'ABOUT' || activeItem === 'CONTACT' ? 'k-pill' : ''}">${activeItem === 'PRICING' ? 'CONTACT' : 'ABOUT'}</span>
+              <span class="${activeItem === 'RECON' ? 'k-pill' : ''}">RECON</span>
+              <span class="${activeItem === 'TRUTH' || activeItem === 'EVIDENCE' || activeItem === 'MIRROR' ? 'k-pill' : ''}">${activeItem === 'TRUTH' ? 'TRUTH' : (activeItem === 'EVIDENCE' ? 'EVIDENCE' : (activeItem === 'MIRROR' ? 'MIRROR' : 'LEDGER'))}</span>
+              <span class="${activeItem === 'AUDIT' ? 'k-pill' : ''}">AUDIT</span>
             </div>
           </div>
         `;
       };
 
       const cardBodyHTML = [
-        /* 1: Home */
-        cardNavHTML('PRODUCTS') + `
+        /* 1: Home C101 */
+        cardNavHTML('RECON') + `
           <div class="k-home-bottom">
             <div class="k-home-stats">
               <div class="k-home-stat">
-                <span class="k-home-num">200x</span>
-                <span class="k-home-lbl">stronger</span>
+                <span class="k-home-num">$480</span>
+                <span class="k-home-lbl">reconciled capture</span>
               </div>
               <div class="k-home-rule"></div>
               <div class="k-home-stat">
-                <span class="k-home-num">87%</span>
-                <span class="k-home-lbl">lower emissions</span>
+                <span class="k-home-num">0</span>
+                <span class="k-home-lbl">duplicate charges</span>
               </div>
             </div>
-            <div class="k-home-tagline">Advanced materials for a stronger tomorrow.</div>
+            <div class="k-home-tagline">Authoritative PayPal provider read trumps gateway timeout.</div>
           </div>
         `,
-        /* 2: Price */
-        cardNavHTML('PRICING') + `
+        /* 2: Price C102 */
+        cardNavHTML('LEDGER') + `
           <div class="k-price-figure"><span class="k-price-dollar">$</span>2,400</div>
-          <div class="k-price-sub">PER MONTH · INDUSTRIAL</div>
+          <div class="k-price-sub">CROSS-BORDER FX · DUAL LEDGER</div>
           <div class="k-price-plans">
-            <div class="k-plan-row"><span>Pilot</span><span>$299</span></div>
-            <div class="k-plan-row bold"><span>Industrial</span><span>$2,400</span></div>
-            <div class="k-plan-row"><span>Foundry</span><span>Custom</span></div>
+            <div class="k-plan-row"><span>USD Principal</span><span>$2,400.00</span></div>
+            <div class="k-plan-row bold"><span>Capture Proof</span><span>Tier 1 Verified</span></div>
+            <div class="k-plan-row"><span>Discrepancy</span><span>$0.00</span></div>
           </div>
-          <button class="k-price-btn">Start a pilot</button>
+          <button class="k-price-btn" onclick="switchView('passport')">Inspect Passport</button>
         `,
-        /* 3: Case */
+        /* 3: Case C103 */
         `<div class="k-case-bg"></div><div class="k-case-veil"></div>` +
-        cardNavHTML('IMPACT') + `
-          <div class="k-case-kicker">CASE STUDY · ATLAS RAIL</div>
-          <div class="k-case-title">How Atlas Rail cut track weight by a third in eighteen months</div>
+        cardNavHTML('TRUTH') + `
+          <div class="k-case-kicker">CONTRADICTION ANALYSIS · ATLAS RAIL</div>
+          <div class="k-case-title">Authoritative reconciliation of $14,200 cross-border equipment settlement</div>
           <div class="k-case-stats">
             <div class="k-case-stat-col">
-              <div class="k-case-stat-val">34%</div>
-              <div class="k-case-stat-lbl">lighter track</div>
+              <div class="k-case-stat-val">100%</div>
+              <div class="k-case-stat-lbl">reconciled truth</div>
             </div>
             <div class="k-case-stat-col">
-              <div class="k-case-stat-val">3.4x</div>
-              <div class="k-case-stat-lbl">service life</div>
+              <div class="k-case-stat-val">Tier 1</div>
+              <div class="k-case-stat-lbl">PayPal evidence</div>
             </div>
             <div class="k-case-stat-col">
               <div class="k-case-stat-val">0</div>
-              <div class="k-case-stat-lbl">unplanned closures</div>
+              <div class="k-case-stat-lbl">chargebacks</div>
             </div>
           </div>
         `,
-        /* 4: Vision */
-        cardNavHTML('VISION') + `
+        /* 4: Vision C104 */
+        cardNavHTML('EVIDENCE') + `
           <div class="k-vision-tiles">
             <div class="k-vision-tile-img1"></div>
             <div class="k-vision-tile-img2"></div>
             <div class="k-vision-tile-quote">
-              The Kessler vision: <em>materials that outlast the people who made them.</em>
+              The PayBridge standard: <em>financial state vectors proven by immutable cryptographic evidence.</em>
             </div>
           </div>
           <div class="k-vision-footer">
-            <div>How Kessler pours alloy<br>at the edge of the desert</div>
-            <div>Manifesto · 6 min</div>
+            <div>Cryptographic Evidence Vault<br>SHA-256 Merkle Provenance</div>
+            <div>Audit Specification · P0–P8</div>
           </div>
         `,
-        /* 5: Alloy */
+        /* 5: Alloy C105 */
         `<div class="k-alloy-bg"></div>` +
-        cardNavHTML('PRODUCTS') + `
+        cardNavHTML('RECON') + `
           <div class="k-alloy-bottom-left">
-            The carbon‑negative<br><em>alloy.</em>
+            The Next Safe Action<br><em>engine.</em>
           </div>
           <div class="k-alloy-specs">
-            <div class="k-spec-row"><span>Product</span><span>K-Alloy 7</span></div>
-            <div class="k-spec-row"><span>Tensile</span><span>1,940 MPa</span></div>
-            <div class="k-spec-row"><span>Datasheet</span><span>PDF ↗</span></div>
+            <div class="k-spec-row"><span>Attempt Lock</span><span>Engaged</span></div>
+            <div class="k-spec-row"><span>Blind Retry</span><span>Prohibited</span></div>
+            <div class="k-spec-row"><span>Action Dispatch</span><span>Safe ↗</span></div>
           </div>
         `,
-        /* 6: Journal */
-        cardNavHTML('JOURNAL') + `
+        /* 6: Journal C106 */
+        cardNavHTML('MIRROR') + `
           <div class="k-journal-title">
-            Journal<br><em>field notes from the flats</em>
+            Recovery Mirror<br><em>counterfactual replay lab</em>
           </div>
           <div class="k-journal-posts">
             <div class="k-journal-post">
               <div class="k-post-thumb" style="background-image: url('https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/7b6ad638-89ec-4dec-be74-d36fbff3ea53.webp');"></div>
-              <div class="k-post-kicker">FIELD NOTES</div>
-              <div class="k-post-heading">Mining nothing but light on the salt flats</div>
+              <div class="k-post-kicker">TRACE #892</div>
+              <div class="k-post-heading">Blind retry charges customer twice ($960.00)</div>
             </div>
             <div class="k-journal-post">
               <div class="k-post-thumb" style="background-image: url('https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/62b0d7c1-3eb7-44bd-9b19-57b975fb250f.webp');"></div>
-              <div class="k-post-kicker">PLANTS</div>
-              <div class="k-post-heading">Atacama, year one</div>
+              <div class="k-post-kicker">PAYBRIDGE AI</div>
+              <div class="k-post-heading">Attempt lock prevents second billing</div>
             </div>
             <div class="k-journal-post">
               <div class="k-post-thumb" style="background-image: url('https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/0e201fcd-ffc0-46a0-bd06-faa07bf0e84b.webp');"></div>
-              <div class="k-post-kicker">PROCESS</div>
-              <div class="k-post-heading">Why we melt sand at noon</div>
+              <div class="k-post-kicker">OUTCOME</div>
+              <div class="k-post-heading">Exact $480.00 single capture resolved</div>
             </div>
           </div>
         `
       ];
 
-      /* --- Mount DOM --- */
+      /* --- Mount Belt DOM --- */
       const cardsLayer = document.getElementById('cards-layer');
       const codesLayer = document.getElementById('codes-layer');
       const belt = document.getElementById('belt');
@@ -1328,22 +1819,22 @@
       const cardEls = [];
       const codeEls = [];
 
+      const CARD_CLASSES = ['k-card-home', 'k-card-price', 'k-card-case', 'k-card-vision', 'k-card-alloy', 'k-card-journal'];
+
       CARDS_DATA.forEach((data, i) => {
-        // Card DOM
         const c = document.createElement('div');
-        c.className = `k-card k-card-${data.id}`;
+        c.className = `k-card ${CARD_CLASSES[i]}`;
         c.innerHTML = cardBodyHTML[i];
         cardsLayer.appendChild(c);
         cardEls.push(c);
 
-        // Code DOM
         const codeEl = document.createElement('div');
         codeEl.className = 'code-block';
         codeEl.innerHTML = `
           <div class="code-content-html">${escapeHtml(data.html)}</div>
           <div class="code-content-meta">
 &lt;!-- distilled: ${data.distilled.toLocaleString('en-US')} tokens --&gt;
-&lt;!-- original: ${data.original.toLocaleString('en-US')} tokens --&gt;
+&lt;!-- authoritative: ${data.original.toLocaleString('en-US')} tokens --&gt;
 &lt;!-- ${data.url} --&gt;
           </div>
         `;
@@ -1355,14 +1846,13 @@
         return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       }
 
-      /* --- Integer 32-bit Hash --- */
+      /* --- 32-bit Integer Hash --- */
       function hash(a, b, c) {
         let h = (Math.imul(a, 374761393) + Math.imul(b, 668265263) + Math.imul(c, 2147483647)) | 0;
         h = Math.imul(h ^ (h >>> 13), 1274126177) | 0;
         return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
       }
 
-      /* Fire Palette */
       const PALETTE = [
         '#FF4A12',
         '#FF5A1F',
@@ -1373,7 +1863,7 @@
         '#FFF3E6'
       ];
 
-      /* --- State & Sizing --- */
+      /* --- Belt Dimensions & State --- */
       let W = window.innerWidth;
       let H = window.innerHeight;
       let dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1402,11 +1892,8 @@
         const rect = firstCard.getBoundingClientRect();
         cw = rect.width || (W <= 767 ? W * 0.84 : W * 0.46);
         ch = rect.height || (W <= 767 ? W * 0.54 : H * 0.52);
-
-        // Gap from CSS
         gap = W <= 767 ? W * 0.07 : W * 0.0475;
 
-        // Resize Canvas
         const beltRect = belt.getBoundingClientRect();
         fxCanvas.width = Math.round(beltRect.width * dpr);
         fxCanvas.height = Math.round(beltRect.height * dpr);
@@ -1417,10 +1904,9 @@
       updateDimensions();
       window.addEventListener('resize', updateDimensions);
 
-      // Initial offset: W/2 - 0.62 * cw (Card 1 starts ~12% past scanner)
       off = W / 2 - 0.62 * cw;
 
-      /* --- Pointer & Drag Mechanics --- */
+      /* Pointer Drag */
       belt.addEventListener('mouseenter', () => { isHovered = true; });
       belt.addEventListener('mouseleave', () => { isHovered = false; });
 
@@ -1457,14 +1943,12 @@
       belt.addEventListener('pointerup', endDrag);
       belt.addEventListener('pointercancel', endDrag);
 
-      // Horizontal Wheel support
       window.addEventListener('wheel', (e) => {
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
           vel += -e.deltaX * 6;
         }
       }, { passive: true });
 
-      /* --- Sparks Engine --- */
       function spawnSpark(cardY, cardH) {
         if (sparks.length > 90) return;
         const colorIdx = Math.floor(Math.random() * PALETTE.length);
@@ -1500,14 +1984,11 @@
         }
       }
 
-      /* --- Particle Dissolve FX --- */
       function drawDissolveFx(cardIdx, cardX, cardTop, cut, t) {
         const R = 0.3 * cw;
-        const startX = Lx;
         const cardRight = cardX + cw;
         const hw = Math.max(0, Math.min(150, cardRight - Lx));
 
-        // 1. Haze
         if (hw > 0) {
           const grad = ctx.createLinearGradient(Lx, 0, Lx + 150, 0);
           grad.addColorStop(0, 'rgba(255, 96, 40, 0.42)');
@@ -1516,7 +1997,6 @@
           ctx.fillRect(Lx, cardTop, hw, ch);
         }
 
-        // 2. Dithered 3px Grid
         const minGx = Math.floor(cut / 3);
         const maxGx = Math.ceil((cut + R) / 3);
         const totalRows = Math.floor(ch / 3);
@@ -1529,7 +2009,6 @@
           const p = Math.pow(Math.max(0, 1 - d / R), 1.7);
 
           for (let row = -5; row < totalRows + 5; row++) {
-            // Twinkle: skip 22% dots 9 times/sec
             const tw = hash(gx, row, Math.floor(t * 9) + 97);
             if (tw < 0.22) continue;
 
@@ -1539,16 +2018,7 @@
             const h = hash(gx, row, cardIdx);
             if (h < prob) {
               const h2 = hash(row, gx, cardIdx + 31);
-              let color;
-              if (d < 10) {
-                // White-hot edge
-                const cIdx = Math.min(6, 4 + Math.floor(h2 * 3));
-                color = PALETTE[cIdx];
-              } else {
-                const cIdx = Math.floor(h2 * h2 * 7);
-                color = PALETTE[cIdx];
-              }
-
+              let color = (d < 10) ? PALETTE[Math.min(6, 4 + Math.floor(h2 * 3))] : PALETTE[Math.floor(h2 * h2 * 7)];
               const jx = (hash(gx, row, 1) - 0.5) * 1.6;
               const jy = (hash(gx, row, 2) - 0.5) * 1.6;
               const sz = 1.1 + h2 * 1.7;
@@ -1559,15 +2029,12 @@
           }
         }
 
-        // 3. Free Sparks
         for (let s = 0; s < 3; s++) {
-          if (Math.random() < 0.70) {
-            spawnSpark(cardTop, ch);
-          }
+          if (Math.random() < 0.70) spawnSpark(cardTop, ch);
         }
       }
 
-      /* --- Main Animation Loop (60 FPS) --- */
+      /* Belt Animation Loop */
       let lastTime = performance.now();
       const span = () => cw + gap;
       const period = () => span() * 6;
@@ -1577,21 +2044,16 @@
         lastTime = now;
         const t = now / 1000;
 
-        // Auto speed: -0.075 * W (leftward)
         const autoSpeed = -0.075 * W;
-
-        // Hover ease to 35% speed
         const hoverTarget = isHovered ? 1 : 0;
         hoverVal += (hoverTarget - hoverVal) * Math.min(1, 4 * dt);
         const targetSpeed = autoSpeed * (1 - 0.65 * hoverVal);
 
-        // Physics Easing
         if (!isDragging) {
           vel += (targetSpeed - vel) * (1 - Math.exp(-2.2 * dt));
           off += vel * dt;
         }
 
-        // Clear Canvas FX
         ctx.save();
         ctx.scale(dpr, dpr);
         ctx.clearRect(0, 0, fxCanvas.width / dpr, fxCanvas.height / dpr);
@@ -1604,7 +2066,6 @@
         let crossingCut = 0;
 
         for (let i = 0; i < 6; i++) {
-          // Wrapped position
           let x = ((off + i * curSpan + curSpan) % curPeriod);
           if (x < 0) x += curPeriod;
           x -= curSpan;
@@ -1613,7 +2074,6 @@
           const cardEl = cardEls[i];
           const codeEl = codeEls[i];
 
-          // 1. Position & Clip Card
           cardEl.style.transform = `translate3d(${x}px, 0, 0)`;
           if (cut > 0) {
             cardEl.style.clipPath = `inset(0 0 0 ${cut}px round 0 1.6vw 1.6vw 0)`;
@@ -1625,7 +2085,6 @@
             cardEl.style.maskImage = 'none';
           }
 
-          // 2. Position & Clip Twin Code
           codeEl.style.transform = `translate3d(${x}px, 0, 0)`;
           if (cut > 0) {
             codeEl.style.visibility = 'visible';
@@ -1634,7 +2093,6 @@
             codeEl.style.visibility = 'hidden';
           }
 
-          // 3. Dissolve FX on Crossing Card
           if (cut > 0 && (x + cw) > Lx) {
             crossingCardIdx = i;
             crossingCut = cut;
@@ -1642,11 +2100,9 @@
           }
         }
 
-        // Update sparks
         updateAndDrawSparks(dt, ctx);
         ctx.restore();
 
-        // 4. Update Counter Badge
         if (crossingCardIdx !== -1) {
           activeCardIndex = crossingCardIdx;
           const card = CARDS_DATA[activeCardIndex];
@@ -1654,7 +2110,7 @@
           const targetTokens = Math.round((card.original - card.distilled) * progress);
 
           shownTokens += (targetTokens - shownTokens) * Math.min(1, dt * 14);
-          counterNum.textContent = '−' + Math.round(shownTokens).toLocaleString('en-US');
+          counterNum.textContent = '−$' + Math.round(shownTokens).toLocaleString('en-US');
           counterPct.textContent = card.pct;
         }
 
@@ -1662,6 +2118,453 @@
       }
 
       requestAnimationFrame(frame);
+
+      /* =======================================================================
+         WORKSPACE VIEWS CONTROLLER (Unified Editorial Design)
+         ======================================================================= */
+      const container = document.getElementById('view-container');
+
+      // Shared Global State
+      let demoStep = 2; // Default on Gateway Timeout state
+      let selectedGapNode = 'browser';
+      let activeLens = 'sender';
+
+      window.switchView = function (viewId) {
+        // Update tab buttons
+        document.querySelectorAll('.pill-tab').forEach(btn => btn.classList.remove('active'));
+        const activeTab = document.getElementById(`tab-${viewId}`);
+        if (activeTab) activeTab.classList.add('active');
+
+        // Render selected view
+        if (viewId === 'demo') renderDemoView();
+        else if (viewId === 'passport') renderPassportView();
+        else if (viewId === 'graph') renderGraphView();
+        else if (viewId === 'mirror') renderMirrorView();
+        else if (viewId === 'lens') renderLensView();
+        else if (viewId === 'safe') renderSafeActionView();
+        else if (viewId === 'cases') renderCasesView();
+        else if (viewId === 'evidence') renderEvidenceView();
+      };
+
+      /* View 1: Golden Path Stepper */
+      function renderDemoView() {
+        const steps = [
+          { num: 1, name: 'Checkout Intent' },
+          { num: 2, name: 'Gateway 504' },
+          { num: 3, name: 'Attempt Lock' },
+          { num: 4, name: 'Provider Query' },
+          { num: 5, name: 'State Proof' },
+          { num: 6, name: 'Truth Passport' }
+        ];
+
+        let stepperHtml = steps.map(s => `
+          <div class="step-item ${s.num < demoStep ? 'completed' : (s.num === demoStep ? 'current' : '')}" onclick="setDemoStep(${s.num})">
+            <div class="step-circle">${s.num < demoStep ? '✓' : s.num}</div>
+            <div class="step-text">${s.name}</div>
+          </div>
+        `).join('');
+
+        let statusText = demoStep === 2 ? '504 Gateway Timeout' : (demoStep >= 5 ? 'Reconciled (Captured)' : 'In Progress');
+        let badgeClass = demoStep === 2 ? 'badge-warning' : 'badge-success';
+
+        container.innerHTML = `
+          <div class="view-top-bar">
+            <div>
+              <h3 class="view-heading">Golden Path Demo B — Upstream Gateway Timeout & Auto-Reconciliation</h3>
+              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Simulate an upstream HTTP 504 drop, observe the single-attempt lock, and verify zero duplicate charges.</p>
+            </div>
+            <span class="view-badge ${badgeClass}">${statusText}</span>
+          </div>
+
+          <div class="stepper-nodes">${stepperHtml}</div>
+
+          <div class="grid-2col">
+            <div class="info-pane">
+              <div class="info-label">Current Execution State</div>
+              <div style="font-size: 19px; font-weight: 600; color: var(--ink); margin-bottom: 8px;">
+                ${demoStep === 2 ? 'Gateway Timeout Encountered (HTTP 504)' : (demoStep >= 5 ? 'Authoritative Reconciliation Completed' : 'Session Active')}
+              </div>
+              <p style="font-size: 13.5px; line-height: 1.55; color: var(--body); margin-bottom: 18px;">
+                ${demoStep === 2 
+                  ? 'A dropped network response mimics payment failure. PayBridge isolates the ambiguous session with DO_NOT_REPEAT_CHECKOUT to guarantee zero accidental double billing.'
+                  : 'PayBridge polled PayPal REST order status, identified CAPTURE_COMPLETED, and updated internal ledger with Tier 1 evidence.'}
+              </p>
+
+              <div style="display: flex; gap: 10px; margin-top: 14px;">
+                <button class="btn-action-hot" onclick="nextDemoStep()">
+                  ${demoStep < 6 ? 'Execute Next Step →' : 'Replay Demo B ⟲'}
+                </button>
+                <button class="btn-action-subtle" onclick="switchView('passport')">
+                  View Resulting Passport ↗
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <div class="info-label" style="margin-bottom: 8px;">Cryptographic Audit Ledger Stream</div>
+              <div class="terminal-box"><span class="hl-gray">[2026-11-10T21:40:11Z]</span> <span class="hl-orange">CHECKOUT_INITIATED</span> order_id="ord-c101" amount="$480.00"
+<span class="hl-gray">[2026-11-10T21:40:13Z]</span> <span class="hl-orange">PAYPAL_CAPTURE_SENT</span> paypal_order="9K201824"
+<span class="hl-gray">[2026-11-10T21:40:14Z]</span> <span class="hl-orange">HTTP_504_TIMEOUT</span> connection_dropped=true
+<span class="hl-gray">[2026-11-10T21:40:15Z]</span> <span class="hl-green">ATTEMPT_LOCK_ACQUIRED</span> key="lock:c101" (single_attempt)
+<span class="hl-gray">[2026-11-10T21:40:16Z]</span> <span class="hl-green">RECONCILER_POLL</span> status="COMPLETED" capture_id="cap-4819"
+<span class="hl-gray">[2026-11-10T21:40:17Z]</span> <span class="hl-green">PASSPORT_SEALED</span> sha256="4f8b91a27e01b..."</div>
+            </div>
+          </div>
+        `;
+      }
+
+      window.setDemoStep = function (step) {
+        demoStep = step;
+        renderDemoView();
+      };
+
+      window.nextDemoStep = function () {
+        if (demoStep < 6) demoStep++;
+        else demoStep = 1;
+        renderDemoView();
+      };
+
+      /* View 2: Payment Truth Passport (PTP) */
+      function renderPassportView() {
+        container.innerHTML = `
+          <div class="view-top-bar">
+            <div>
+              <h3 class="view-heading">Payment Truth Passport (PTP)</h3>
+              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Versioned, role-scoped cryptographic certificate of authoritative payment state.</p>
+            </div>
+            <span class="view-badge badge-success">PTP-2026-C101 · v3 Sealed</span>
+          </div>
+
+          <div class="grid-4col" style="margin-bottom: 24px;">
+            <div class="info-pane">
+              <div class="info-label">Authoritative State</div>
+              <div class="info-value" style="color: var(--hot);">CAPTURED</div>
+            </div>
+            <div class="info-pane">
+              <div class="info-label">Authoritative Provider</div>
+              <div class="info-value">PayPal Sandbox</div>
+            </div>
+            <div class="info-pane">
+              <div class="info-label">Reconciled Amount</div>
+              <div class="info-value">$480.00 USD</div>
+            </div>
+            <div class="info-pane">
+              <div class="info-label">Duplicate Charges</div>
+              <div class="info-value" style="color: var(--success);">$0.00 (Prevented)</div>
+            </div>
+          </div>
+
+          <div class="grid-2col">
+            <div class="info-pane">
+              <div class="info-label" style="margin-bottom: 12px;">Verified Evidence Claims</div>
+              <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+                <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+                  <span><strong>Claim 1:</strong> Merchant Order Initiation</span>
+                  <span class="info-mono">ev-ord-c101</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+                  <span><strong>Claim 2:</strong> Upstream Gateway 504 Timeout</span>
+                  <span class="info-mono">ev-504-timeout</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+                  <span><strong>Claim 3:</strong> Tier 1 PayPal Show-Order</span>
+                  <span class="info-mono">ev-pp-9K201824</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span><strong>Next Safe Action:</strong> Deliver Goods (Do Not Recharge)</span>
+                  <span class="info-mono">ACT-01-SAFE</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="info-label" style="margin-bottom: 8px;">Cryptographic Certificate Block</div>
+              <div class="terminal-box">-----BEGIN PAYMENT TRUTH PASSPORT-----
+Issuer: PayBridge AI Reconciliation Authority
+CaseID: c101-demo-4567-89ab-cdef00000001
+Timestamp: 2026-11-10T21:42:15.902Z
+ProviderProof: PAYPAL_REST_V2_ORDER_COMPLETED
+OrderHash: 92fa80b2a95c47e0965d1b7e411b3051
+Signature: SHA256withRSA: 8f91b72a...d9e1102
+Status: AUTHORITATIVE_CAPTURED (No Retry Permitted)
+-----END PAYMENT TRUTH PASSPORT-----</div>
+            </div>
+          </div>
+        `;
+      }
+
+      /* View 3: Truth Gap Graph */
+      function renderGraphView() {
+        const nodes = {
+          browser: { title: 'Browser Client Lens', status: 'UNKNOWN (HTTP 504 Drop)', desc: 'The customer saw an ambiguous spinning indicator followed by network error. Traditional checkouts panic here.' },
+          merchant: { title: 'Merchant DB Lens', status: 'PENDING / RECONCILING', desc: 'Internal database did not receive the synchronous redirect, engaging the DO_NOT_REPEAT_CHECKOUT attempt lock.' },
+          paypal: { title: 'PayPal Sandbox Gateway', status: 'COMPLETED ($480.00)', desc: 'Authoritative provider capture succeeded at 21:40:13Z before the return path network dropped.' },
+          webhook: { title: 'Webhook Ingestion Pipeline', status: 'INGESTED & VERIFIED', desc: 'Signed PAYMENT.CAPTURE.COMPLETED payload verified against PayPal certificate chain.' }
+        };
+
+        const curr = nodes[selectedGapNode];
+
+        container.innerHTML = `
+          <div class="view-top-bar">
+            <div>
+              <h3 class="view-heading">Truth Gap Graph Workbench</h3>
+              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Click each perspective node below to inspect contradictions between what each party observed.</p>
+            </div>
+            <span class="view-badge badge-warning">4 State Contradictions Detected</span>
+          </div>
+
+          <div class="grid-4col" style="margin-bottom: 24px;">
+            <div class="gap-node ${selectedGapNode === 'browser' ? 'selected' : ''}" onclick="selectGapNode('browser')">
+              <div class="info-label">Node 1</div>
+              <div style="font-weight: 600; font-size: 14px;">Browser Lens</div>
+              <div style="font-size: 12px; color: var(--hot); margin-top: 4px;">UNKNOWN / 504</div>
+            </div>
+            <div class="gap-node ${selectedGapNode === 'merchant' ? 'selected' : ''}" onclick="selectGapNode('merchant')">
+              <div class="info-label">Node 2</div>
+              <div style="font-weight: 600; font-size: 14px;">Merchant DB</div>
+              <div style="font-size: 12px; color: var(--body); margin-top: 4px;">PENDING</div>
+            </div>
+            <div class="gap-node ${selectedGapNode === 'paypal' ? 'selected' : ''}" onclick="selectGapNode('paypal')">
+              <div class="info-label">Node 3</div>
+              <div style="font-weight: 600; font-size: 14px;">PayPal Gateway</div>
+              <div style="font-size: 12px; color: var(--success); margin-top: 4px;">COMPLETED</div>
+            </div>
+            <div class="gap-node ${selectedGapNode === 'webhook' ? 'selected' : ''}" onclick="selectGapNode('webhook')">
+              <div class="info-label">Node 4</div>
+              <div style="font-weight: 600; font-size: 14px;">Webhook Pipeline</div>
+              <div style="font-size: 12px; color: var(--success); margin-top: 4px;">VERIFIED</div>
+            </div>
+          </div>
+
+          <div class="info-pane">
+            <div class="info-label">Inspected Node Details</div>
+            <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 6px;">${curr.title}</h4>
+            <div style="font-family: var(--mono); font-size: 13px; color: var(--hot); margin-bottom: 12px;">Observed Status: ${curr.status}</div>
+            <p style="font-size: 14px; line-height: 1.6; color: var(--body);">${curr.desc}</p>
+          </div>
+        `;
+      }
+
+      window.selectGapNode = function (nodeKey) {
+        selectedGapNode = nodeKey;
+        renderGraphView();
+      };
+
+      /* View 4: Recovery Mirror Lab */
+      function renderMirrorView() {
+        container.innerHTML = `
+          <div class="view-top-bar">
+            <div>
+              <h3 class="view-heading">Counterfactual Recovery Mirror Lab</h3>
+              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Side-by-side comparison of failure recovery paths.</p>
+            </div>
+            <span class="view-badge badge-success">Idempotent Protection Active</span>
+          </div>
+
+          <div class="grid-2col">
+            <div class="mirror-col">
+              <div class="info-label" style="color: #DC2626;">Path A: Traditional Blind Retry Flow</div>
+              <h4 style="font-size: 18px; font-weight: 600; margin: 8px 0;">Customer Panic & Duplicate Charge</h4>
+              <ul style="font-size: 13px; line-height: 1.8; color: var(--body); margin-left: 18px; margin-bottom: 16px;">
+                <li>Gateway times out after 10 seconds.</li>
+                <li>App shows generic "Payment Failed - Try Again" button.</li>
+                <li>User clicks Pay button a second time.</li>
+                <li><strong>Result: Customer billed twice ($960.00).</strong></li>
+                <li>Dispute filed; merchant penalized with $35 dispute fee.</li>
+              </ul>
+              <div style="padding: 10px; background: rgba(220, 38, 38, 0.08); border-radius: 8px; font-size: 12.5px; color: #DC2626; font-weight: 500;">
+                Risk: Financial loss and high merchant churn.
+              </div>
+            </div>
+
+            <div class="mirror-col authoritative">
+              <div class="info-label" style="color: var(--hot);">Path B: PayBridge AI Autonomous Reconciler</div>
+              <h4 style="font-size: 18px; font-weight: 600; margin: 8px 0;">Attempt Lock & Reconciled Single Charge</h4>
+              <ul style="font-size: 13px; line-height: 1.8; color: var(--body); margin-left: 18px; margin-bottom: 16px;">
+                <li>Gateway times out after 10 seconds.</li>
+                <li>DO_NOT_REPEAT_CHECKOUT lock immediately engages.</li>
+                <li>Reconciliation agent independently queries PayPal capture status.</li>
+                <li><strong>Result: Customer billed exactly once ($480.00).</strong></li>
+                <li>Truth Passport confirms order delivery with zero ambiguity.</li>
+              </ul>
+              <div style="padding: 10px; background: var(--hot-soft); border-radius: 8px; font-size: 12.5px; color: #D9430F; font-weight: 500;">
+                Outcome: Mathematical certainty and 0 duplicate transactions.
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      /* View 5: Two-Lens Privacy */
+      function renderLensView() {
+        container.innerHTML = `
+          <div class="view-top-bar">
+            <div>
+              <h3 class="view-heading">Two-Lens Privacy Projection</h3>
+              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Role-scoped views protecting buyer and seller privacy while delivering shared truth.</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-action-subtle ${activeLens === 'sender' ? 'active' : ''}" onclick="setLens('sender')">Sender View (Maya)</button>
+              <button class="btn-action-subtle ${activeLens === 'receiver' ? 'active' : ''}" onclick="setLens('receiver')">Receiver View (Arjun)</button>
+            </div>
+          </div>
+
+          <div class="info-pane">
+            <div class="info-label">Active Role Projection: ${activeLens === 'sender' ? 'Sender (Buyer / Maya)' : 'Receiver (Merchant / Arjun)'}</div>
+            <div class="grid-2col" style="margin-top: 14px;">
+              <div>
+                <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Visible Information:</div>
+                <ul style="font-size: 13px; line-height: 1.8; color: var(--body); margin-left: 18px;">
+                  <li>Authoritative Payment State: CAPTURED</li>
+                  <li>Reconciled Amount: $480.00 USD</li>
+                  <li>Receipt ID: rec-99214</li>
+                  <li>${activeLens === 'sender' ? 'Delivery Address: San Francisco, CA' : 'Settlement Net: $468.20 USD'}</li>
+                </ul>
+              </div>
+              <div>
+                <div style="font-size: 13px; font-weight: 600; color: #DC2626; margin-bottom: 8px;">Redacted Privacy Boundaries:</div>
+                <ul style="font-size: 13px; line-height: 1.8; color: var(--muted); margin-left: 18px;">
+                  <li>${activeLens === 'sender' ? 'Seller Merchant Fee & Margin (Hidden)' : 'Buyer Payment Card Details (Hidden)'}</li>
+                  <li>${activeLens === 'sender' ? 'Internal Settlement Routing (Hidden)' : 'Buyer Billing Address & Risk Score (Hidden)'}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      window.setLens = function (lensKey) {
+        activeLens = lensKey;
+        renderLensView();
+      };
+
+      /* View 6: Next Safe Action Engine */
+      function renderSafeActionView() {
+        container.innerHTML = `
+          <div class="view-top-bar">
+            <div>
+              <h3 class="view-heading">Next Safe Action Engine</h3>
+              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Deterministic rules catalogue preventing dangerous blind operations.</p>
+            </div>
+            <span class="view-badge badge-success">4 Enforced Guardrails</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div class="info-pane" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 600; font-size: 14.5px;">Deliver Digital Goods / Fulfill Order</div>
+                <div style="font-size: 12.5px; color: var(--body); margin-top: 2px;">Precondition: Authoritative Tier 1 capture proven in PayPal Sandbox.</div>
+              </div>
+              <span class="view-badge badge-success">PERMITTED</span>
+            </div>
+
+            <div class="info-pane" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 600; font-size: 14.5px;">Retry Checkout Capture</div>
+                <div style="font-size: 12.5px; color: var(--body); margin-top: 2px;">Blocked while single-attempt lease is active to prevent duplicate charges.</div>
+              </div>
+              <span class="view-badge badge-warning" style="color: #DC2626; background: rgba(220,38,38,0.08); border-color: rgba(220,38,38,0.2);">PROHIBITED</span>
+            </div>
+
+            <div class="info-pane" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 600; font-size: 14.5px;">Export Cryptographic Evidence Pack</div>
+                <div style="font-size: 12.5px; color: var(--body); margin-top: 2px;">SHA-256 receipts signed with RSA keypair for audit submission.</div>
+              </div>
+              <span class="view-badge badge-success">AVAILABLE</span>
+            </div>
+          </div>
+        `;
+      }
+
+      /* View 7: Cases Register */
+      function renderCasesView() {
+        container.innerHTML = `
+          <div class="view-top-bar">
+            <div>
+              <h3 class="view-heading">Payment Cases Register</h3>
+              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Active and reconciled cross-border payment incidents.</p>
+            </div>
+            <span class="view-badge badge-success">6 Authoritative Records</span>
+          </div>
+
+          <table class="clean-table">
+            <thead>
+              <tr>
+                <th>Case ID</th>
+                <th>Scenario Description</th>
+                <th>Amount</th>
+                <th>Incident Type</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-family: var(--mono); font-weight: 500;">c101-demo-4567</td>
+                <td>Cross-border USD checkout</td>
+                <td>$480.00 USD</td>
+                <td>HTTP 504 Gateway Timeout</td>
+                <td><span class="view-badge badge-success">RECONCILED</span></td>
+                <td><button class="btn-action-subtle" style="height: 28px; padding: 0 12px; font-size: 11px;" onclick="switchView('demo')">Inspect ↗</button></td>
+              </tr>
+              <tr>
+                <td style="font-family: var(--mono); font-weight: 500;">c102-fx-settle</td>
+                <td>EUR/USD dual-currency order</td>
+                <td>$2,400.00 USD</td>
+                <td>Dropped TCP Webhook</td>
+                <td><span class="view-badge badge-success">RECONCILED</span></td>
+                <td><button class="btn-action-subtle" style="height: 28px; padding: 0 12px; font-size: 11px;" onclick="switchView('passport')">Inspect ↗</button></td>
+              </tr>
+              <tr>
+                <td style="font-family: var(--mono); font-weight: 500;">c103-rail-gear</td>
+                <td>Atlas Rail industrial order</td>
+                <td>$14,200.00 USD</td>
+                <td>State Contradiction</td>
+                <td><span class="view-badge badge-success">RECONCILED</span></td>
+                <td><button class="btn-action-subtle" style="height: 28px; padding: 0 12px; font-size: 11px;" onclick="switchView('graph')">Inspect ↗</button></td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+      }
+
+      /* View 8: Evidence Vault */
+      function renderEvidenceView() {
+        container.innerHTML = `
+          <div class="view-top-bar">
+            <div>
+              <h3 class="view-heading">Cryptographic Evidence Vault</h3>
+              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Tier 1–6 immutable evidence hierarchy verifying authoritative state.</p>
+            </div>
+            <span class="view-badge badge-success">SHA-256 Verified</span>
+          </div>
+
+          <div class="terminal-box" style="margin-bottom: 20px;">
+[TIER 1 PROVIDER READ] 
+GET https://api-m.sandbox.paypal.com/v2/checkout/orders/9K201824
+Authorization: Bearer A21AAL...
+Response: HTTP 200 OK
+{
+  "id": "9K201824",
+  "status": "COMPLETED",
+  "purchase_units": [{
+    "amount": { "currency_code": "USD", "value": "480.00" },
+    "payments": {
+      "captures": [{
+        "id": "cap-4819",
+        "status": "COMPLETED",
+        "amount": { "currency_code": "USD", "value": "480.00" }
+      }]
+    }
+  }]
+}
+[VAULT HASH]: 4f8b91a27e01b8941097e3ca0129bcfe5a687c9d</div>
+        `;
+      }
+
+      // Initial view render
+      switchView('demo');
 
     })();
   </script>
