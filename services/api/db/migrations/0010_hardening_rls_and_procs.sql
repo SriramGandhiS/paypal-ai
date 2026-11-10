@@ -28,8 +28,8 @@ BEGIN
         EXECUTE format('DROP POLICY IF EXISTS %I ON public.%I;', tbl || '_tenant_isolation', tbl);
         EXECUTE format(
             'CREATE POLICY %I ON public.%I FOR ALL TO PUBLIC ' ||
-            'USING (tenant_id = NULLIF(current_setting(''app.tenant_id'', true), '''信::uuid) ' ||
-            'WITH CHECK (tenant_id = NULLIF(current_setting(''app.tenant_id'', true), '''信::uuid);',
+            'USING (tenant_id = NULLIF(current_setting(''app.tenant_id'', true), '''')::uuid) ' ||
+            'WITH CHECK (tenant_id = NULLIF(current_setting(''app.tenant_id'', true), '''')::uuid);',
             tbl || '_tenant_isolation', tbl
         );
     END LOOP;

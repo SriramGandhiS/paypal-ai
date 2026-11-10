@@ -1,0 +1,16 @@
+﻿=== GOOSE EMBEDDED MIGRATION SUITE ===
+=== RUN   TestEmbeddedMigrationsCount
+--- PASS: TestEmbeddedMigrationsCount (0.00s)
+=== RUN   TestCanonical40TablesInventory
+--- PASS: TestCanonical40TablesInventory (0.00s)
+=== RUN   TestGooseUpAndDownBlocks
+--- PASS: TestGooseUpAndDownBlocks (0.00s)
+=== RUN   TestRLSAndForceRLSEnforcement
+--- PASS: TestRLSAndForceRLSEnforcement (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/db/migrations	(cached)
+=== MIGRATION CLI STATUS TEST ===
+=== RUN   TestExtractUpSegment
+--- PASS: TestExtractUpSegment (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/cmd/migrate	0.023s

@@ -1,0 +1,7 @@
+﻿go : go: -race requires cgo; enable cgo by setting CGO_ENABLED=1
+At line:1 char:42
++ ... :\Projects\PayBridgeAI\services\api; go test -race ./... 2>&1 | Out-F ...
++                                          ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (go: -race requi...g CGO_ENABLED=1:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

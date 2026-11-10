@@ -1,0 +1,48 @@
+﻿=== GIT SECRET EXCLUSION SCAN ===
+.env
+
+	.env
+=== AI ROLE MUTATION RESTRICTION TESTS ===
+=== RUN   TestPolicyAuthorization
+=== RUN   TestPolicyAuthorization/sender_can_create_case
+=== RUN   TestPolicyAuthorization/receiver_cannot_create_case
+=== RUN   TestPolicyAuthorization/merchant_admin_can_create_case
+=== RUN   TestPolicyAuthorization/sender_can_capture_payment
+=== RUN   TestPolicyAuthorization/analyst_cannot_capture_payment
+=== RUN   TestPolicyAuthorization/admin_can_execute_purge
+=== RUN   TestPolicyAuthorization/sender_cannot_execute_purge
+=== RUN   TestPolicyAuthorization/demo_operator_can_run_demo_scenario
+=== RUN   TestPolicyAuthorization/unknown_role_denied
+=== RUN   TestPolicyAuthorization/ai_agent_strictly_denied_from_capturing_payment
+=== RUN   TestPolicyAuthorization/ai_agent_strictly_denied_from_creating_orders
+=== RUN   TestPolicyAuthorization/investigator_agent_strictly_denied_from_capturing_payment
+=== RUN   TestPolicyAuthorization/ai_agent_strictly_denied_from_purge
+--- PASS: TestPolicyAuthorization (0.00s)
+    --- PASS: TestPolicyAuthorization/sender_can_create_case (0.00s)
+    --- PASS: TestPolicyAuthorization/receiver_cannot_create_case (0.00s)
+    --- PASS: TestPolicyAuthorization/merchant_admin_can_create_case (0.00s)
+    --- PASS: TestPolicyAuthorization/sender_can_capture_payment (0.00s)
+    --- PASS: TestPolicyAuthorization/analyst_cannot_capture_payment (0.00s)
+    --- PASS: TestPolicyAuthorization/admin_can_execute_purge (0.00s)
+    --- PASS: TestPolicyAuthorization/sender_cannot_execute_purge (0.00s)
+    --- PASS: TestPolicyAuthorization/demo_operator_can_run_demo_scenario (0.00s)
+    --- PASS: TestPolicyAuthorization/unknown_role_denied (0.00s)
+    --- PASS: TestPolicyAuthorization/ai_agent_strictly_denied_from_capturing_payment (0.00s)
+    --- PASS: TestPolicyAuthorization/ai_agent_strictly_denied_from_creating_orders (0.00s)
+    --- PASS: TestPolicyAuthorization/investigator_agent_strictly_denied_from_capturing_payment (0.00s)
+    --- PASS: TestPolicyAuthorization/ai_agent_strictly_denied_from_purge (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/policy	(cached)
+=== DEV AUTH BYPASS RESTRICTION TEST ===
+=== RUN   TestDevAuthBypassDisabled_RejectsXDevHeaders
+2026/11/10 20:12:41 WARN security violation: client attempted X-Dev-Tenant-ID bypass while disabled attempted_tenant=attacker-tenant-id remote_addr=192.0.2.1:1234
+--- PASS: TestDevAuthBypassDisabled_RejectsXDevHeaders (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/api	0.022s
+=== NO AI INITIATION MUTATION TEST ===
+=== RUN   TestNoAIInitiationMutation_Forbidden
+--- PASS: TestNoAIInitiationMutation_Forbidden (0.00s)
+PASS
+ok  	github.com/paybridge/paybridge-ai/services/api/internal/api	0.021s
+
+

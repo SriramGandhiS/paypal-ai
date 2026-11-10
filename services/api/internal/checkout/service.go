@@ -189,9 +189,16 @@ func NewPostgresLocker(db *sql.DB) *PostgresLocker {
 }
 
 // TryAcquire acquires a cluster-wide advisory lock on the key.
+// It acquires a dedicated connection from the pool so the session-level advisory lock
+// remains pinned to the exact physical connection and is not accidentally returned to the pool while held.
 func (p *PostgresLocker) TryAcquire(ctx context.Context, key string, ttl time.Duration) (func(), bool, error) {
 	if p.db == nil {
 		return nil, false, fmt.Errorf("nil database connection")
+	}
+
+	conn, err := p.db.Conn(ctx)
+	if err != nil {
+		return nil, false, fmt.Errorf("failed to checkout dedicated connection for advisory lock: %w", err)
 	}
 
 	hash := sha256.Sum256([]byte(key))
@@ -201,11 +208,13 @@ func (p *PostgresLocker) TryAcquire(ctx context.Context, key string, ttl time.Du
 	}
 
 	var acquired bool
-	err := p.db.QueryRowContext(ctx, "SELECT pg_try_advisory_lock($1)", lockID).Scan(&acquired)
+	err = conn.QueryRowContext(ctx, "SELECT pg_try_advisory_lock($1)", lockID).Scan(&acquired)
 	if err != nil {
+		_ = conn.Close()
 		return nil, false, fmt.Errorf("failed to execute pg_try_advisory_lock: %w", err)
 	}
 	if !acquired {
+		_ = conn.Close()
 		return nil, false, nil
 	}
 
@@ -213,7 +222,8 @@ func (p *PostgresLocker) TryAcquire(ctx context.Context, key string, ttl time.Du
 		relCtx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 		defer cancel()
 		var unlocked bool
-		_ = p.db.QueryRowContext(relCtx, "SELECT pg_advisory_unlock($1)", lockID).Scan(&unlocked)
+		_ = conn.QueryRowContext(relCtx, "SELECT pg_advisory_unlock($1)", lockID).Scan(&unlocked)
+		_ = conn.Close() // Safely returns unlocked connection to pool
 	}
 
 	return release, true, nil
