@@ -2483,21 +2483,21 @@
       background: #1E293B;
     }
     /* =========================================================================
-       CINEMATIC PAYMENT GATEWAY SIMULATOR (PAYTM / PAYPAL STYLE WITH AI MASCOT)
+       AUTHENTIC PAYPAL CHECKOUT & AI MASCOT RECOVERY SIMULATOR
        ========================================================================= */
     .gateway-modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       z-index: 999999;
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.35s ease;
       padding: 16px;
     }
     .gateway-modal-overlay.active {
@@ -2505,552 +2505,916 @@
       pointer-events: auto;
     }
 
-    /* Device Container (Mobile / Terminal Sheet) */
+    /* Device Container - Scales smoothly depending on stage */
     .gateway-device-frame {
       width: 100%;
-      max-width: 500px;
-      max-height: 92vh;
+      max-width: 460px;
+      max-height: 94vh;
       background: #FFFFFF;
       border-radius: 24px;
-      box-shadow: 0 25px 70px -10px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15);
+      box-shadow: 0 25px 70px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.2);
       display: flex;
       flex-direction: column;
       overflow: hidden;
       position: relative;
-      transform: scale(0.94) translateY(18px);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    .paytm-merchant-card.compact {
-      padding: 10px 14px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      text-align: left;
-      gap: 10px;
-    }
-    .paytm-merchant-card.compact .paytm-avatar-circle {
-      display: none;
-    }
-    .paytm-merchant-card.compact .paytm-verified-sub {
-      display: none;
-    }
-    .paytm-merchant-card.compact .paytm-merchant-title {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 175px;
-    }
-    .paytm-merchant-card.compact .paytm-ref-mono {
-      display: none;
-    }
-    .paytm-merchant-card.compact .paytm-amount-big {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 0;
-    }
-    .paytm-merchant-card.compact .paytm-failed-ribbon {
-      margin-top: 0;
-      padding: 4px 8px;
-      font-size: 10.5px;
-      white-space: nowrap;
-      letter-spacing: 0.05em;
+      transform: scale(0.95) translateY(16px);
+      transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .gateway-modal-overlay.active .gateway-device-frame {
       transform: scale(1) translateY(0);
     }
-
-    /* Device Top Header */
-    .gateway-top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 20px;
-      background: #FFFFFF;
-      border-bottom: 1px solid #F1F5F9;
-    }
-    .gateway-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .gateway-brand-logo {
-      height: 22px;
-      width: auto;
-    }
-    .gateway-secure-badge {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-family: var(--mono);
-      font-size: 10.5px;
-      color: #059669;
-      background: #ECFDF5;
-      padding: 3px 8px;
-      border-radius: 9999px;
-      font-weight: 600;
-    }
-    .gateway-close-btn {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: #F1F5F9;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #64748B;
-      transition: all 0.2s;
-    }
-    .gateway-close-btn:hover {
-      background: #E2E8F0;
-      color: #0F172A;
+    .gateway-device-frame.expanded-recovery {
+      max-width: 880px;
     }
 
-    /* Scrollable Content Inside Modal */
     .gateway-modal-scroll {
       flex: 1;
       overflow-y: auto;
-      padding: 20px 24px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       position: relative;
     }
 
-    /* Merchant Card (Paytm Style from screenshot) */
-    .paytm-merchant-card {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      border-radius: 18px;
-      padding: 20px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 16px;
-    }
-    .paytm-avatar-circle {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: #E0F2FE;
-      color: #0284C7;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 10px;
-    }
-    .paytm-merchant-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #0F172A;
-      margin-bottom: 2px;
-    }
-    .paytm-verified-sub {
-      font-size: 11.5px;
-      color: #64748B;
-      margin-bottom: 12px;
-    }
-    .paytm-amount-big {
-      font-family: var(--sans);
-      font-size: 38px;
-      font-weight: 800;
-      color: #0F172A;
-      letter-spacing: -0.02em;
-      margin-bottom: 6px;
-    }
-    .paytm-ref-mono {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: #94A3B8;
-      letter-spacing: 0.04em;
-    }
-
-    /* Red "PAYMENT FAILED" Ribbon (matches Paytm screenshot) */
-    .paytm-failed-ribbon {
-      background: #EF4444;
-      color: #FFFFFF;
-      font-family: var(--mono);
-      font-weight: 700;
-      font-size: 12px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 8px 12px;
-      border-radius: 8px;
-      margin-top: 14px;
+    /* Stage Switching System */
+    .sim-stage {
       display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      animation: pulseRibbon 1.5s infinite;
+      width: 100%;
     }
-    @keyframes pulseRibbon {
-      0%, 100% { background: #EF4444; }
-      50% { background: #DC2626; }
+    .sim-stage.active {
+      display: block;
+      animation: stageFade 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
-    /* Slide-Up Bottom Sheet Alert (Exact replica of Paytm risk policy sheet) */
-    .paytm-bottom-sheet {
-      background: #FFFFFF;
-      border: 1px solid #FECACA;
-      border-radius: 16px;
-      padding: 18px 20px;
-      box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.15);
-      margin-bottom: 16px;
-      display: none;
-      animation: slideUpSheet 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes slideUpSheet {
-      from { transform: translateY(24px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    .sheet-header-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 8px;
-    }
-    .sheet-alert-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #111827;
-      line-height: 1.3;
-    }
-    .sheet-alert-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #FEE2E2;
-      color: #EF4444;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .sheet-alert-body {
-      font-size: 12.5px;
-      color: #4B5563;
-      line-height: 1.5;
-      margin-bottom: 14px;
-    }
-    .sheet-btn-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .paytm-btn-primary {
-      height: 42px;
-      border-radius: 10px;
-      background: #00BAF2; /* Paytm cyan */
-      color: #FFFFFF;
-      font-weight: 600;
-      font-size: 13.5px;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-    .paytm-btn-secondary {
-      height: 42px;
-      border-radius: 10px;
-      background: #FFFFFF;
-      color: #00BAF2;
-      border: 1.5px solid #00BAF2;
-      font-weight: 600;
-      font-size: 13.5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      position: relative;
-    }
-    .paytm-btn-secondary.locked-by-paybridge {
-      background: #FEF3C7;
-      border-color: #F59E0B;
-      color: #B45309;
-      cursor: not-allowed;
+    @keyframes stageFade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Shake Animation for Screen on Failure */
     @keyframes screenShake {
       0%, 100% { transform: translateX(0); }
-      15%, 45%, 75% { transform: translateX(-6px); }
-      30%, 60%, 90% { transform: translateX(6px); }
+      15%, 45%, 75% { transform: translateX(-7px); }
+      30%, 60%, 90% { transform: translateX(7px); }
     }
     .gateway-device-frame.shaking {
       animation: screenShake 0.45s ease;
     }
 
     /* =========================================================================
-       FLYING AI MASCOT ("AEGIS") & SPEECH BUBBLE
+       STAGE 1: AUTHENTIC PAYPAL CHECKOUT (Matches User Reference Image 2)
        ========================================================================= */
-    .mascot-stage-wrap {
-      display: none;
+    .paypal-store-title {
+      font-size: 19px;
+      font-weight: 500;
+      color: #111827;
       margin-bottom: 16px;
-      animation: mascotFlyIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      letter-spacing: -0.01em;
     }
-    @keyframes mascotFlyIn {
-      0% { transform: translate(60px, 40px) scale(0.7); opacity: 0; }
-      100% { transform: translate(0, 0) scale(1); opacity: 1; }
-    }
-
-    .mascot-dialogue-card {
+    .paypal-card-box {
       background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      border-radius: 18px;
-      padding: 16px 18px;
+      border: 1px solid #E5E7EB;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      padding: 20px 22px;
+    }
+    .paypal-card-header {
       display: flex;
-      gap: 14px;
-      position: relative;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #F3F4F6;
     }
-
-    .mascot-avatar-box {
-      width: 58px;
-      height: 58px;
-      flex-shrink: 0;
-      position: relative;
-      animation: mascotBob 2.5s infinite ease-in-out;
+    .paypal-svg-logo {
+      height: 24px;
+      width: auto;
     }
-    @keyframes mascotBob {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+    .paypal-cart-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #111827;
     }
-    .mascot-thinking-glow {
-      position: absolute;
-      inset: -4px;
+    .paypal-greeting-bar {
+      background: #F8FAFC;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin: 14px 0 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #1E293B;
+    }
+    .paypal-pay-with-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1E293B;
+      margin-bottom: 12px;
+    }
+    .paypal-options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .paypal-option-row {
+      display: flex;
+      align-items: center;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1.5px solid #E2E8F0;
+      background: #FFFFFF;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .paypal-option-row.selected {
+      border-color: #0070BA;
+      background: #F0F9FF;
+    }
+    .paypal-radio-disc {
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, transparent 70%);
-      animation: thinkingPulse 1.8s infinite alternate;
+      border: 2px solid #94A3B8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      flex-shrink: 0;
     }
-    @keyframes thinkingPulse {
-      0% { transform: scale(0.9); opacity: 0.4; }
-      100% { transform: scale(1.3); opacity: 0.9; }
+    .paypal-option-row.selected .paypal-radio-disc {
+      border-color: #0070BA;
     }
-
-    .mascot-speech-bubble {
+    .paypal-radio-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #0070BA;
+    }
+    .paypal-card-icon-visa {
+      width: 38px;
+      height: 24px;
+      background: #1A1F71;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .visa-badge-text {
+      color: #FFFFFF;
+      font-weight: 900;
+      font-style: italic;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+    .paypal-bank-icon {
+      width: 38px;
+      height: 24px;
+      background: #F1F5F9;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .paypal-option-info {
       flex: 1;
     }
-    .mascot-name-badge {
+    .paypal-option-name {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #0F172A;
+    }
+    .paypal-option-sub {
+      font-size: 11.5px;
+      color: #64748B;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .paypal-preferred-tag {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #047857;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    .paypal-option-price {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #0F172A;
+      text-align: right;
+      line-height: 1.2;
+    }
+    .paypal-btn-pay-now {
+      width: 100%;
+      height: 44px;
+      border-radius: 22px;
+      background: #0070BA;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 14.5px;
+      border: none;
+      cursor: pointer;
+      margin-top: 22px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .paypal-btn-pay-now:hover {
+      background: #005EA6;
+    }
+    .paypal-btn-pay-now:active {
+      transform: scale(0.98);
+    }
+    .paypal-cancel-wrap {
+      text-align: center;
+      margin-top: 14px;
+    }
+    .paypal-cancel-link {
+      font-size: 12px;
+      color: #0070BA;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .paypal-cancel-link:hover {
+      text-decoration: underline;
+    }
+
+    /* =========================================================================
+       STAGE 2: PROCESSING PAYMENT SPINNER
+       ========================================================================= */
+    .paypal-loading-wrapper {
+      padding: 40px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .paypal-spinner-disc {
+      width: 56px;
+      height: 56px;
+      border: 3.5px solid rgba(0, 112, 186, 0.15);
+      border-top-color: #0070BA;
+      border-radius: 50%;
+      animation: spin 0.9s infinite linear;
+      margin-bottom: 20px;
+    }
+    .paypal-loading-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 6px;
+    }
+    .paypal-loading-sub {
+      font-size: 13px;
+      color: #64748B;
+      margin-bottom: 16px;
+    }
+    .paypal-loading-notice {
+      font-size: 11.5px;
+      color: #94A3B8;
+      background: #F8FAFC;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid #E2E8F0;
+    }
+
+    /* =========================================================================
+       STAGE 3: 504 GATEWAY TIMEOUT & INTERNAL RETRY
+       ========================================================================= */
+    .paypal-failed-wrapper {
+      padding: 10px 0;
+      text-align: center;
+    }
+    .failed-badge-icon {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: #FEE2E2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      animation: pulseFail 1.5s infinite;
+    }
+    @keyframes pulseFail {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3); }
+      50% { transform: scale(1.04); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+    }
+    .failed-headline {
+      font-size: 21px;
+      font-weight: 800;
+      color: #DC2626;
+      margin-bottom: 4px;
+    }
+    .failed-subcode {
       font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: #991B1B;
+      background: #FEF2F2;
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin-bottom: 14px;
+    }
+    .failed-body-text {
+      font-size: 13px;
+      color: #4B5563;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+    .internal-retry-box {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-align: left;
+      margin-bottom: 16px;
+    }
+    .retry-box-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #0F172A;
+      margin-bottom: 8px;
+    }
+    .retry-spinner-small {
+      width: 14px;
+      height: 14px;
+      border: 2px solid #CBD5E1;
+      border-top-color: #0284C7;
+      border-radius: 50%;
+      animation: spin 0.8s infinite linear;
+    }
+    .retry-progress-track {
+      width: 100%;
+      height: 6px;
+      background: #E2E8F0;
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .retry-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #0284C7;
+      border-radius: 9999px;
+      transition: width 0.3s ease;
+    }
+    .retry-status-sub {
       font-size: 11px;
+      color: #64748B;
+      font-family: var(--mono);
+    }
+    .failure-mutex-warning {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      color: #B45309;
+      font-size: 12px;
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    /* =========================================================================
+       STAGE 4: AI MASCOT RECOVERY & SIDE CHAT (50-60s)
+       ========================================================================= */
+    .ai-recovery-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+      width: 100%;
+    }
+    @media (max-width: 820px) {
+      .ai-recovery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .recovery-hero-banner {
+      margin-bottom: 14px;
+    }
+    .recovery-big-heading {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 26px;
+      font-weight: 700;
+      color: #0F172A;
+      margin: 0 0 4px;
+    }
+    .recovery-big-sub {
+      font-size: 12.5px;
+      color: #475569;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Mascot Hero Showcase */
+    .mascot-hero-card {
+      background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
+      border: 1px solid #DBEAFE;
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+      position: relative;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.08);
+    }
+    .mascot-hero-stage {
+      flex-shrink: 0;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* High-End Animated Mascot Styles */
+    .aegis-mascot-hero { overflow: visible; }
+    .aegis-halo-pulse {
+      animation: haloPulse 3s infinite ease-in-out;
+      transform-origin: 80px 80px;
+    }
+    @keyframes haloPulse {
+      0%, 100% { transform: scale(0.9); opacity: 0.35; }
+      50% { transform: scale(1.15); opacity: 0.7; }
+    }
+    .aegis-orbital-ring {
+      animation: ringSpin 7s infinite linear;
+      transform-origin: 80px 80px;
+    }
+    @keyframes ringSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .aegis-hover-body {
+      animation: hoverBob 2.6s infinite ease-in-out;
+    }
+    @keyframes hoverBob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
+    }
+    .aegis-eyes-blinking {
+      animation: eyeBlink 3.8s infinite;
+      transform-origin: 80px 56px;
+    }
+    @keyframes eyeBlink {
+      0%, 92%, 100% { transform: scaleY(1); }
+      96% { transform: scaleY(0.12); }
+    }
+    .aegis-core-pulse {
+      animation: corePulse 1.6s infinite alternate;
+    }
+    @keyframes corePulse {
+      0% { r: 4; fill: #0284C7; }
+      100% { r: 5.5; fill: #38BDF8; }
+    }
+    .aegis-antenna-ping {
+      animation: antennaPing 1.2s infinite alternate;
+    }
+    @keyframes antennaPing {
+      0% { fill: #0284C7; opacity: 0.6; }
+      100% { fill: #38BDF8; opacity: 1; filter: drop-shadow(0 0 4px #38BDF8); }
+    }
+
+    .mascot-speech-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .mascot-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 10.5px;
       font-weight: 700;
       color: #2563EB;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
-    .mascot-speech-text {
-      font-size: 12.5px;
+    .live-dot-pulse {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #2563EB;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+      animation: pulseDot 1.4s infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.5; }
+    }
+    .mascot-text-quote {
+      font-size: 12px;
       color: #1E293B;
-      line-height: 1.48;
+      line-height: 1.45;
+      margin-bottom: 6px;
     }
-    .mascot-eta-pill {
-      margin-top: 8px;
+    .mascot-eta-banner {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #EFF6FF;
-      border: 1px solid #BFDBFE;
-      color: #1D4ED8;
       font-family: var(--mono);
       font-size: 11px;
       font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 9999px;
+      color: #1D4ED8;
+      background: #DBEAFE;
+      padding: 3px 8px;
+      border-radius: 6px;
+      width: fit-content;
     }
 
-    /* Live Animated Progress Ring & Steps */
-    .reconcile-progress-bar-wrap {
-      display: none;
-      margin-bottom: 16px;
-      background: #F8FAFC;
+    /* Timeline Card */
+    .recovery-timeline-card {
+      background: #FFFFFF;
       border: 1px solid #E2E8F0;
       border-radius: 14px;
       padding: 14px;
     }
-    .recon-step-row {
+    .timeline-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .fast-forward-btn {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      color: #1D4ED8;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .fast-forward-btn:hover {
+      background: #DBEAFE;
+      transform: scale(1.02);
+    }
+    .main-reconcile-track {
+      width: 100%;
+      height: 6px;
+      background: #F1F5F9;
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .main-reconcile-fill {
+      height: 100%;
+      width: 4%;
+      background: linear-gradient(90deg, #2563EB, #06B6D4);
+      border-radius: 9999px;
+      transition: width 0.4s ease;
+    }
+    .timeline-step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .tl-step {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 12px;
-      color: #475569;
-      padding: 5px 0;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: #F8FAFC;
+      border: 1px solid transparent;
+      transition: all 0.25s;
     }
-    .recon-step-icon {
-      width: 18px;
-      height: 18px;
+    .tl-step.done {
+      background: #F0FDF4;
+      border-color: #DCFCE7;
+    }
+    .tl-step.active {
+      background: #EFF6FF;
+      border-color: #BFDBFE;
+    }
+    .tl-icon {
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 10.5px;
+      font-weight: 700;
+      flex-shrink: 0;
     }
-    .recon-step-icon.done {
+    .tl-step.done .tl-icon {
       background: #10B981;
       color: #FFFFFF;
     }
-    .recon-step-icon.active {
-      background: #F59E0B;
+    .tl-step.active .tl-icon {
+      background: #2563EB;
       color: #FFFFFF;
       animation: spin 1s infinite linear;
     }
-    .recon-step-icon.pending {
+    .tl-step.pending .tl-icon {
       background: #E2E8F0;
       color: #94A3B8;
     }
-
-    /* In-Modal Chat & History Tabs */
-    .gateway-drawer-tabs {
-      display: flex;
-      background: #F1F5F9;
-      border-radius: 10px;
-      padding: 3px;
-      margin-bottom: 12px;
-    }
-    .drawer-tab-btn {
+    .tl-content {
       flex: 1;
-      padding: 8px 12px;
-      font-family: var(--mono);
-      font-size: 11px;
+    }
+    .tl-title {
+      font-size: 12px;
       font-weight: 600;
-      text-transform: uppercase;
-      border: none;
-      background: transparent;
+      color: #0F172A;
+    }
+    .tl-sub {
+      font-size: 10.5px;
       color: #64748B;
-      border-radius: 7px;
-      cursor: pointer;
+    }
+    .tl-time {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: #94A3B8;
+    }
+
+    /* Side Chat Card */
+    .side-chat-box-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 400px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    }
+    .side-chat-header {
+      padding: 12px 14px;
+      background: #F8FAFC;
+      border-bottom: 1px solid #E2E8F0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .side-avatar-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #E0F2FE;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      transition: all 0.2s;
     }
-    .drawer-tab-btn.active {
-      background: #FFFFFF;
-      color: #0F172A;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    .live-dot-green {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #10B981;
+      display: inline-block;
     }
-
-    .drawer-view-content {
-      display: none;
+    .side-model-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      background: #E2E8F0;
+      color: #475569;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
     }
-    .drawer-view-content.active {
-      display: block;
-    }
-
-    /* In-Modal Chat Box */
-    .drawer-chat-box {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      border-radius: 12px;
+    .side-chat-messages {
+      flex: 1;
       padding: 12px;
-      max-height: 200px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-bottom: 10px;
+      gap: 10px;
+      max-height: 250px;
     }
-    .drawer-bubble {
+    .side-bubble {
       padding: 8px 12px;
       border-radius: 10px;
       font-size: 12px;
       line-height: 1.45;
+      max-width: 90%;
     }
-    .drawer-bubble.user {
+    .side-bubble.user {
       align-self: flex-end;
       background: #0F172A;
       color: #FFFFFF;
     }
-    .drawer-bubble.ai {
+    .side-bubble.ai {
       align-self: flex-start;
-      background: #FFFFFF;
+      background: #F8FAFC;
       border: 1px solid #E2E8F0;
       color: #1E293B;
     }
-    .drawer-chips-row {
+    .side-chat-chips {
+      padding: 6px 12px;
       display: flex;
       gap: 6px;
       overflow-x: auto;
-      margin-bottom: 8px;
+      background: #F8FAFC;
+      border-top: 1px solid #F1F5F9;
     }
-    .drawer-chip {
+    .side-chip-btn {
       background: #FFFFFF;
       border: 1px solid #CBD5E1;
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 9999px;
-      font-family: var(--mono);
       font-size: 10px;
       color: #334155;
       cursor: pointer;
       white-space: nowrap;
+      transition: all 0.15s;
     }
-    .drawer-input-row {
+    .side-chip-btn:hover {
+      background: #EFF6FF;
+      border-color: #3B82F6;
+      color: #1D4ED8;
+    }
+    .side-chat-input-bar {
+      padding: 10px 12px;
       display: flex;
-      gap: 6px;
+      gap: 8px;
+      border-top: 1px solid #E2E8F0;
+      background: #FFFFFF;
     }
-    .drawer-input-field {
+    .side-chat-input {
       flex: 1;
-      height: 34px;
-      border-radius: 9999px;
       border: 1px solid #CBD5E1;
-      padding: 0 14px;
+      border-radius: 8px;
+      padding: 7px 10px;
       font-size: 12px;
       outline: none;
     }
-    .drawer-send-btn {
-      height: 34px;
-      padding: 0 14px;
-      border-radius: 9999px;
-      background: #0F172A;
+    .side-chat-input:focus {
+      border-color: #2563EB;
+    }
+    .side-chat-send {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #2563EB;
       color: #FFFFFF;
       border: none;
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
 
-    /* In-Modal History / Audit Log */
-    .drawer-history-list {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-family: var(--mono);
-      font-size: 11px;
-      line-height: 1.6;
-      max-height: 240px;
-      overflow-y: auto;
-    }
-    .hist-item {
+    /* =========================================================================
+       STAGE 5: FINAL RESOLUTION RECEIPT (Matches User Reference Image 3)
+       ========================================================================= */
+    .receipt-clean-wrapper {
+      padding: 10px 6px;
+      text-align: center;
       display: flex;
-      align-items: baseline;
+      flex-direction: column;
+      align-items: center;
+    }
+    .receipt-top-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .receipt-close-x {
+      border: none;
+      background: transparent;
+      font-size: 18px;
+      color: #64748B;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .receipt-avatar-circle {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: #2563EB;
+      color: #FFFFFF;
+      font-size: 26px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+    .receipt-merchant-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 2px;
+    }
+    .receipt-merchant-sub {
+      font-size: 12px;
+      color: #64748B;
+      margin-bottom: 18px;
+    }
+    .receipt-amount-display {
+      font-size: 46px;
+      font-weight: 800;
+      color: #0F172A;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .receipt-for-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1E293B;
+      margin-bottom: 2px;
+    }
+    .receipt-timestamp-label {
+      font-size: 12px;
+      color: #64748B;
+      margin-bottom: 20px;
+    }
+    .receipt-eta-box {
+      width: 100%;
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      border-radius: 14px;
+      padding: 14px 16px;
+      text-align: left;
+      margin-bottom: 22px;
+    }
+    .receipt-eta-header {
+      display: flex;
+      align-items: center;
       gap: 8px;
-      padding: 4px 0;
-      border-bottom: 1px dashed #E2E8F0;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #065F46;
+      margin-bottom: 6px;
     }
-    .hist-time {
-      color: #94A3B8;
-      font-size: 10px;
-      flex-shrink: 0;
+    .receipt-eta-body {
+      font-size: 12.5px;
+      color: #166534;
+      line-height: 1.5;
+      margin-bottom: 8px;
     }
-    .hist-event {
+    .receipt-eta-tag {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: #047857;
       font-weight: 600;
     }
-    .hist-event.ok { color: #059669; }
-    .hist-event.warn { color: #D97706; }
-    .hist-event.err { color: #DC2626; }
+    .receipt-btn-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .receipt-btn-completed {
+      width: 100%;
+      height: 46px;
+      border-radius: 23px;
+      background: #2563EB;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 14.5px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .receipt-btn-completed:hover {
+      background: #1D4ED8;
+    }
+    .receipt-btn-receipt {
+      width: 100%;
+      height: 44px;
+      border-radius: 22px;
+      background: #FFFFFF;
+      color: #334155;
+      font-weight: 600;
+      font-size: 13.5px;
+      border: 1.5px solid #E2E8F0;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .receipt-btn-receipt:hover {
+      border-color: #CBD5E1;
+      background: #F8FAFC;
+    }
 
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -5325,244 +5689,326 @@
       };
 
       /* =========================================================================
-         CINEMATIC PAYMENT SIMULATOR ENGINE (PAYTM / PAYPAL STYLE WITH AI MASCOT)
+         MULTI-STAGE AUTHENTIC PAYPAL & AI MASCOT RECOVERY CONTROLLER
          ========================================================================= */
+      let recoveryTimerInterval = null;
+      let recoverySecondsElapsed = 0;
+      let recoveryTotalSeconds = 54;
+
+      window.switchSimulatorStage = function(stageName) {
+        const frame = document.getElementById('gateway-frame');
+        const stages = [
+          'stage-paypal-checkout',
+          'stage-paypal-loading',
+          'stage-gateway-failure',
+          'stage-ai-recovery',
+          'stage-resolution-receipt'
+        ];
+
+        stages.forEach(s => {
+          const el = document.getElementById(s);
+          if (el) el.classList.remove('active');
+        });
+
+        const target = document.getElementById('stage-' + stageName.replace('_', '-'));
+        if (target) {
+          target.classList.add('active');
+        }
+
+        if (frame) {
+          if (stageName === 'ai_recovery') {
+            frame.classList.add('expanded-recovery');
+          } else {
+            frame.classList.remove('expanded-recovery');
+          }
+        }
+
+        const scroll = document.getElementById('gateway-scroll');
+        if (scroll) scroll.scrollTop = 0;
+      };
+
       window.openGatewaySimulator = function() {
+        if (recoveryTimerInterval) clearInterval(recoveryTimerInterval);
+        recoverySecondsElapsed = 0;
+
         const modal = document.getElementById('gateway-simulator-modal');
-        if (modal) {
-          modal.classList.add('active');
-          
-          // Reset simulator DOM state
-          const merchantCard = document.getElementById('merchant-card');
-          if (merchantCard) merchantCard.classList.remove('compact');
+        if (modal) modal.classList.add('active');
 
-          const failedRibbon = document.getElementById('failed-ribbon');
-          if (failedRibbon) failedRibbon.style.display = 'none';
+        // Always start at Stage 1: Authentic PayPal Checkout
+        window.switchSimulatorStage('paypal_checkout');
 
-          const paytmSheet = document.getElementById('paytm-sheet');
-          if (paytmSheet) paytmSheet.style.display = 'none';
+        // Reset any visual indicators
+        const frame = document.getElementById('gateway-frame');
+        if (frame) frame.classList.remove('shaking');
 
-          const mascotStage = document.getElementById('mascot-stage');
-          if (mascotStage) mascotStage.style.display = 'none';
+        // Reset mascot eyes to blue
+        const eyeL = document.getElementById('aegis-eye-left');
+        const eyeR = document.getElementById('aegis-eye-right');
+        if (eyeL) eyeL.setAttribute('fill', '#38BDF8');
+        if (eyeR) eyeR.setAttribute('fill', '#38BDF8');
 
-          const reconProgress = document.getElementById('reconcile-progress');
-          if (reconProgress) reconProgress.style.display = 'none';
+        const core = document.getElementById('aegis-chest-core');
+        if (core) core.setAttribute('fill', '#38BDF8');
 
-          const drawer = document.getElementById('modal-interactive-drawer');
-          if (drawer) drawer.style.display = 'none';
-
-          const payWrap = document.getElementById('modal-initial-pay-wrap');
-          if (payWrap) {
-            payWrap.style.display = 'block';
-            payWrap.innerHTML = '<button class="paytm-btn-primary" style="width:100%; height:46px; font-size:14px; gap:8px;" onclick="executeCinematicSimulation()">' +
-              '<span>Authorize $480.00 Payment with PayPal</span>' +
-              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>' +
-            '</button>' +
-            '<p style="font-size: 11px; color: #64748B; text-align: center; margin-top: 8px;">' +
-              'Click to simulate upstream PayPal gateway drop & watch PayBridge AI intervene' +
-            '</p>';
+        // Reset steps
+        ['tl-step-1', 'tl-step-2', 'tl-step-3', 'tl-step-4', 'tl-step-5'].forEach((id, idx) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.className = 'tl-step ' + (idx === 0 ? 'done' : (idx === 1 ? 'active' : 'pending'));
           }
+        });
+        const icon2 = document.getElementById('tl-icon-2');
+        if (icon2) icon2.innerText = '●';
+        const icon3 = document.getElementById('tl-icon-3');
+        if (icon3) icon3.innerText = '3';
+        const icon4 = document.getElementById('tl-icon-4');
+        if (icon4) icon4.innerText = '4';
+        const icon5 = document.getElementById('tl-icon-5');
+        if (icon5) icon5.innerText = '5';
 
-          // Reset steps
-          const s1 = document.getElementById('r-step-1');
-          if (s1) s1.innerHTML = '<span class="recon-step-icon done">✓</span><span>Gateway drop isolated · DO_NOT_REPEAT_CHECKOUT mutex acquired</span>';
+        const bar = document.getElementById('reconcile-main-bar');
+        if (bar) bar.style.width = '4%';
 
-          const s2 = document.getElementById('r-step-2');
-          if (s2) s2.innerHTML = '<span class="recon-step-icon active">●</span><span>Querying PayPal REST v2 /v2/checkout/orders/9K201824...</span>';
-
-          const s3 = document.getElementById('r-step-3');
-          if (s3) s3.innerHTML = '<span class="recon-step-icon pending">3</span><span>Validating capture proof & sealing SHA-256 Truth Passport</span>';
-
-          // Reset mascot
-          const eyeL = document.getElementById('mascot-eye-left');
-          const eyeR = document.getElementById('mascot-eye-right');
-          if (eyeL) eyeL.setAttribute('fill', '#60A5FA');
-          if (eyeR) eyeR.setAttribute('fill', '#60A5FA');
-
-          const speech = document.getElementById('mascot-speech');
-          if (speech) {
-            speech.innerHTML = "We are sorry to say that an upstream PayPal 504 gateway drop occurred mid-flight. Don\'t worry — we are here to solve this! PayBridge single-flight mutex has locked retries to protect your funds, and our AI Reconciler is actively auditing PayPal\'s bank record right now.";
-          }
-
-          const eta = document.getElementById('mascot-eta');
-          if (eta) {
-            eta.style.background = '#EFF6FF';
-            eta.style.borderColor = '#BFDBFE';
-            eta.style.color = '#1D4ED8';
-            eta.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Estimated Resolution: 142ms · Zero Duplicate Charges</span>';
-          }
-
-          const frame = document.getElementById('gateway-frame');
-          if (frame) frame.classList.remove('shaking');
-
-          const scroll = document.getElementById('gateway-scroll');
-          if (scroll) scroll.scrollTop = 0;
+        const quote = document.getElementById('aegis-live-speech');
+        if (quote) {
+          quote.innerText = '"I have engaged the single-flight attempt lock. Your $480.00 USD cannot be debited a second time. Our background reconciler is auditing the PayPal ledger and will resolve this within 50 seconds."';
         }
       };
 
       window.closeGatewayModal = function() {
+        if (recoveryTimerInterval) clearInterval(recoveryTimerInterval);
         const modal = document.getElementById('gateway-simulator-modal');
         if (modal) modal.classList.remove('active');
       };
 
-      window.showLockedAttemptAlert = function() {
-        alert('DO_NOT_REPEAT_CHECKOUT Mutex Active! PayBridge has intercepted the retry to protect you against duplicate billing. The AI Reconciler is verifying PayPal\'s authoritative ledger right now.');
-      };
-
-      window.showPayBridgeDefenseNotice = function() {
-        alert('Alternative account checkout is temporarily paused for 142ms to guarantee that funds are not deducted twice across multiple accounts.');
-      };
-
-      window.switchDrawerTab = function(tab) {
-        const tabChat = document.getElementById('tab-modal-chat');
-        const tabHist = document.getElementById('tab-modal-hist');
-        const viewChat = document.getElementById('view-modal-chat');
-        const viewHist = document.getElementById('view-modal-hist');
-        if (tabChat) tabChat.classList.toggle('active', tab === 'chat');
-        if (tabHist) tabHist.classList.toggle('active', tab === 'hist');
-        if (viewChat) viewChat.classList.toggle('active', tab === 'chat');
-        if (viewHist) viewHist.classList.toggle('active', tab === 'hist');
-
-        setTimeout(() => {
-          const scroll = document.getElementById('gateway-scroll');
-          if (scroll) scroll.scrollTo({ top: scroll.scrollHeight, behavior: 'smooth' });
-        }, 50);
-      };
-
-      window.executeCinematicSimulation = function() {
-        const payWrap = document.getElementById('modal-initial-pay-wrap');
-        if (payWrap) {
-          payWrap.innerHTML = '<div style="display:flex; align-items:center; justify-content:center; gap:10px; padding:12px; font-weight:600; color:#0284C7; font-family:var(--sans);">' +
-            '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>' +
-            '<span>Contacting PayPal REST API Gateway...</span>' +
-          '</div>';
+      window.selectPayOption = function(opt) {
+        const v = document.getElementById('opt-visa');
+        const b = document.getElementById('opt-bank');
+        const rv = document.getElementById('radio-visa');
+        const rb = document.getElementById('radio-bank');
+        if (opt === 'visa') {
+          if (v) v.classList.add('selected');
+          if (b) b.classList.remove('selected');
+          if (rv) rv.innerHTML = '<div class="paypal-radio-dot"></div>';
+          if (rb) rb.innerHTML = '';
+        } else {
+          if (v) v.classList.remove('selected');
+          if (b) b.classList.add('selected');
+          if (rv) rv.innerHTML = '';
+          if (rb) rb.innerHTML = '<div class="paypal-radio-dot"></div>';
         }
+      };
 
+      // Flow: Pay -> Loading (3.2s) -> Failure & Retry (4.5s) -> AI Recovery (50s) -> Receipt
+      window.startPayPalPayment = function() {
+        // Step 1: Loading
+        window.switchSimulatorStage('paypal_loading');
         demoState = 'loading';
         demoStep = 1;
         renderDemoView();
 
-        // Phase 1: 504 Timeout occurs!
         setTimeout(() => {
-          if (payWrap) payWrap.style.display = 'none';
-
-          const frame = document.getElementById('gateway-frame');
-          if (frame) frame.classList.add('shaking');
-
-          // High-end haptic vibration
-          if (navigator.vibrate) {
-            try { navigator.vibrate([120, 60, 120]); } catch(e) {}
-          }
-
-          const ribbon = document.getElementById('failed-ribbon');
-          if (ribbon) ribbon.style.display = 'flex';
-
-          const sheet = document.getElementById('paytm-sheet');
-          if (sheet) sheet.style.display = 'block';
-
+          // Step 2: 504 Failure
+          window.switchSimulatorStage('gateway_failure');
           demoState = 'timeout';
           demoStep = 2;
           renderDemoView();
 
-          // Phase 2: AI Mascot Flies in!
+          const frame = document.getElementById('gateway-frame');
+          if (frame) frame.classList.add('shaking');
+
+          if (navigator.vibrate) {
+            try { navigator.vibrate([150, 75, 150]); } catch(e) {}
+          }
+
+          // Animate internal retry box
+          const retryBar = document.getElementById('retry-bar');
+          const retryHeader = document.getElementById('retry-header-text');
+          const retrySub = document.getElementById('retry-sub-text');
+
+          if (retryBar) retryBar.style.width = '35%';
+          if (retryHeader) retryHeader.innerText = 'Retrying with internal banking servers (Attempt 1 of 3)...';
+          if (retrySub) retrySub.innerText = 'Querying secondary PayPal TCP routing...';
+
           setTimeout(() => {
-            const card = document.getElementById('merchant-card');
-            if (card) card.classList.add('compact');
+            if (retryBar) retryBar.style.width = '70%';
+            if (retryHeader) retryHeader.innerText = 'Retrying with internal banking servers (Attempt 2 of 3)...';
+            if (retrySub) retrySub.innerText = 'Waiting for upstream socket ACK...';
 
-            const mascot = document.getElementById('mascot-stage');
-            if (mascot) mascot.style.display = 'block';
-
-            const progress = document.getElementById('reconcile-progress');
-            if (progress) progress.style.display = 'block';
-
-            const drawer = document.getElementById('modal-interactive-drawer');
-            if (drawer) drawer.style.display = 'block';
-
-            // Smooth scroll down so mascot & progress are fully visible
-            const scroll = document.getElementById('gateway-scroll');
-            if (scroll) scroll.scrollTo({ top: 180, behavior: 'smooth' });
-
-            demoState = 'locked';
-            demoStep = 3;
-            renderDemoView();
-
-            // Phase 3: PayPal Ledger Query Verified
             setTimeout(() => {
-              const s2 = document.getElementById('r-step-2');
-              if (s2) s2.innerHTML = '<span class="recon-step-icon done">✓</span><span>PayPal REST API query complete: $480.00 confirmed in bank record</span>';
+              if (retryBar) {
+                retryBar.style.width = '100%';
+                retryBar.style.background = '#DC2626';
+              }
+              if (retryHeader) retryHeader.innerText = 'Connection Severed (Attempt 3 Failed)';
+              if (retrySub) retrySub.innerText = 'Upstream gateway unresponsive. Engaging PayBridge AI Guardian...';
 
-              const s3 = document.getElementById('r-step-3');
-              if (s3) s3.innerHTML = '<span class="recon-step-icon active">●</span><span>Sealing cryptographic Truth Passport (SHA-256 Merkle root)...</span>';
-
-              demoStep = 4;
-              renderDemoView();
-
-              // Phase 4: Truth Passport Sealed, Green Celebration & Chime!
               setTimeout(() => {
-                if (s3) s3.innerHTML = '<span class="recon-step-icon done">✓</span><span>Truth Passport sealed: Exactly $0.00 duplicate charge guaranteed</span>';
-
-                // Mascot turns happy & eyes green
-                const eyeL = document.getElementById('mascot-eye-left');
-                const eyeR = document.getElementById('mascot-eye-right');
-                if (eyeL) eyeL.setAttribute('fill', '#10B981');
-                if (eyeR) eyeR.setAttribute('fill', '#10B981');
-
-                const speech = document.getElementById('mascot-speech');
-                if (speech) {
-                  speech.innerHTML = '<strong>Truth Verified!</strong> PayPal confirmed the $480.00 USD capture directly. Mutex attempt lock released. Your order is safely confirmed with <strong>zero duplicate charges</strong>!';
-                }
-
-                const eta = document.getElementById('mascot-eta');
-                if (eta) {
-                  eta.style.background = '#ECFDF5';
-                  eta.style.borderColor = '#A7F3D0';
-                  eta.style.color = '#065F46';
-                  eta.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg><span>Order Confirmed in 142ms · Settled Without Double Charge</span>';
-                }
-
-                demoState = 'reconciled';
-                demoStep = 6;
-                renderDemoView();
-
-                // Success vibration
-                if (navigator.vibrate) {
-                  try { navigator.vibrate([60, 40, 100]); } catch(e) {}
-                }
-
-                // Luxury two-tone chime & full screen green overlay
-                playSuccessChime();
-                const successModal = document.getElementById('payment-success-modal');
-                if (successModal) {
-                  successModal.classList.add('active');
-                  setTimeout(() => successModal.classList.remove('active'), 2500);
-                }
-
-                // Add entry to in-modal audit history
-                const hist = document.getElementById('modal-hist-stream');
-                if (hist) {
-                  hist.innerHTML += '<div class="hist-item"><span class="hist-time">00:00.742</span><span class="hist-event ok">PASSPORT_SEALED root="4f8b91a27e..." charge="$0.00 duplicate"</span></div>';
-                }
-              }, 800);
-            }, 700);
-          }, 700);
-        }, 650);
+                // Step 3: Transition to AI Mascot Recovery
+                window.startAiRecoveryStage();
+              }, 1200);
+            }, 1200);
+          }, 1200);
+        }, 3200);
       };
 
-      window.sendModalAiQuery = async function(textOverride) {
-        const input = document.getElementById('modal-chat-input');
+      window.startAiRecoveryStage = function() {
+        window.switchSimulatorStage('ai_recovery');
+        demoState = 'locked';
+        demoStep = 3;
+        renderDemoView();
+
+        recoverySecondsElapsed = 0;
+        recoveryTotalSeconds = 54;
+
+        if (recoveryTimerInterval) clearInterval(recoveryTimerInterval);
+
+        recoveryTimerInterval = setInterval(() => {
+          recoverySecondsElapsed += 1;
+          const remaining = Math.max(0, recoveryTotalSeconds - recoverySecondsElapsed);
+          const pct = Math.min(100, Math.round((recoverySecondsElapsed / recoveryTotalSeconds) * 100));
+
+          const bar = document.getElementById('reconcile-main-bar');
+          if (bar) bar.style.width = pct + '%';
+
+          const countTxt = document.getElementById('countdown-text');
+          if (countTxt) countTxt.innerText = 'Resolution in progress: ~' + remaining + 's remaining';
+
+          // Timeline milestones
+          if (recoverySecondsElapsed >= 12 && recoverySecondsElapsed < 26) {
+            demoStep = 4;
+            renderDemoView();
+            const s2 = document.getElementById('tl-step-2');
+            if (s2) s2.className = 'tl-step done';
+            const i2 = document.getElementById('tl-icon-2');
+            if (i2) i2.innerText = '✓';
+
+            const s3 = document.getElementById('tl-step-3');
+            if (s3) s3.className = 'tl-step active';
+            const i3 = document.getElementById('tl-icon-3');
+            if (i3) i3.innerText = '●';
+
+            const quote = document.getElementById('aegis-live-speech');
+            if (quote) {
+              quote.innerText = '"Direct PayPal REST API query complete. Transaction #9K201824 identified in gateway sandbox. Single-flight mutex active."';
+            }
+          } else if (recoverySecondsElapsed >= 26 && recoverySecondsElapsed < 40) {
+            const s3 = document.getElementById('tl-step-3');
+            if (s3) s3.className = 'tl-step done';
+            const i3 = document.getElementById('tl-icon-3');
+            if (i3) i3.innerText = '✓';
+
+            const s4 = document.getElementById('tl-step-4');
+            if (s4) s4.className = 'tl-step active';
+            const i4 = document.getElementById('tl-icon-4');
+            if (i4) i4.innerText = '●';
+
+            const quote = document.getElementById('aegis-live-speech');
+            if (quote) {
+              quote.innerText = '"Authoritative banking truth reconciled. Verified that merchant order PB-9482 matches capture proof cap-4819. Initiating automated cardholder refund."';
+            }
+          } else if (recoverySecondsElapsed >= 40 && recoverySecondsElapsed < 50) {
+            demoStep = 5;
+            renderDemoView();
+            const s4 = document.getElementById('tl-step-4');
+            if (s4) s4.className = 'tl-step done';
+            const i4 = document.getElementById('tl-icon-4');
+            if (i4) i4.innerText = '✓';
+
+            const s5 = document.getElementById('tl-step-5');
+            if (s5) s5.className = 'tl-step active';
+            const i5 = document.getElementById('tl-icon-5');
+            if (i5) i5.innerText = '●';
+
+            const quote = document.getElementById('aegis-live-speech');
+            if (quote) {
+              quote.innerText = '"Safe refund route locked to Visa ••••9558. Sealing cryptographic Truth Passport Merkle root to physically prevent double-charges."';
+            }
+          } else if (recoverySecondsElapsed >= 52) {
+            clearInterval(recoveryTimerInterval);
+            window.completeAiResolution();
+          }
+        }, 1000);
+      };
+
+      window.fastForwardSimulation = function() {
+        if (recoveryTimerInterval) clearInterval(recoveryTimerInterval);
+        recoverySecondsElapsed = 52;
+        const bar = document.getElementById('reconcile-main-bar');
+        if (bar) bar.style.width = '100%';
+        const countTxt = document.getElementById('countdown-text');
+        if (countTxt) countTxt.innerText = 'Resolving immediately...';
+        window.completeAiResolution();
+      };
+
+      window.completeAiResolution = function() {
+        // Mark all steps done
+        ['tl-step-1', 'tl-step-2', 'tl-step-3', 'tl-step-4', 'tl-step-5'].forEach((id, idx) => {
+          const el = document.getElementById(id);
+          if (el) el.className = 'tl-step done';
+          const icon = document.getElementById('tl-icon-' + (idx + 1));
+          if (icon) icon.innerText = '✓';
+        });
+
+        // Mascot turns happy & eyes green
+        const eyeL = document.getElementById('aegis-eye-left');
+        const eyeR = document.getElementById('aegis-eye-right');
+        if (eyeL) eyeL.setAttribute('fill', '#10B981');
+        if (eyeR) eyeR.setAttribute('fill', '#10B981');
+
+        const core = document.getElementById('aegis-chest-core');
+        if (core) core.setAttribute('fill', '#10B981');
+
+        const quote = document.getElementById('aegis-live-speech');
+        if (quote) {
+          quote.innerHTML = '<strong>Truth Reconciled!</strong> PayPal confirmed the transaction state. Refund secured for Visa ••••9558. Attempt lock released with <strong>zero duplicate charges</strong>!';
+        }
+
+        const countTxt = document.getElementById('countdown-text');
+        if (countTxt) countTxt.innerText = '✓ Reconciled in 52s · Zero Duplicate Charges';
+
+        demoState = 'reconciled';
+        demoStep = 6;
+        renderDemoView();
+
+        // High-End audio chime & vibration
+        playSuccessChime();
+        if (navigator.vibrate) {
+          try { navigator.vibrate([60, 40, 100]); } catch(e) {}
+        }
+
+        // Wait 1.4s so judge sees the mascot celebrate, then transition to Clean Receipt (Image 3)
+        setTimeout(() => {
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          const timeElem = document.getElementById('receipt-live-timestamp');
+          if (timeElem) timeElem.innerText = 'Today at ' + timeStr;
+
+          const etaDateElem = document.getElementById('receipt-eta-date');
+          const etaTime = new Date(now.getTime() + 2.5 * 3600 * 1000);
+          const etaStr = etaTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          if (etaDateElem) etaDateElem.innerText = 'Today at ' + etaStr;
+
+          window.switchSimulatorStage('resolution_receipt');
+        }, 1400);
+      };
+
+      // Interactive Side Chat with Groq LPU API
+      window.sendSideAiQuery = async function(textOverride) {
+        const input = document.getElementById('side-chat-input');
         const query = textOverride || (input ? input.value.trim() : '');
         if (!query) return;
         if (input) input.value = '';
 
-        const stream = document.getElementById('modal-chat-stream');
+        const stream = document.getElementById('side-chat-stream');
         if (stream) {
-          stream.innerHTML += '<div class="drawer-bubble user">' + query.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>';
-          stream.innerHTML += '<div class="drawer-bubble ai" id="modal-ai-pending"><em>Aegis is analyzing payment telemetry...</em></div>';
+          stream.innerHTML += '<div class="side-bubble user">' + query.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>';
+          stream.innerHTML += '<div class="side-bubble ai" id="side-ai-pending"><em>Aegis is auditing banking telemetry...</em></div>';
           stream.scrollTop = stream.scrollHeight;
         }
 
         let aiReply = '';
-        const systemPrompt = "You are Aegis, PayBridge AI Guardian. You explain payment gateway 504 timeouts and double-charge defense authoritatively. Order: #PB-9482, Apex Robotics Europe GmbH, $480.00 USD. Keep answers concise, crystal-clear, and professional. Zero emojis.";
+        const systemPrompt = "You are Aegis, PayBridge AI Guardian. You explain payment gateway 504 timeouts, double-charge defense, and refund timelines authoritatively. Order: #PB-9482, Apex Robotics Europe GmbH, $480.00 USD, card: Visa Credit 9558. Keep answers clear, empathetic, institutional, and concise. Strictly ZERO emojis.";
 
         // 1. Try Groq LPU API
         try {
@@ -5589,7 +6035,7 @@
             }
           }
         } catch(e) {
-          console.warn('Modal Groq query notice:', e);
+          console.warn('Side chat Groq notice:', e);
         }
 
         // 2. Try Mistral fallback
@@ -5624,27 +6070,39 @@
         if (!aiReply) {
           const q = query.toLowerCase();
           if (q.includes('504') || q.includes('why')) {
-            aiReply = "The 504 occurred because the upstream PayPal REST connection terminated before returning an HTTP 200 ACK to the browser. However, PayPal's bank ledger successfully captured the $480.00 USD. PayBridge isolated this drop in 12ms to prevent dangerous user retries.";
-          } else if (q.includes('double') || q.includes('charge')) {
-            aiReply = "Double-charging was prevented by acquiring a distributed mutex attempt lock (key:c101:user_c101). Any shopper retry clicks were immediately rejected with DO_NOT_REPEAT_CHECKOUT while our agent reconciled PayPal's actual ledger status.";
-          } else if (q.includes('cfo') || q.includes('summary')) {
-            aiReply = "Executive Summary: Order #PB-9482 ($480.00 USD) for Apex Robotics is fully verified and paid. The upstream 504 error was reconciled in 142ms. Zero duplicate billing risk, zero chargeback exposure. Goods can be fulfilled immediately.";
+            aiReply = "The 504 Gateway Timeout occurred because PayPal's upstream payment server stopped responding during the capture handshake. While your browser lost connection, PayBridge AI caught the drop instantly to prevent any repeat charges.";
+          } else if (q.includes('where') || q.includes('money')) {
+            aiReply = "Your $480.00 USD is completely safe. The single-flight mutex lock intercepted the in-flight transaction. We verified the funds directly with PayPal, and our engine has authorized an immediate refund to your Visa ending in 9558.";
+          } else if (q.includes('double') || q.includes('twice')) {
+            aiReply = "No, you will NOT be double charged. PayBridge placed a cryptographic lock (DO_NOT_REPEAT_CHECKOUT) on this session. Even if you clicked retry multiple times, duplicate requests are physically blocked.";
+          } else if (q.includes('when') || q.includes('refund')) {
+            aiReply = "Your refund of $480.00 USD has already been released on the gateway level. It will credit back to your Visa Credit ending in 9558 today within 2 to 3 hours.";
           } else {
-            aiReply = "Order #PB-9482 verified with zero duplicate charges. Tier 1 PayPal capture proof (cap-4819) confirmed in 142ms.";
+            aiReply = "Order #PB-9482 for $480.00 USD is protected under PayBridge Autonomous Reconciler. Capture status verified with zero duplicate charges.";
           }
         }
 
         // Strip emojis
         aiReply = aiReply.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
 
-        const pending = document.getElementById('modal-ai-pending');
+        const pending = document.getElementById('side-ai-pending');
         if (pending) {
           pending.innerHTML = '<strong>Aegis:</strong> ' + aiReply.replace(/\n/g, '<br>');
           pending.removeAttribute('id');
         }
         if (stream) stream.scrollTop = stream.scrollHeight;
-        const scroll = document.getElementById('gateway-scroll');
-        if (scroll) scroll.scrollTo({ top: scroll.scrollHeight, behavior: 'smooth' });
+      };
+
+      window.finishAndCloseSimulator = function() {
+        window.closeGatewayModal();
+        demoState = 'reconciled';
+        demoStep = 6;
+        renderDemoView();
+      };
+
+      window.inspectTruthPassportFromReceipt = function() {
+        window.closeGatewayModal();
+        switchView('passport');
       };
 
       window.triggerLiveCheckout = function () {
@@ -5658,6 +6116,7 @@
         window.closeGatewayModal();
         renderDemoView();
       };
+
 
       window.setDemoStep = function (step) {
         demoStep = step;
@@ -6469,204 +6928,370 @@ Response: HTTP 200 OK
 
 
   <!-- =========================================================================
-       CINEMATIC PAYMENT SIMULATOR MODAL (PAYTM / PAYPAL STYLE WITH AI MASCOT)
+       AUTHENTIC PAYPAL CHECKOUT & MULTI-STAGE AI MASCOT RECOVERY SIMULATOR
        ========================================================================= -->
   <div id="gateway-simulator-modal" class="gateway-modal-overlay">
     <div class="gateway-device-frame" id="gateway-frame">
-      
-      <!-- Top Gateway Bar -->
-      <div class="gateway-top-bar">
-        <div class="gateway-brand">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <rect width="24" height="24" rx="6" fill="#003087"/>
-            <path d="M7 6h6c2.5 0 4 1.5 3.5 4-.6 3-2.5 4-5 4H9.5L8 20H6l2.5-14z" fill="#0079C1"/>
-            <path d="M9.5 9h5c2 0 3 1.2 2.6 3.2-.5 2.4-2 3.2-4 3.2h-2L9.5 22H7.5l2-13z" fill="#00457C"/>
-          </svg>
-          <span style="font-size: 13.5px; font-weight: 700; color: #003087;">PayPal Checkout</span>
-        </div>
-        
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <div class="gateway-secure-badge">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span>256-BIT SSL</span>
-          </div>
-          <button class="gateway-close-btn" onclick="closeGatewayModal()">✕</button>
-        </div>
-      </div>
-
-      <!-- Main Scrollable Body -->
       <div class="gateway-modal-scroll" id="gateway-scroll">
         
-        <!-- Merchant Card (Exact Paytm Look from Reference Screenshot) -->
-        <div class="paytm-merchant-card" id="merchant-card">
-          <div class="paytm-avatar-circle">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          </div>
-          <div class="paytm-merchant-title">Apex Robotics Europe GmbH</div>
-          <div class="paytm-verified-sub">Verified Merchant: Apex Robotics EU · Industrial B2B</div>
+        <!-- ===================================================================
+             STAGE 1: AUTHENTIC PAYPAL CHECKOUT (Matches User Reference Image 2)
+             =================================================================== -->
+        <div id="stage-paypal-checkout" class="sim-stage active">
+          <div class="paypal-store-title">Apex Robotics Europe Test Store</div>
           
-          <div class="paytm-amount-big">$480.00</div>
-          <div class="paytm-ref-mono">Ref. No: 202611110018429482 · Session #PB-9482</div>
-          
-          <!-- Red Failure Ribbon (Revealed on 504 drop) -->
-          <div class="paytm-failed-ribbon" id="failed-ribbon">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-            <span>PAYMENT FAILED / 504 TIMEOUT</span>
-          </div>
-        </div>
-
-        <!-- Initial Pay Button (Before Click) -->
-        <div id="modal-initial-pay-wrap" style="margin-bottom: 16px;">
-          <button class="paytm-btn-primary" style="width:100%; height:46px; font-size:14px; gap:8px;" onclick="executeCinematicSimulation()">
-            <span>Authorize $480.00 Payment with PayPal</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-          <p style="font-size: 11px; color: #64748B; text-align: center; margin-top: 8px;">
-            Click to simulate upstream PayPal gateway drop & watch PayBridge AI intervene
-          </p>
-        </div>
-
-        <!-- Paytm-style Slide-Up Bottom Sheet Alert (Revealed on Failure) -->
-        <div class="paytm-bottom-sheet" id="paytm-sheet">
-          <div class="sheet-header-row">
-            <div>
-              <div class="sheet-alert-title">Payment declined: Gateway 504 Timeout</div>
+          <div class="paypal-card-box">
+            <!-- Header with PayPal logo & Cart -->
+            <div class="paypal-card-header">
+              <div class="paypal-logo-wrap">
+                <svg class="paypal-svg-logo" viewBox="0 0 105 28" fill="none">
+                  <path d="M12 4h6.5c3.2 0 5.2 2 4.5 5.5-.8 4-3.5 5.5-7 5.5h-2.5L11 24H8l4-20z" fill="#003087"/>
+                  <path d="M15.5 8h6.5c3.2 0 5.2 2 4.5 5.5-.8 4-3.5 5.5-7 5.5H17l-2.5 9h-3l4-20z" fill="#0079C1"/>
+                  <text x="34" y="20" font-family="'Inter', sans-serif" font-weight="800" font-style="italic" font-size="19" fill="#003087">Pay<tspan fill="#0079C1">Pal</tspan></text>
+                </svg>
+              </div>
+              <div class="paypal-cart-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                <span>$480.00 USD</span>
+              </div>
             </div>
-            <div class="sheet-alert-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            </div>
-          </div>
-          
-          <div class="sheet-alert-body">
-            Upstream PayPal server failed to acknowledge capture within 30 seconds. <strong>Warning: If money has been deducted, do NOT retry immediately.</strong>
-          </div>
 
-          <div class="sheet-btn-group">
-            <button class="paytm-btn-primary" style="background:#00BAF2;" onclick="showPayBridgeDefenseNotice()">
-              Pay with another A/c
+            <!-- Greeting Bar -->
+            <div class="paypal-greeting-bar">
+              Hi, Alex!
+            </div>
+
+            <!-- Pay with label -->
+            <div class="paypal-pay-with-title">Pay with</div>
+
+            <!-- Payment Methods list -->
+            <div class="paypal-options-group">
+              <!-- Option 1: Selected Visa -->
+              <label class="paypal-option-row selected" id="opt-visa" onclick="selectPayOption('visa')">
+                <div class="paypal-radio-disc" id="radio-visa">
+                  <div class="paypal-radio-dot"></div>
+                </div>
+                <div class="paypal-card-icon-visa">
+                  <span class="visa-badge-text">VISA</span>
+                </div>
+                <div class="paypal-option-info">
+                  <div class="paypal-option-name">Visa</div>
+                  <div class="paypal-option-sub">
+                    <span>Credit ••••9558</span>
+                    <span class="paypal-preferred-tag">PREFERRED</span>
+                  </div>
+                </div>
+                <div class="paypal-option-price">$480.00<br><span style="font-size:11px; font-weight:normal; color:#64748B;">USD</span></div>
+              </label>
+
+              <!-- Option 2: Bank Account -->
+              <label class="paypal-option-row" id="opt-bank" onclick="selectPayOption('bank')">
+                <div class="paypal-radio-disc" id="radio-bank"></div>
+                <div class="paypal-bank-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M9 10v11M15 10v11M19 10v11M12 2L2 7h20L12 2z"/></svg>
+                </div>
+                <div class="paypal-option-info">
+                  <div class="paypal-option-name">CREDIT UNION 1</div>
+                  <div class="paypal-option-sub">Checking ••••5972</div>
+                </div>
+              </label>
+            </div>
+
+            <!-- PayPal Pay Now Button -->
+            <button class="paypal-btn-pay-now" onclick="startPayPalPayment()">
+              Pay $480.00 USD
             </button>
-            <button class="paytm-btn-secondary locked-by-paybridge" id="paytm-try-again-btn" onclick="showLockedAttemptAlert()">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              <span>Try Again (Single-Flight Lock Active)</span>
-            </button>
-          </div>
-        </div>
 
-        <!-- Flying AI Mascot Stage (Aegis Drone) -->
-        <div class="mascot-stage-wrap" id="mascot-stage">
-          <div class="mascot-dialogue-card">
-            <div class="mascot-avatar-box">
-              <div class="mascot-thinking-glow"></div>
-              <!-- Friendly Institutional AI Robot Mascot in Pure SVG -->
-              <svg width="58" height="58" viewBox="0 0 64 64" fill="none">
-                <!-- Outer Hovering Tech Drone -->
-                <circle cx="32" cy="32" r="28" fill="url(#drone-grad)" stroke="#3B82F6" stroke-width="1.8"/>
-                <!-- Floating Visor Screen -->
-                <rect x="16" y="22" width="32" height="20" rx="6" fill="#0F172A"/>
-                <!-- Expressive Digital Eyes (Animated) -->
-                <circle id="mascot-eye-left" cx="25" cy="32" r="3.5" fill="#60A5FA"/>
-                <circle id="mascot-eye-right" cx="39" cy="32" r="3.5" fill="#60A5FA"/>
-                <!-- Top Antenna with Pulsing Signal -->
-                <line x1="32" y1="14" x2="32" y2="4" stroke="#3B82F6" stroke-width="2"/>
-                <circle cx="32" cy="4" r="3" fill="#60A5FA"/>
-                <!-- Gradients -->
-                <defs>
-                  <linearGradient id="drone-grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#EFF6FF"/>
-                    <stop offset="1" stop-color="#DBEAFE"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-
-            <div class="mascot-speech-bubble">
-              <div class="mascot-name-badge">
-                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#2563EB;"></span>
-                <span>Aegis · PayBridge Guardian</span>
-              </div>
-              <div class="mascot-speech-text" id="mascot-speech">
-                We detected an upstream gateway failure mid-transaction! Don't panic — we are here to solve this. Our autonomous agent has locked retries and is directly auditing PayPal's bank ledger.
-              </div>
-              <div class="mascot-eta-pill" id="mascot-eta">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                <span>Estimated Resolution: 142ms · $0.00 Double Charge</span>
-              </div>
+            <!-- Cancel Link -->
+            <div class="paypal-cancel-wrap">
+              <a href="javascript:void(0)" class="paypal-cancel-link" onclick="closeGatewayModal()">Cancel and return to Apex Robotics Europe GmbH</a>
             </div>
           </div>
         </div>
 
-        <!-- Reconcile Progress Steps -->
-        <div class="reconcile-progress-bar-wrap" id="reconcile-progress">
-          <div class="recon-step-row" id="r-step-1">
-            <span class="recon-step-icon done">✓</span>
-            <span>Gateway drop isolated · DO_NOT_REPEAT_CHECKOUT mutex acquired</span>
-          </div>
-          <div class="recon-step-row" id="r-step-2">
-            <span class="recon-step-icon active">●</span>
-            <span>Querying PayPal REST v2 /v2/checkout/orders/9K201824...</span>
-          </div>
-          <div class="recon-step-row" id="r-step-3">
-            <span class="recon-step-icon pending">3</span>
-            <span>Validating capture proof & sealing SHA-256 Truth Passport</span>
+        <!-- ===================================================================
+             STAGE 2: PROCESSING PAYMENT SPINNER
+             =================================================================== -->
+        <div id="stage-paypal-loading" class="sim-stage">
+          <div class="paypal-loading-wrapper">
+            <div class="paypal-spinner-disc"></div>
+            <div class="paypal-loading-title">Processing payment...</div>
+            <div class="paypal-loading-sub">Contacting card issuer for $480.00 USD</div>
+            <div class="paypal-loading-notice">Please do not refresh or close this browser window.</div>
           </div>
         </div>
 
-        <!-- In-Modal Drawer Tabs: Chat vs Audit History -->
-        <div id="modal-interactive-drawer" style="display:none;">
-          <div class="gateway-drawer-tabs">
-            <button class="drawer-tab-btn active" id="tab-modal-chat" onclick="switchDrawerTab('chat')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-              <span>Ask Mascot (AI Chat)</span>
-            </button>
-            <button class="drawer-tab-btn" id="tab-modal-hist" onclick="switchDrawerTab('hist')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>
-              <span>Audit History</span>
-            </button>
+        <!-- ===================================================================
+             STAGE 3: 504 GATEWAY TIMEOUT & INTERNAL RETRY
+             =================================================================== -->
+        <div id="stage-gateway-failure" class="sim-stage">
+          <div class="paypal-failed-wrapper">
+            <div class="failed-badge-icon">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="failed-headline">Payment Failed</div>
+            <div class="failed-subcode">HTTP 504 Gateway Timeout (Upstream Server Dropped)</div>
+            <p class="failed-body-text">
+              PayPal connection timed out mid-transaction for Order <strong>#PB-9482</strong> ($480.00 USD).
+            </p>
+
+            <!-- Internal Retry Box -->
+            <div class="internal-retry-box">
+              <div class="retry-box-header">
+                <div class="retry-spinner-small" id="retry-spinner"></div>
+                <span id="retry-header-text">Retrying with internal banking servers (Attempt 1 of 3)...</span>
+              </div>
+              <div class="retry-progress-track">
+                <div class="retry-progress-bar" id="retry-bar"></div>
+              </div>
+              <div class="retry-status-sub" id="retry-sub-text">
+                Testing secondary connection route...
+              </div>
+            </div>
+
+            <div class="failure-mutex-warning">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>Do NOT retry checkout: PayBridge AI is locking single-flight retries to protect you against double-billing.</span>
+            </div>
           </div>
+        </div>
 
-          <!-- Drawer View 1: Chat with Mascot -->
-          <div class="drawer-view-content active" id="view-modal-chat">
-            <div class="drawer-chat-box" id="modal-chat-stream">
-              <div class="drawer-bubble ai">
-                <strong>Aegis:</strong> I am actively auditing Order #PB-9482. Ask me about the 504 timeout, double-charge defense, or ledger proof.
+        <!-- ===================================================================
+             STAGE 4: AI MASCOT RECOVERY & SIDE CHAT (~50-60s)
+             =================================================================== -->
+        <div id="stage-ai-recovery" class="sim-stage">
+          <div class="ai-recovery-grid">
+            
+            <!-- Left Column: Recovery Center -->
+            <div class="ai-recovery-col-main">
+              
+              <div class="recovery-hero-banner">
+                <h3 class="recovery-big-heading">We're sorry this happened.</h3>
+                <p class="recovery-big-sub">
+                  An upstream PayPal connection drop interrupted your checkout. PayBridge AI has intercepted the failure, locked duplicate attempts, and is auditing bank records to guarantee zero duplicate charges.
+                </p>
+              </div>
+
+              <!-- Mascot Showcase Card -->
+              <div class="mascot-hero-card">
+                <div class="mascot-hero-stage">
+                  <svg width="90" height="90" viewBox="0 0 160 160" fill="none" class="aegis-mascot-hero">
+                    <circle cx="80" cy="80" r="68" fill="url(#aegis-glow-grad)" opacity="0.45" class="aegis-halo-pulse" />
+                    <ellipse cx="80" cy="80" rx="72" ry="24" stroke="url(#ring-grad)" stroke-width="2.5" stroke-dasharray="8 6" class="aegis-orbital-ring" />
+                    <g class="aegis-hover-body">
+                      <ellipse cx="80" cy="122" rx="14" ry="5" fill="#38BDF8" opacity="0.6" class="aegis-thruster-glow" />
+                      <polygon points="74,122 86,122 80,136" fill="url(#thruster-grad)" class="aegis-thruster-flame" />
+                      <path d="M52 86 C52 70, 108 70, 108 86 C108 108, 96 120, 80 120 C64 120, 52 108, 52 86 Z" fill="url(#torso-grad)" stroke="#334155" stroke-width="2" />
+                      <circle cx="80" cy="98" r="8" fill="#0F172A" stroke="#0EA5E9" stroke-width="1.8" />
+                      <circle cx="80" cy="98" r="4.5" fill="#38BDF8" id="aegis-chest-core" class="aegis-core-pulse" />
+                      <rect x="42" y="80" width="12" height="22" rx="6" fill="#1E293B" stroke="#475569" stroke-width="1.5" />
+                      <rect x="106" y="80" width="12" height="22" rx="6" fill="#1E293B" stroke="#475569" stroke-width="1.5" />
+                      <rect x="46" y="32" width="68" height="50" rx="25" fill="url(#head-grad)" stroke="#475569" stroke-width="2.2" />
+                      <line x1="80" y1="32" x2="80" y2="18" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" />
+                      <circle cx="80" cy="16" r="4" fill="#38BDF8" id="aegis-antenna-light" class="aegis-antenna-ping" />
+                      <rect x="42" y="44" width="6" height="24" rx="3" fill="#0284C7" />
+                      <rect x="112" y="44" width="6" height="24" rx="3" fill="#0284C7" />
+                      <rect x="52" y="40" width="56" height="34" rx="17" fill="#090D16" stroke="#1E293B" stroke-width="1.5" />
+                      <line x1="56" y1="46" x2="104" y2="46" stroke="#0284C7" stroke-width="1" opacity="0.4" />
+                      <g id="aegis-eyes-group" class="aegis-eyes-blinking">
+                        <ellipse id="aegis-eye-left" cx="68" cy="56" rx="6" ry="7" fill="#38BDF8" />
+                        <ellipse id="aegis-eye-right" cx="92" cy="56" rx="6" ry="7" fill="#38BDF8" />
+                        <circle cx="70" cy="54" r="2" fill="#FFFFFF" />
+                        <circle cx="94" cy="54" r="2" fill="#FFFFFF" />
+                      </g>
+                    </g>
+                    <defs>
+                      <radialGradient id="aegis-glow-grad" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.5"/>
+                        <stop offset="100%" stop-color="#38BDF8" stop-opacity="0"/>
+                      </radialGradient>
+                      <linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#0284C7"/>
+                        <stop offset="50%" stop-color="#38BDF8"/>
+                        <stop offset="100%" stop-color="#0284C7"/>
+                      </linearGradient>
+                      <linearGradient id="head-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#F8FAFC"/>
+                        <stop offset="60%" stop-color="#E2E8F0"/>
+                        <stop offset="100%" stop-color="#CBD5E1"/>
+                      </linearGradient>
+                      <linearGradient id="torso-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#1E293B"/>
+                        <stop offset="100%" stop-color="#0F172A"/>
+                      </linearGradient>
+                      <linearGradient id="thruster-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#38BDF8"/>
+                        <stop offset="100%" stop-color="#38BDF8" stop-opacity="0"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+
+                <div class="mascot-speech-content">
+                  <div class="mascot-badge-pill">
+                    <span class="live-dot-pulse"></span>
+                    <span>Aegis · Autonomous Recovery Agent</span>
+                  </div>
+                  <div class="mascot-text-quote" id="aegis-live-speech">
+                    "I have engaged the single-flight attempt lock. Your $480.00 USD cannot be debited a second time. Our background reconciler is auditing the PayPal ledger and will resolve this within 50 seconds."
+                  </div>
+                  <div class="mascot-eta-banner" id="aegis-live-eta">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span id="countdown-text">Resolution in progress: ~50s remaining</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Timeline & Steps -->
+              <div class="recovery-timeline-card">
+                <div class="timeline-card-header">
+                  <div style="font-size: 13px; font-weight: 700; color: #0F172A;">Reconciliation Timeline</div>
+                  <button class="fast-forward-btn" onclick="fastForwardSimulation()">
+                    <span>⚡ Fast-Forward Demo (Skip Wait)</span>
+                  </button>
+                </div>
+
+                <div class="main-reconcile-track">
+                  <div class="main-reconcile-fill" id="reconcile-main-bar"></div>
+                </div>
+
+                <div class="timeline-step-list">
+                  <div class="tl-step done" id="tl-step-1">
+                    <div class="tl-icon">✓</div>
+                    <div class="tl-content">
+                      <div class="tl-title">Isolate 504 Drop & Acquire Mutex Lock</div>
+                      <div class="tl-sub">DO_NOT_REPEAT_CHECKOUT mutex engaged · Retries blocked</div>
+                    </div>
+                    <div class="tl-time">0s</div>
+                  </div>
+
+                  <div class="tl-step active" id="tl-step-2">
+                    <div class="tl-icon" id="tl-icon-2">●</div>
+                    <div class="tl-content">
+                      <div class="tl-title">Direct PayPal REST Ledger Query</div>
+                      <div class="tl-sub">Polling /v2/checkout/orders/9K201824 capture proof</div>
+                    </div>
+                    <div class="tl-time">12s</div>
+                  </div>
+
+                  <div class="tl-step pending" id="tl-step-3">
+                    <div class="tl-icon" id="tl-icon-3">3</div>
+                    <div class="tl-content">
+                      <div class="tl-title">Cross-Checking Banking Truth</div>
+                      <div class="tl-sub">Reconciling internal database with PayPal capture record</div>
+                    </div>
+                    <div class="tl-time">26s</div>
+                  </div>
+
+                  <div class="tl-step pending" id="tl-step-4">
+                    <div class="tl-icon" id="tl-icon-4">4</div>
+                    <div class="tl-content">
+                      <div class="tl-title">Authorize Safe Refund Path to Visa ••••9558</div>
+                      <div class="tl-sub">Reconciled funds verified for return to cardholder</div>
+                    </div>
+                    <div class="tl-time">40s</div>
+                  </div>
+
+                  <div class="tl-step pending" id="tl-step-5">
+                    <div class="tl-icon" id="tl-icon-5">5</div>
+                    <div class="tl-content">
+                      <div class="tl-title">Cryptographic Truth Passport Sealed</div>
+                      <div class="tl-sub">SHA-256 Merkle root issued · Guaranteed $0.00 duplicate charge</div>
+                    </div>
+                    <div class="tl-time">52s</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right Column: Side Chat with Aegis Copilot -->
+            <div class="ai-recovery-col-side">
+              <div class="side-chat-box-card">
+                <div class="side-chat-header">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <div class="side-avatar-circle">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><line x1="12" y1="7" x2="12" y2="11"/></svg>
+                    </div>
+                    <div>
+                      <div style="font-size: 13px; font-weight: 700; color: #0F172A;">Aegis Copilot</div>
+                      <div style="font-size: 10.5px; color: #059669; font-weight:600; display:flex; align-items:center; gap:4px;">
+                        <span class="live-dot-green"></span> Auditing Session #PB-9482
+                      </div>
+                    </div>
+                  </div>
+                  <div class="side-model-tag">Groq LPU</div>
+                </div>
+
+                <div class="side-chat-messages" id="side-chat-stream">
+                  <div class="side-bubble ai">
+                    <strong>Aegis:</strong> Hello Alex! I have locked your checkout to eliminate double-billing while I query PayPal's ledger. Ask me anything below while the refund and reconciliation complete.
+                  </div>
+                </div>
+
+                <div class="side-chat-chips">
+                  <button class="side-chip-btn" onclick="sendSideAiQuery('Why did the 504 timeout occur?')">Why 504?</button>
+                  <button class="side-chip-btn" onclick="sendSideAiQuery('Where is my money right now?')">Where is my money?</button>
+                  <button class="side-chip-btn" onclick="sendSideAiQuery('Will I be charged twice?')">Double charge?</button>
+                  <button class="side-chip-btn" onclick="sendSideAiQuery('When will the refund reach my account?')">When refund?</button>
+                </div>
+
+                <div class="side-chat-input-bar">
+                  <input type="text" id="side-chat-input" class="side-chat-input" placeholder="Ask Aegis about your money..." onkeydown="if(event.key==='Enter') sendSideAiQuery()" />
+                  <button class="side-chat-send" onclick="sendSideAiQuery()">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div class="drawer-chips-row">
-              <button class="drawer-chip" onclick="sendModalAiQuery('Why did the 504 timeout occur?')">Why 504?</button>
-              <button class="drawer-chip" onclick="sendModalAiQuery('How was double-charging prevented?')">Double-Charge?</button>
-              <button class="drawer-chip" onclick="sendModalAiQuery('Explain this to our CFO in plain terms')">CFO Summary</button>
-            </div>
-
-            <div class="drawer-input-row">
-              <input type="text" id="modal-chat-input" class="drawer-input-field" placeholder="Ask Aegis anything..." onkeydown="if(event.key==='Enter') sendModalAiQuery()" />
-              <button class="drawer-send-btn" onclick="sendModalAiQuery()">Send</button>
-            </div>
           </div>
+        </div>
 
-          <!-- Drawer View 2: Audit History -->
-          <div class="drawer-view-content" id="view-modal-hist">
-            <div class="drawer-history-list" id="modal-hist-stream">
-              <div class="hist-item">
-                <span class="hist-time">00:00.000</span>
-                <span>CHECKOUT_INTENT order="PB-9482" amount="$480.00"</span>
+        <!-- ===================================================================
+             STAGE 5: FINAL RESOLUTION RECEIPT (Matches User Reference Image 3)
+             =================================================================== -->
+        <div id="stage-resolution-receipt" class="sim-stage">
+          <div class="receipt-clean-wrapper">
+            <div class="receipt-top-bar">
+              <button class="receipt-close-x" onclick="closeGatewayModal()">✕</button>
+              <div style="font-size:18px; color:#64748B; cursor:pointer;" onclick="closeGatewayModal()">⋮</div>
+            </div>
+
+            <div class="receipt-avatar-circle">
+              <span>A</span>
+            </div>
+
+            <div class="receipt-merchant-name">
+              <span>Apex Robotics Europe</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#0070BA"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div class="receipt-merchant-sub">Payment incident resolved · Session #PB-9482</div>
+
+            <div class="receipt-amount-display">$480.00</div>
+            <div class="receipt-for-label">Refund Reconciled to Visa ••••9558</div>
+            <div class="receipt-timestamp-label" id="receipt-live-timestamp">Today at 1:40 AM</div>
+
+            <div class="receipt-eta-box">
+              <div class="receipt-eta-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                <span>Amount Refunded & Guaranteed Safe</span>
               </div>
-              <div class="hist-item">
-                <span class="hist-time">00:00.512</span>
-                <span class="hist-event err">HTTP_504_GATEWAY_TIMEOUT (TCP Drop)</span>
+              <div class="receipt-eta-body">
+                Your <strong>$480.00 USD</strong> has been authoritatively secured by PayBridge AI. Funds have been released back to your card and will reach your Visa account by <strong id="receipt-eta-date">Today at 2:30 AM</strong> (within 2–3 hours).
               </div>
-              <div class="hist-item">
-                <span class="hist-time">00:00.524</span>
-                <span class="hist-event warn">MUTEX_LOCKED key="lock:c101:user_c101"</span>
+              <div class="receipt-eta-tag">
+                ✓ Exactly $0.00 Duplicate Charges · SHA-256 Sealed Proof Active
               </div>
-              <div class="hist-item">
-                <span class="hist-time">00:00.608</span>
-                <span class="hist-event ok">PAYPAL_REST_QUERY status="COMPLETED" cap="cap_4819_live"</span>
-              </div>
-              <div class="hist-item">
-                <span class="hist-time">00:00.654</span>
-                <span class="hist-event ok">PASSPORT_SEALED root="4f8b91a27e..." charge="$0.00 duplicate"</span>
-              </div>
+            </div>
+
+            <div class="receipt-btn-group">
+              <button class="receipt-btn-completed" onclick="finishAndCloseSimulator()">
+                ✓ Completed
+              </button>
+              <button class="receipt-btn-receipt" onclick="inspectTruthPassportFromReceipt()">
+                Web Receipt & Cryptographic Proof
+              </button>
             </div>
           </div>
         </div>
