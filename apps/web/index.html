@@ -7938,8 +7938,8 @@
       ];
 
       // Groq & Mistral API Keys from AI Stack Reference
-      const GROQ_API_KEY = "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";
-      const MISTRAL_API_KEY = "mstrl_nq6J8L4DU8xFYmqve7sxGvJ5jEZvcpAV_44qDqo";
+      const GROQ_API_KEY = window.GROQ_API_KEY || "";
+      const MISTRAL_API_KEY = window.MISTRAL_API_KEY || "";
 
       // Synthesize crystal-clear two-tone confirmation chime via Web Audio API
       function playSuccessChime() {
