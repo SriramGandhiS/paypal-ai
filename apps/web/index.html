@@ -3545,216 +3545,347 @@
       animation: pulseDot 1.6s infinite;
     }
 
-    /* =========================================================================
-       DRIFTBAR MEADOW FOOTER STYLES (EXACT SPECIFICATION)
-       ========================================================================= */
-/* =========================================================================
-       CLEAN COMPACT FOOTER (STRICT SPECIFICATION)
+        /* =========================================================================
+       DRIFTBAR MEADOW FOOTER (EXACT SPECIFICATION FOR PAYBRIDGE AI)
        ========================================================================= */
     .footer {
+      --paper: #f1f1ee;
+      --ink: #0c0c0c;
+      --body: #6f6f6c;
+      --muted: #9c9c98;
+      --wordmark: #efefeb;
+      --mist: #e2e3f1;
+      --font: "Inter", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      --u: min(100vw / 1440, 100vh / 672);
+      --u: min(100vw / 1440, 100svh / 672);
       position: relative;
-      min-height: 440px;
+      height: 100vh;
+      height: 100svh;
       background: var(--paper);
       overflow: hidden;
       isolation: isolate;
       font-family: var(--font);
       color: var(--ink);
       -webkit-font-smoothing: antialiased;
-      padding: 64px 0 48px 0;
     }
 
     .footer a { color: inherit; text-decoration: none; }
     .footer ul { margin: 0; padding: 0; list-style: none; }
 
+    /* Stage & Looping Video */
     .footer__stage {
       position: absolute;
       inset: 0;
       z-index: 0;
       pointer-events: none;
     }
-
     .footer__video {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: 50% 100%;
+      transform: translateY(9%);
     }
-
     .footer__stage::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, var(--paper) 0%, rgb(241 241 238 / .96) 24%, rgb(241 241 238 / .75) 50%, rgb(241 241 238 / 0.15) 100%);
+      background: linear-gradient(to bottom, var(--paper) 0%, rgb(241 241 238 / .96) 26%, rgb(241 241 238 / .72) 44%, rgb(241 241 238 / 0) 70%);
     }
 
+    /* Wordmark, Frosted Glass */
+    .footer__wordmark {
+      position: absolute;
+      left: 50%;
+      bottom: calc(-2 * var(--u));
+      transform: translateX(-50%);
+      z-index: 1;
+      margin: 0;
+      font-size: calc(270 * var(--u));
+      font-weight: 600;
+      line-height: .74;
+      letter-spacing: -0.045em;
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      color: rgb(232 234 250 / .4);
+      background: linear-gradient(to bottom, rgb(255 255 255 / .78), rgb(214 218 246 / .36) 48%, rgb(255 255 255 / .62));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 calc(-1 * var(--u)) 0 rgb(255 255 255 / .55)) drop-shadow(0 0 calc(18 * var(--u)) rgb(190 200 255 / .45));
+    }
+
+    /* Fog */
     .footer__fog {
       position: absolute;
       inset: auto 0 0;
       z-index: 2;
-      height: 20%;
+      height: 17%;
       pointer-events: none;
       background: linear-gradient(to top, var(--mist) 0%, rgb(226 227 241 / .6) 30%, rgb(226 227 241 / 0) 100%);
     }
 
+    /* Content Grid */
     .footer__content {
       position: relative;
       z-index: 3;
       display: grid;
-      grid-template-columns: 1.8fr 1fr 1fr 1fr;
-      column-gap: 48px;
-      row-gap: 32px;
+      grid-template-columns: calc(440 * var(--u)) calc(240 * var(--u)) calc(240 * var(--u)) 1fr;
       align-items: start;
-      max-width: 1200px;
+      width: calc(1440 * var(--u));
       margin: 0 auto;
-      padding: 0 40px;
+      padding: calc(86 * var(--u)) calc(100 * var(--u)) 0 calc(160 * var(--u));
     }
 
+    /* Brand Block */
     .brand__logo {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      font-size: 17px;
-      font-weight: 700;
+      gap: calc(10 * var(--u));
+      font-size: calc(17 * var(--u));
+      font-weight: 500;
       letter-spacing: -0.02em;
-      color: #0F172A;
     }
-
     .brand__mark {
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #0070BA, #2563EB);
-      box-shadow: 0 1px 3px rgba(0, 112, 186, 0.35);
+      width: calc(30 * var(--u));
+      height: calc(30 * var(--u));
+      border-radius: calc(8 * var(--u));
+      background: linear-gradient(to bottom, #2b2b2b, #0a0a0a 55%);
+      box-shadow: 0 calc(1 * var(--u)) calc(2 * var(--u)) rgb(0 0 0 / .25);
       position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
+      flex-shrink: 0;
     }
-
-    .brand__mark svg {
-      width: 17px;
-      height: 17px;
+    .brand__mark::after {
+      content: '';
+      position: absolute;
+      left: 13%;
+      right: 13%;
+      bottom: 14%;
+      height: 19%;
+      border-radius: 999px;
+      background: #ffffff;
     }
-
     .brand__title {
-      margin-top: 18px;
-      font-size: 20px;
+      margin: calc(19 * var(--u)) 0 0 0;
+      font-size: calc(20 * var(--u));
       font-weight: 600;
-      line-height: 1.25;
-      letter-spacing: -0.03em;
+      line-height: 1.2;
+      letter-spacing: -0.045em;
       color: var(--ink);
     }
-
     .brand__text {
-      max-width: 380px;
-      margin-top: 12px;
-      color: #475569;
-      font-size: 13.5px;
-      line-height: 1.5;
-      letter-spacing: -0.01em;
+      max-width: calc(412 * var(--u));
+      margin: calc(18 * var(--u)) 0 0 0;
+      color: var(--body);
+      font-size: calc(13.7 * var(--u));
+      line-height: 1.43;
+      letter-spacing: -0.012em;
     }
-
     .brand__cta {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      height: 36px;
-      margin-top: 18px;
-      padding: 0 18px 0 16px;
-      border-radius: 8px;
+      gap: calc(6 * var(--u));
+      height: calc(32.5 * var(--u));
+      margin-top: calc(20 * var(--u));
+      padding: 0 calc(16 * var(--u)) 0 calc(15 * var(--u));
+      border-radius: calc(7 * var(--u));
       background: #000000;
       color: #ffffff !important;
-      font-size: 12.5px;
-      font-weight: 600;
+      font-size: calc(11.8 * var(--u));
+      font-weight: 500;
       letter-spacing: -0.01em;
-      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: background 0.2s, transform 0.2s;
     }
-
     .brand__cta svg {
-      width: 14px;
-      height: 14px;
-      stroke: #ffffff !important;
-      color: #ffffff !important;
+      width: calc(13 * var(--u));
+      height: calc(13 * var(--u));
+      margin-top: calc(-1.5 * var(--u));
+      stroke: currentColor;
     }
-
     .brand__cta:hover {
-      background: #1E293B;
-      color: #ffffff !important;
+      background: #262626;
       transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
     }
-
     .brand__copy {
-      margin-top: 22px;
-      color: #94A3B8;
-      font-size: 12px;
+      margin: calc(23 * var(--u)) 0 0 0;
+      color: var(--muted);
+      font-size: calc(12.2 * var(--u));
       letter-spacing: 0.01em;
     }
-
-    .col__title {
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: -0.02em;
-      color: #0F172A;
-    }
-
-    .col__list {
-      display: grid;
-      gap: 13px;
-      margin-top: 18px;
-      font-size: 13px;
-      line-height: 1.3;
-      letter-spacing: -0.01em;
-      color: #475569;
-    }
-
-    .col--menu .col__list {
-      gap: 13px;
+    .brand__by {
+      display: flex;
+      align-items: center;
+      gap: calc(5 * var(--u));
+      margin: calc(21 * var(--u)) 0 0 0;
+      font-size: calc(11.8 * var(--u));
       font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--body);
+    }
+    .brand__heart { font-size: 0.95em; }
+    .brand__author {
+      display: inline-flex;
+      align-items: center;
+      gap: calc(6 * var(--u));
+      margin-left: calc(5 * var(--u));
       color: var(--ink);
     }
+    .brand__avatar {
+      width: calc(23 * var(--u));
+      height: calc(23 * var(--u));
+      border-radius: 50%;
+      background: #e3e3e0;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand__avatar svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .brand__status {
+      display: flex;
+      flex-wrap: wrap;
+      gap: calc(8 * var(--u));
+      margin-top: calc(16 * var(--u));
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: calc(6 * var(--u));
+      height: calc(25 * var(--u));
+      padding: 0 calc(10 * var(--u));
+      border: 1px solid rgb(12 12 12 / .12);
+      border-radius: 9999px;
+      background: rgb(255 255 255 / .55);
+      font-size: calc(10.8 * var(--u));
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      color: var(--ink);
+    }
+    .chip svg {
+      width: calc(11 * var(--u));
+      height: calc(11 * var(--u));
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .chip__dot {
+      width: calc(6 * var(--u));
+      height: calc(6 * var(--u));
+      border-radius: 50%;
+      background: #2fb36a;
+      box-shadow: 0 0 0 calc(2.5 * var(--u)) rgb(47 179 106 / .18);
+    }
 
+    /* Link Columns */
+    .col__title {
+      font-size: calc(16 * var(--u));
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -0.045em;
+      color: var(--ink);
+      margin: 0;
+    }
+    .col__list {
+      display: grid;
+      gap: calc(20.5 * var(--u));
+      margin-top: calc(24 * var(--u));
+      font-size: calc(13.7 * var(--u));
+      line-height: 1.24;
+      letter-spacing: 0.022em;
+      color: #161616;
+    }
+    .col--menu .col__list {
+      gap: calc(15 * var(--u));
+      margin-top: calc(21 * var(--u));
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
     .col__list a {
-      transition: color 0.2s ease, opacity 0.2s ease;
+      transition: opacity 0.2s;
     }
-
     .col__list a:hover {
-      color: #2563EB;
-      opacity: 0.85;
+      opacity: 0.55;
     }
 
-    /* Tablet (768–1024px) */
-    @media (max-width: 1024px) {
-      .footer__content {
-        grid-template-columns: 1fr 1fr;
-        column-gap: 36px;
-        row-gap: 36px;
-        padding: 0 24px;
-      }
-      .brand {
-        grid-column: 1 / -1;
-      }
-    }
-
-    /* Mobile (≤640px) */
-    @media (max-width: 640px) {
+    /* Tablet (768–1023px) */
+    @media (min-width: 768px) and (max-width: 1023px) {
       .footer {
-        padding: 48px 0 36px 0;
+        --u: min(100vw / 1040, 100svh / 672);
       }
       .footer__content {
-        grid-template-columns: 1fr;
-        row-gap: 28px;
-        padding: 0 20px;
-      }
-      .brand__title {
-        font-size: 18px;
+        grid-template-columns: calc(400 * var(--u)) calc(190 * var(--u)) calc(210 * var(--u)) 1fr;
+        width: calc(1040 * var(--u));
+        padding: calc(64 * var(--u)) calc(40 * var(--u)) 0;
       }
       .brand__text {
+        max-width: calc(350 * var(--u));
+      }
+      .footer__wordmark {
+        font-size: calc(210 * var(--u));
+        bottom: calc(10 * var(--u));
+      }
+    }
+
+    /* Mobile (≤767px) */
+    @media (max-width: 767px) {
+      .footer {
+        --u: 1px;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 100svh;
+      }
+      .footer__stage::after {
+        background: linear-gradient(to bottom, var(--paper) 0%, rgb(241 241 238 / .95) 50%, rgb(241 241 238 / .8) 68%, rgb(241 241 238 / 0) 90%);
+      }
+      .footer__content {
+        grid-template-columns: auto auto auto;
+        justify-content: space-between;
+        column-gap: 12px;
+        row-gap: 36px;
+        width: 100%;
+        padding: 40px 20px 0;
+        margin-bottom: max(34vw, 150px);
+      }
+      .footer__content .brand {
+        grid-column: 1 / -1;
+      }
+      .brand__title { font-size: 21px; margin-top: 14px; }
+      .brand__text { max-width: 34em; font-size: 14px; margin-top: 10px; }
+      .brand__cta { height: 38px; padding: 0 18px 0 16px; border-radius: 8px; font-size: 13px; }
+      .brand__cta svg { width: 14px; height: 14px; }
+      .brand__copy, .brand__by { font-size: 12.5px; }
+      .chip { height: 28px; font-size: 12px; }
+      .col__title { font-size: 15px; }
+      .col__list, .col--menu .col__list {
+        gap: 14px;
+        margin-top: 20px;
         font-size: 13px;
+        letter-spacing: 0;
+        white-space: nowrap;
+      }
+      .footer__wordmark {
+        bottom: 5vw;
+        font-size: 24vw;
+      }
+      .footer__fog {
+        height: 7%;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .footer__content {
+        grid-template-columns: 1fr 1fr;
       }
     }
 
@@ -3763,6 +3894,232 @@
         transition: none !important;
       }
     }
+
+    /* =========================================================================
+       RESPONSIVE MOBILE NAVIGATION DRAWER & GLOBAL RESPONSIVE POLISH
+       ========================================================================= */
+    .distill-menu-toggle {
+      display: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      border: 1px solid #E2E8F0;
+      background: #FFFFFF;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1001;
+      transition: background 0.15s ease;
+    }
+    .distill-menu-toggle:hover {
+      background: #F8FAFC;
+    }
+    .distill-menu-toggle .menu-bar {
+      width: 18px;
+      height: 2px;
+      background: #0F172A;
+      border-radius: 2px;
+      transition: all 0.2s ease;
+    }
+    .distill-menu-toggle.is-active .menu-bar:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+    .distill-menu-toggle.is-active .menu-bar:nth-child(2) {
+      opacity: 0;
+    }
+    .distill-menu-toggle.is-active .menu-bar:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .distill-mobile-menu {
+      display: none;
+    }
+
+    @media (max-width: 767px) {
+      .distill-menu-toggle {
+        display: inline-flex;
+      }
+      .distill-mobile-menu {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }
+      .distill-mobile-menu.is-open {
+        pointer-events: auto;
+        opacity: 1;
+      }
+      .mobile-menu-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.45);
+        backdrop-filter: blur(4px);
+      }
+      .mobile-menu-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 300px;
+        max-width: 86vw;
+        background: #FFFFFF;
+        box-shadow: -8px 0 24px rgba(0,0,0,0.15);
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        transform: translateX(100%);
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        overflow-y: auto;
+      }
+      .distill-mobile-menu.is-open .mobile-menu-panel {
+        transform: translateX(0);
+      }
+      .mobile-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #E2E8F0;
+        margin-bottom: 16px;
+      }
+      .mobile-menu-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #0F172A;
+      }
+      .mobile-menu-close {
+        background: #F1F5F9;
+        border: none;
+        border-radius: 6px;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #64748B;
+        cursor: pointer;
+      }
+      .mobile-menu-items {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .mobile-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #F8FAFC;
+        color: #0F172A;
+        font-size: 13.5px;
+        font-weight: 600;
+        text-align: left;
+        border: 1px solid #E2E8F0;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+      .mobile-menu-item:hover, .mobile-menu-item:active {
+        background: #EFF6FF;
+        border-color: #BFDBFE;
+        color: #1D4ED8;
+      }
+      .mobile-menu-item.ai-highlight {
+        background: linear-gradient(135deg, #EFF6FF 0%, #F5F3FF 100%);
+        border-color: #C7D2FE;
+        color: #4338CA;
+      }
+
+      /* Headline scaling */
+      .distill-headline {
+        font-size: clamp(26px, 7.5vw, 42px) !important;
+        line-height: 1.15 !important;
+      }
+
+      /* Pill Tabs Bar Horizontal Scroll */
+      .pill-tabs-bar {
+        overflow-x: auto;
+        flex-wrap: nowrap !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 12px;
+      }
+      .pill-tabs-bar::-webkit-scrollbar {
+        display: none;
+      }
+      .pill-tab {
+        flex-shrink: 0;
+      }
+
+      /* Golden Path Responsive Adjustments */
+      .gpd-wrapper {
+        padding: 6px 10px 24px 10px;
+      }
+      .gpd-checkout-card {
+        padding: 20px 16px;
+        border-radius: 16px;
+      }
+      .gpd-order-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .gpd-price-block {
+        text-align: left;
+      }
+      .gpd-price-amount {
+        font-size: 20px;
+      }
+      .gpd-chat-container {
+        padding: 18px 14px;
+        border-radius: 16px;
+      }
+      .gpd-assistant-header {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .gpd-evidence-row {
+        flex-direction: column;
+        gap: 2px;
+        word-break: break-all;
+      }
+      .gpd-action-pills {
+        gap: 6px;
+      }
+      .gpd-pill-btn {
+        padding: 8px 12px;
+        font-size: 11px;
+        min-height: 38px;
+      }
+      .gpd-input-row {
+        gap: 6px;
+      }
+      .gpd-chat-input {
+        font-size: 13px;
+        min-height: 44px;
+      }
+      .gpd-send-btn {
+        min-height: 44px;
+        padding: 0 16px;
+      }
+
+      /* Global Responsive Table Overflow Safeguards */
+      table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
 
 
     /* BEGIN GOLDEN PATH MASTER CSS */
@@ -4411,7 +4768,35 @@
         <a href="#workbench" class="distill-btn-signin" onclick="switchView('evidence')">Tier 1–6 Vault</a>
         <a href="#workbench" class="distill-btn-trial" onclick="switchView('mirror')">Recovery Mirror</a>
         <a href="#workbench" class="distill-btn-demo" onclick="switchView('demo')">Launch Demo B</a>
+        <button class="distill-menu-toggle" id="menu-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" onclick="toggleMobileMenu()">
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
+        </button>
       </div>
+    <!-- Mobile Navigation Drawer -->
+    <div class="distill-mobile-menu" id="mobile-nav-drawer" aria-hidden="true">
+      <div class="mobile-menu-backdrop" onclick="toggleMobileMenu(false)"></div>
+      <div class="mobile-menu-panel">
+        <div class="mobile-menu-header">
+          <span class="mobile-menu-title">PayBridge AI</span>
+          <button class="mobile-menu-close" onclick="toggleMobileMenu(false)" aria-label="Close menu">✕</button>
+        </div>
+        <div class="mobile-menu-items">
+          <a href="ai-assistant.html" class="mobile-menu-item ai-highlight" onclick="toggleMobileMenu(false)">
+            <span class="ai-sparkle-dot"></span>
+            <span>Aeries · PayPal AI Copilot</span>
+          </a>
+          <button class="mobile-menu-item" onclick="switchView('demo'); toggleMobileMenu(false);">Reconciliation Stepper</button>
+          <button class="mobile-menu-item" onclick="switchView('passport'); toggleMobileMenu(false);">Payment Truth Passport</button>
+          <button class="mobile-menu-item" onclick="switchView('graph'); toggleMobileMenu(false);">Truth Gap Graph</button>
+          <button class="mobile-menu-item" onclick="switchView('cases'); toggleMobileMenu(false);">Cases Register</button>
+          <button class="mobile-menu-item" onclick="switchView('evidence'); toggleMobileMenu(false);">Tier 1–6 Evidence Vault</button>
+          <button class="mobile-menu-item" onclick="switchView('mirror'); toggleMobileMenu(false);">Recovery Mirror Lab</button>
+          <button class="mobile-menu-item" onclick="switchView('safe'); toggleMobileMenu(false);">Next Safe Action</button>
+        </div>
+      </div>
+    </div>
     </header>
 
     <!-- Two-Column Hero Copy -->
@@ -5610,7 +5995,653 @@
       }
     }
   
-  </style>
+  
+
+    /* =========================================================================
+       FREEDOM SECTION — CONTROL VS CHAOS (PURE INLINE SVG & RESPONSIVE)
+       ========================================================================= */
+    .freedom-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #ffffff;
+      padding: clamp(48px, 6vw, 84px) clamp(16px, 3vw, 40px);
+      gap: 36px;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 5;
+    }
+
+    .freedom-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      text-align: center;
+    }
+
+    .freedom-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      border-radius: 9999px;
+      background-color: rgb(249, 249, 249);
+      padding: 8px 18px;
+      color: rgb(26, 11, 84);
+      border: 1px solid rgba(26, 11, 84, 0.08);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .freedom-title {
+      font-weight: 600;
+      font-size: clamp(30px, 3.8vw, 54px);
+      color: rgb(26, 11, 84);
+      line-height: 1.15;
+      margin: 0;
+      letter-spacing: -0.035em;
+    }
+
+    .freedom-gradient-text {
+      background-image: linear-gradient(90deg, rgb(43, 167, 255), rgb(202, 69, 255) 50%, rgb(254, 136, 27));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      padding-bottom: 0.3vw;
+      display: inline-block;
+    }
+
+    .freedom-grid {
+      width: 100%;
+      max-width: 1320px;
+      display: grid;
+      grid-template-columns: 28vw 1fr 28vw;
+      column-gap: 36px;
+      row-gap: 24px;
+      align-items: start;
+      padding: 0 clamp(0px, 2.92vw, 40px);
+      box-sizing: border-box;
+    }
+
+    .freedom-col-left, .freedom-col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .freedom-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: clamp(14px, 1.1vw, 18px) clamp(16px, 1.35vw, 22px);
+      border-radius: 18px;
+      background-color: rgb(255, 255, 255);
+      box-shadow: 0 3px 9.1px rgba(63, 74, 126, 0.05), 0 1px 29px rgba(63, 74, 126, 0.1);
+      border: 1px solid rgba(63, 74, 126, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .freedom-card-icon {
+      width: clamp(16px, 1.25vw, 20px);
+      height: clamp(16px, 1.25vw, 20px);
+      flex-shrink: 0;
+    }
+
+    .freedom-card-text-negative {
+      font-size: clamp(13px, 1.1vw, 15px);
+      color: rgb(131, 121, 158);
+      line-height: 1.45;
+      font-weight: 500;
+    }
+
+    .freedom-card-text-positive {
+      font-size: clamp(13px, 1.1vw, 15px);
+      color: rgb(26, 11, 84);
+      line-height: 1.45;
+      font-weight: 600;
+    }
+
+    .freedom-col-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: center;
+    }
+
+    .freedom-video-circle {
+      position: relative;
+      border-radius: 50%;
+      overflow: hidden;
+      width: clamp(220px, 23vw, 380px);
+      height: clamp(220px, 23vw, 380px);
+      flex-shrink: 0;
+      box-shadow: 0 16px 48px rgba(26, 11, 84, 0.15), 0 0 0 1px rgba(26, 11, 84, 0.06);
+      background: #090817;
+    }
+
+    .freedom-video-circle video {
+      width: 160%;
+      height: 160%;
+      object-fit: cover;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @media (max-width: 1023px) {
+      .freedom-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        padding: 0 16px;
+      }
+      .freedom-col-center {
+        order: -1;
+        margin-bottom: 12px;
+      }
+      .freedom-video-circle {
+        width: 250px;
+        height: 250px;
+      }
+    }
+
+    /* =========================================================================
+       FALCON AI / PAYBRIDGE OPERATIONS OVERVIEW (PIXEL-FAITHFUL TRIPTYCH)
+       ========================================================================= */
+    :root {
+      --f-aspect: 1.5204255;
+      --f-page: #f0f0f0;
+      --f-surface: #ffffff;
+      --f-panel: #fffaf6;
+      --f-ink: #282828;
+      --f-muted: #777777;
+      --f-orange: #ff6900;
+      --f-orange-soft: #ffdfca;
+      --f-green: #4d8c35;
+      --f-weight-regular: 400;
+      --f-weight-body: 475;
+      --f-weight-medium: 500;
+      --f-weight-semibold: 600;
+      --f-weight-card-title: 600;
+      --f-weight-bold: 700;
+      --f-card-title-size: 1.86cqw;
+      --f-card-title-tracking: -.125cqw;
+      --f-feature-title-size: 2.17cqw;
+      --f-feature-title-tracking: -.09cqw;
+      --f-cards-height: 33.81cqw;
+    }
+
+    .f-section-wrap {
+      width: 100%;
+      background: var(--f-page);
+      padding: clamp(48px, 6vw, 90px) 0;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 4;
+      box-sizing: border-box;
+      font-family: "Segoe UI Variable", "Segoe UI", Arial, Helvetica, sans-serif;
+      color: var(--f-ink);
+    }
+
+    .f-scene {
+      width: min(94vw, 1340px);
+      container-type: inline-size;
+      position: relative;
+    }
+
+    .f-header {
+      text-align: center;
+      margin-bottom: clamp(24px, 3.5vw, 42px);
+    }
+    .f-kicker {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--f-orange);
+      margin-bottom: 8px;
+    }
+    .f-heading {
+      font-size: clamp(26px, 3.2vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      color: var(--f-ink);
+      margin: 0;
+    }
+
+    .f-cards {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 32.33% 32.33% 31.70%;
+      justify-content: space-between;
+      align-items: start;
+      gap: 1.8%;
+    }
+
+    .f-card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 0.78;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 72.2% 27.8%;
+      border: 0.075cqw solid rgb(255 233 218 / 96%);
+      border-radius: 1.59cqw;
+      background: var(--f-surface);
+      box-shadow: 0.32cqw 1.18cqw 1.42cqw rgb(44 35 29 / 11%), 0 0.18cqw 0.42cqw rgb(44 35 29 / 3.5%);
+    }
+
+    .f-card:last-child {
+      height: 98.5%;
+      margin-top: 0.76%;
+    }
+
+    .f-panel {
+      position: relative;
+      margin-inline: 2.55%;
+      margin-top: 2.55%;
+      overflow: hidden;
+      border-radius: 1.28cqw 1.28cqw 1.08cqw 1.08cqw;
+      background: radial-gradient(circle at 50% 78%, rgb(255 225 207 / 30%), transparent 47%),
+                  linear-gradient(180deg, rgb(255 255 255 / 96%), rgb(255 248 243 / 94%));
+      border: 1px solid rgba(255, 233, 218, 0.45);
+    }
+
+    .f-card:last-child .f-panel {
+      margin-inline: 2%;
+      background: radial-gradient(circle at 74% 46%, rgb(255 225 204 / 70%), transparent 48%),
+                  linear-gradient(180deg, rgb(255 255 255 / 96%), rgb(255 242 232 / 97%));
+    }
+
+    .f-card-copy {
+      position: relative;
+      padding: 6.5% 8.4% 6.5%;
+    }
+
+    .f-card-copy h2 {
+      margin: 0 0 1.6%;
+      color: #292929;
+      font-size: var(--f-card-title-size);
+      font-weight: var(--f-weight-card-title);
+      line-height: 1.08;
+      letter-spacing: var(--f-card-title-tracking);
+      white-space: nowrap;
+      font-family: "Segoe UI Semibold", "Segoe UI Variable Display", "Segoe UI", Arial, sans-serif;
+    }
+
+    .f-card:last-child .f-card-copy h2 {
+      font-size: var(--f-feature-title-size);
+      letter-spacing: var(--f-feature-title-tracking);
+    }
+
+    .f-card-copy p {
+      margin: 0;
+      color: var(--f-muted);
+      font-size: 1.39cqw;
+      font-weight: var(--f-weight-medium);
+      line-height: 1.25;
+      letter-spacing: -.04cqw;
+    }
+
+    .f-corner-icon {
+      position: absolute;
+      right: 8.4%;
+      bottom: 22.5%;
+      width: 8.2%;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--f-orange-soft);
+      color: var(--f-orange);
+    }
+
+    /* CARD 1 — VISIBILITY DETAILS */
+    .f-timeline {
+      position: absolute;
+      top: 5.7%;
+      left: 15%;
+      width: 70%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #f27624;
+      font-size: 0.8cqw;
+      font-weight: 600;
+      letter-spacing: -0.015cqw;
+    }
+    .f-timeline i {
+      width: 20%;
+      border-top: 0.08cqw dashed rgb(190 139 96 / 70%);
+      height: 0;
+    }
+
+    .f-bars {
+      position: absolute;
+      left: 5.9%;
+      right: 5.9%;
+      bottom: 12%;
+      height: 62%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .f-bar {
+      width: 2.4%;
+      height: var(--h);
+      border-radius: 999px;
+      background: rgb(255 219 196 / 64%);
+      transition: height 0.3s ease;
+    }
+    .f-bar.active {
+      width: 2.8%;
+      background: var(--f-orange);
+      box-shadow: 0 0 0.35cqw rgb(255 105 0 / 35%);
+    }
+
+    .f-value-chip {
+      position: absolute;
+      top: 14%;
+      left: 45%;
+      padding: 0.25cqw 0.7cqw;
+      display: grid;
+      place-items: center;
+      border: 0.12cqw solid #fff;
+      border-radius: 999px;
+      background: var(--f-orange);
+      box-shadow: 0 0 0 0.055cqw var(--f-orange), 0 0.28cqw 0.4cqw rgb(69 38 18 / 24%);
+      color: #fff;
+      font-size: 0.72cqw;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .f-axis {
+      position: absolute;
+      left: 7.7%;
+      right: 7.2%;
+      bottom: 4.8%;
+      display: flex;
+      justify-content: space-between;
+      color: #888;
+      font-size: 0.65cqw;
+      font-weight: 600;
+    }
+
+    /* CARD 2 — WORKFLOW DETAILS */
+    .f-assistant-head {
+      position: absolute;
+      top: 7.5%;
+      left: 6.2%;
+      display: flex;
+      align-items: center;
+      gap: 0.8cqw;
+      color: var(--f-orange);
+      font-size: 1.25cqw;
+      font-weight: 700;
+      letter-spacing: -0.04cqw;
+    }
+    .f-assistant-badge {
+      width: 2.1cqw;
+      height: 2.1cqw;
+      border-radius: 50%;
+      background: var(--f-orange-soft);
+      display: grid;
+      place-items: center;
+    }
+    .f-spark-star {
+      width: 50%;
+      height: 50%;
+      background: var(--f-orange);
+      clip-path: polygon(47% 0, 53% 0, 58% 28%, 65% 35%, 72% 42%, 100% 47%, 100% 53%, 72% 58%, 65% 65%, 58% 72%, 53% 100%, 47% 100%, 42% 72%, 35% 65%, 28% 58%, 0 53%, 0 47%, 28% 42%, 35% 35%, 42% 28%);
+    }
+
+    .f-question {
+      position: absolute;
+      top: 20%;
+      left: 6.2%;
+      margin: 0;
+      color: #151515;
+      font-size: 1.34cqw;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.05cqw;
+    }
+
+    .f-prompt {
+      position: absolute;
+      top: 31%;
+      left: 6.2%;
+      width: 87.2%;
+      padding: 4.5% 4.2%;
+      border: 0.06cqw solid #beb4ae;
+      border-radius: 0.86cqw;
+      background: rgb(255 255 255 / 45%);
+      color: var(--f-muted);
+      font-size: 1.05cqw;
+      font-weight: 500;
+      line-height: 1.35;
+      letter-spacing: -0.035cqw;
+    }
+
+    .f-automate-btn {
+      position: absolute;
+      top: 76%;
+      left: 6.2%;
+      width: 38%;
+      height: 12%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-inline: 1cqw;
+      border-radius: 999px;
+      background: linear-gradient(100deg, #ff9b5b 0%, #ff8840 38%, #ff6b05 100%);
+      box-shadow: 0 0.6cqw 1.35cqw rgb(255 105 0 / 52%), 0 0.2cqw 0.46cqw rgb(255 105 0 / 31%), 0 0 0.82cqw 0.08cqw rgb(255 118 30 / 24%);
+      color: #fff;
+      font-size: 1cqw;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+
+    .f-cursor-icon {
+      position: absolute;
+      top: 83%;
+      left: 56%;
+      width: 5%;
+      aspect-ratio: 0.72;
+      z-index: 3;
+      filter: drop-shadow(0 0 0.075cqw #fff) drop-shadow(0.08cqw 0.16cqw 0.08cqw rgb(0 0 0 / 48%));
+    }
+    .f-cursor-icon::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #050505;
+      clip-path: polygon(0 0, 94% 62%, 57% 67%, 38% 100%);
+    }
+
+    /* CARD 3 — DECISION DETAILS */
+    .f-metric {
+      position: absolute;
+      top: 7.5%;
+      left: 5.2%;
+    }
+    .f-metric-label {
+      margin-bottom: 0.38cqw;
+      color: #676767;
+      font-size: 0.95cqw;
+      font-weight: 500;
+    }
+    .f-metric-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8cqw;
+    }
+    .f-metric-row strong {
+      color: var(--f-orange);
+      font-size: 2.1cqw;
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.04cqw;
+    }
+    .f-metric-row span {
+      color: var(--f-green);
+      font-size: 0.98cqw;
+      font-weight: 700;
+      letter-spacing: -0.045cqw;
+    }
+
+    .f-decision-canvas {
+      position: absolute;
+      top: 36%;
+      left: 0;
+      width: 100%;
+      height: 56%;
+      display: block;
+      pointer-events: none;
+    }
+
+    .f-tag {
+      position: absolute;
+      z-index: 2;
+      height: 9%;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgb(255 255 255 / 95%);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      color: #282828;
+      font-size: 0.68cqw;
+      font-weight: 700;
+      letter-spacing: -0.012cqw;
+      padding: 0 0.8cqw;
+    }
+    .f-tag.action { top: 34%; right: 7%; width: 34%; }
+    .f-tag.confidence { top: 66%; left: 5%; width: 42%; }
+    .f-tag.path { top: 81%; right: 7%; width: 38%; }
+
+    /* Corner Icons Glyphs */
+    .f-spark-glyph {
+      position: relative;
+      width: 52%;
+      aspect-ratio: 1;
+    }
+    .f-spark-glyph::before {
+      content: '';
+      position: absolute;
+      top: 41%;
+      left: 0;
+      width: 100%;
+      height: 18%;
+      border-radius: 999px;
+      background: currentColor;
+    }
+    .f-spark-glyph::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 41%;
+      width: 18%;
+      height: 100%;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .f-flow-glyph {
+      position: relative;
+      width: 54%;
+      height: 58%;
+      background: linear-gradient(var(--f-orange), var(--f-orange)) center / 48% 18% no-repeat;
+    }
+    .f-flow-glyph::before, .f-flow-glyph::after {
+      content: '';
+      position: absolute;
+      width: 34%;
+      height: 70%;
+      border-radius: 999px;
+      background: var(--f-orange);
+    }
+    .f-flow-glyph::before { left: 4%; top: 24%; }
+    .f-flow-glyph::after { right: 4%; top: 6%; }
+
+    .f-speed-glyph {
+      position: relative;
+      width: 58%;
+      aspect-ratio: 1;
+      background: linear-gradient(var(--f-orange), var(--f-orange)) 0 31% / 27% 8% no-repeat,
+                  linear-gradient(var(--f-orange), var(--f-orange)) 0 49% / 38% 8% no-repeat,
+                  linear-gradient(var(--f-orange), var(--f-orange)) 0 67% / 22% 8% no-repeat;
+    }
+    .f-speed-glyph::before {
+      content: '';
+      position: absolute;
+      inset: 4% 1% 2% 28%;
+      background: var(--f-orange);
+      clip-path: polygon(58% 0, 100% 0, 69% 40%, 94% 40%, 28% 100%, 44% 58%, 7% 58%);
+    }
+
+    /* Tablet (≤896px) */
+    @media (max-width: 56rem) {
+      .f-cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .f-card:last-child {
+        grid-column: 1 / -1;
+        width: 60%;
+        margin: 0 auto;
+      }
+      .f-card-copy h2 { font-size: 18px; }
+      .f-card-copy p { font-size: 13.5px; }
+      .f-value-chip { font-size: 11px; }
+      .f-timeline { font-size: 11px; }
+      .f-axis { font-size: 10px; }
+      .f-assistant-head { font-size: 14px; }
+      .f-question { font-size: 15px; }
+      .f-prompt { font-size: 12.5px; }
+      .f-automate-btn { font-size: 12px; }
+      .f-metric-row strong { font-size: 22px; }
+      .f-metric-row span { font-size: 12px; }
+      .f-tag { font-size: 11px; }
+    }
+
+    /* Mobile (≤512px) */
+    @media (max-width: 32rem) {
+      .f-cards {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .f-card:last-child {
+        width: 100%;
+      }
+      .f-card {
+        aspect-ratio: 0.76;
+        border-radius: 20px;
+      }
+      .f-panel {
+        border-radius: 16px;
+      }
+      .f-card-copy h2 { font-size: 20px; }
+      .f-card-copy p { font-size: 14px; }
+      .f-value-chip { font-size: 12px; padding: 4px 10px; }
+      .f-timeline { font-size: 12px; }
+      .f-axis { font-size: 11px; }
+      .f-assistant-head { font-size: 15px; }
+      .f-question { font-size: 16px; }
+      .f-prompt { font-size: 13px; }
+      .f-automate-btn { font-size: 13px; height: 14%; }
+      .f-metric-row strong { font-size: 24px; }
+      .f-metric-row span { font-size: 13px; }
+      .f-tag { font-size: 11.5px; height: 11%; }
+    }
+
+    </style>
 
   <section id="mosaic" class="motion-pending" aria-label="Product feature mosaic showcase">
     <main class="stage" role="main" aria-label="PayBridge AI feature overview">
@@ -5975,40 +7006,247 @@
 
   </section>
 
-<!-- =========================================================================
+
+  <!-- =======================================================================
+       4. FREEDOM SECTION (CONTROL VS CHAOS)
+       ======================================================================= -->
+  <section class="freedom-section" id="freedom-section" aria-label="Control versus Chaos">
+    <!-- Header Block -->
+    <div class="freedom-header">
+      <div class="freedom-badge-pill">
+        <svg width="19" height="18" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+          <g clip-path="url(#freedom-clip-page)">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.50037 3.66955C7.53221 2.82462 6.41758 2.275 5.333 2.07887C4.11096 1.85888 2.84987 2.0826 1.96658 2.95885C1.10056 3.81944 0.866218 5.04172 1.06751 6.23193C1.24778 7.29835 1.7803 8.39907 2.60501 9.35959C2.41536 10.1071 2.46371 10.8946 2.7434 11.6137C3.02308 12.3327 3.52035 12.9481 4.16678 13.375C4.81321 13.802 5.57702 14.0195 6.35308 13.9976C7.12915 13.9758 7.87933 13.7157 8.50037 13.2531C9.12146 13.7161 9.87183 13.9765 10.6482 13.9985C11.4245 14.0205 12.1886 13.8029 12.8352 13.3758C13.4819 12.9487 13.9792 12.3331 14.2588 11.6137C14.5384 10.8943 14.5865 10.1065 14.3965 9.35884C15.2204 8.39832 15.753 7.29835 15.9325 6.23119C16.1338 5.04098 15.8994 3.81944 15.0334 2.9596C14.1501 2.0826 12.889 1.85888 11.667 2.07962C10.5824 2.275 9.46854 2.82537 8.50037 3.66955Z" fill="rgb(200, 111, 255)"/>
+          </g>
+          <defs>
+            <clipPath id="freedom-clip-page">
+              <rect width="16" height="16" fill="white" transform="translate(0.5)"/>
+            </clipPath>
+          </defs>
+        </svg>
+        <span>Autonomous Control</span>
+      </div>
+      <h2 class="freedom-title">
+        Stop absorbing the chaos.<br />
+        <span class="freedom-gradient-text">Run payments with confidence.</span>
+      </h2>
+    </div>
+
+    <!-- 3-Column Comparison Grid -->
+    <div class="freedom-grid">
+      <!-- Left Column: Negatives (Manual Chaos) -->
+      <div class="freedom-col-left">
+        <div class="freedom-card">
+          <img src="https://cdn.prod.website-files.com/6720dd1ab6df0da205830ab1/686cc0f520a992816d8b15dc_bullet-list-cross.svg" alt="" class="freedom-card-icon" aria-hidden="true" />
+          <div class="freedom-card-text-negative">Reactive firefighting when foundational payment timeouts surface too late</div>
+        </div>
+        <div class="freedom-card">
+          <img src="https://cdn.prod.website-files.com/6720dd1ab6df0da205830ab1/686cc0f520a992816d8b15dc_bullet-list-cross.svg" alt="" class="freedom-card-icon" aria-hidden="true" />
+          <div class="freedom-card-text-negative">Bloated coordination overhead drains bandwidth between merchant & support</div>
+        </div>
+        <div class="freedom-card">
+          <img src="https://cdn.prod.website-files.com/6720dd1ab6df0da205830ab1/686cc0f520a992816d8b15dc_bullet-list-cross.svg" alt="" class="freedom-card-icon" aria-hidden="true" />
+          <div class="freedom-card-text-negative">Constant re-verification because raw provider webhook data can't be trusted</div>
+        </div>
+        <div class="freedom-card">
+          <img src="https://cdn.prod.website-files.com/6720dd1ab6df0da205830ab1/686cc0f520a992816d8b15dc_bullet-list-cross.svg" alt="" class="freedom-card-icon" aria-hidden="true" />
+          <div class="freedom-card-text-negative">Fragmented banking & gateway relations produce mismatched settlement reports</div>
+        </div>
+        <div class="freedom-card">
+          <img src="https://cdn.prod.website-files.com/6720dd1ab6df0da205830ab1/686cc0f520a992816d8b15dc_bullet-list-cross.svg" alt="" class="freedom-card-icon" aria-hidden="true" />
+          <div class="freedom-card-text-negative">Scattered payment specs and decline reasons buried across siloed merchant logs</div>
+        </div>
+      </div>
+
+      <!-- Center Column: Circular HLS Video -->
+      <div class="freedom-col-center">
+        <div class="freedom-video-circle">
+          <video id="freedom-hls-video" autoplay loop muted playsinline preload="auto" poster="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261014_121838_c97d0940-f430-4304-8573-4f47ee44f447.png">
+            <source src="https://stream.mux.com/bnYL6x5cAX6WiJv2pOKpITehZd3NVdXpj3ylJFpX5Lk.m3u8" type="application/x-mpegURL">
+            <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/4d01c727-d9c5-47c8-a778-35a451ffd39f.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <!-- Right Column: Positives (PayBridge Autonomous Recovery) -->
+      <div class="freedom-col-right">
+        <div class="freedom-card">
+          <img src="https://cdn.prod.website-files.com/6720dd1ab6df0da205830ab1/686cc068490683bbb3377d04_bullet-list.svg" alt="" class="freedom-card-icon" aria-hidden="true" />
+          <div class="freedom-card-text-positive">Layered telemetry maps eliminate costly duplicate charges at every phase</div>
+        </div>
+        <div class="freedom-card">
+          <img src="https://cdn.prod.website-files.com/6720dd1ab6df0da205830ab1/686cc068490683bbb3377d04_bullet-list.svg" alt="" class="freedom-card-icon" aria-hidden="true" />
+          <div class="freedom-card-text-positive">Streamlined single-flight locks deliver immediate idempotent outcomes</div>
+        </div>
+        <div class="freedom-card">
+          <img src="https://cdn.prod.website-files.com/6720dd1ab6df0da205830ab1/686cc068490683bbb3377d04_bullet-list.svg" alt="" class="freedom-card-icon" aria-hidden="true" />
+          <div class="freedom-card-text-positive">Live validation loops keep cryptographic claims locked across all stages</div>
+        </div>
+        <div class="freedom-card">
+          <img src="https://cdn.prod.website-files.com/6720dd1ab6df0da205830ab1/686cc068490683bbb3377d04_bullet-list.svg" alt="" class="freedom-card-icon" aria-hidden="true" />
+          <div class="freedom-card-text-positive">Unified multi-rail reconciliation through single-flight mutex protection</div>
+        </div>
+        <div class="freedom-card">
+          <img src="https://cdn.prod.website-files.com/6720dd1ab6df0da205830ab1/686cc068490683bbb3377d04_bullet-list.svg" alt="" class="freedom-card-icon" aria-hidden="true" />
+          <div class="freedom-card-text-positive">Centralized context and clear audit records accelerate every customer decision</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       5. OPERATIONS OVERVIEW TRIPTYCH (PIXEL-FAITHFUL ARCHITECTURE)
+       ======================================================================= -->
+  <section class="f-section-wrap" id="operations-overview" aria-label="PayBridge Operations Overview">
+    <div class="f-scene">
+      <div class="f-header">
+        <div class="f-kicker">Autonomous Operations Overview</div>
+        <h2 class="f-heading">Payment Intelligence at Telemetry Scale</h2>
+      </div>
+
+      <div class="f-cards" aria-label="Product benefits">
+        <!-- CARD 1 — Instant Visibility -->
+        <article class="f-card">
+          <div class="f-panel" aria-label="Visibility timeline chart">
+            <div class="f-timeline">
+              <span>06 AM</span>
+              <i></i>
+              <span>12 PM</span>
+              <i></i>
+              <span>06 PM</span>
+            </div>
+            <div class="f-bars" aria-hidden="true">
+              <i class="f-bar" style="--h: 20%;"></i>
+              <i class="f-bar" style="--h: 33%;"></i>
+              <i class="f-bar" style="--h: 48%;"></i>
+              <i class="f-bar" style="--h: 56%;"></i>
+              <i class="f-bar" style="--h: 51%;"></i>
+              <i class="f-bar" style="--h: 47%;"></i>
+              <i class="f-bar" style="--h: 39%;"></i>
+              <i class="f-bar" style="--h: 31%;"></i>
+              <i class="f-bar" style="--h: 53%;"></i>
+              <i class="f-bar" style="--h: 55%;"></i>
+              <i class="f-bar" style="--h: 60%;"></i>
+              <i class="f-bar" style="--h: 56%;"></i>
+              <i class="f-bar active" style="--h: 100%;"></i>
+              <i class="f-bar" style="--h: 92%;"></i>
+              <i class="f-bar" style="--h: 76%;"></i>
+              <i class="f-bar" style="--h: 67%;"></i>
+              <i class="f-bar" style="--h: 62%;"></i>
+              <i class="f-bar" style="--h: 65%;"></i>
+              <i class="f-bar" style="--h: 59%;"></i>
+              <i class="f-bar" style="--h: 70%;"></i>
+              <i class="f-bar" style="--h: 74%;"></i>
+              <i class="f-bar" style="--h: 87%;"></i>
+              <i class="f-bar" style="--h: 83%;"></i>
+              <i class="f-bar" style="--h: 77%;"></i>
+            </div>
+            <div class="f-value-chip">$0.00 EXPOSURE</div>
+            <div class="f-axis">
+              <span>START</span>
+              <span>ACTIVE</span>
+              <span>PEAK</span>
+              <span>RESOLVED</span>
+            </div>
+          </div>
+          <div class="f-card-copy">
+            <h2>Instant Visibility</h2>
+            <p>Real-time payment telemetry across your<br>multi-party rails.</p>
+            <span class="f-corner-icon"><i class="f-spark-glyph"></i></span>
+          </div>
+        </article>
+
+        <!-- CARD 2 — Autonomous Workflows (Centre / Product Anchor) -->
+        <article class="f-card">
+          <div class="f-panel">
+            <div class="f-assistant-head">
+              <span class="f-assistant-badge"><i class="f-spark-star"></i></span>
+              <span>PayBridge AI</span>
+            </div>
+            <p class="f-question">How can I help you automate?</p>
+            <div class="f-prompt">
+              When a 504 edge timeout occurs on PayPal,<br>lock checkout attempt, verify capture proof, and<br>dispatch single-flight resolution.
+            </div>
+            <button class="f-automate-btn" onclick="if(window.switchView) window.switchView('demo');">
+              <span>Automate</span>
+              <canvas class="f-magic-sparkle" data-sparkle-icon aria-hidden="true" width="24" height="24"></canvas>
+            </button>
+            <i class="f-cursor-icon" aria-hidden="true"></i>
+          </div>
+          <div class="f-card-copy">
+            <h2>Autonomous Workflows</h2>
+            <p>Automate payment recovery with<br>PayBridge AI.</p>
+            <span class="f-corner-icon"><i class="f-flow-glyph"></i></span>
+          </div>
+        </article>
+
+        <!-- CARD 3 — Faster Decisions -->
+        <article class="f-card">
+          <div class="f-panel">
+            <div class="f-metric">
+              <div class="f-metric-label">Recovery SLA</div>
+              <div class="f-metric-row">
+                <strong>142 ms</strong>
+                <span>↑ 99.8% precision</span>
+              </div>
+            </div>
+            <canvas class="f-decision-canvas" data-flow-chart></canvas>
+            <div class="f-tag action">Action: Lock & Reconcile</div>
+            <div class="f-tag confidence">Decision Confidence: 99.4%</div>
+            <div class="f-tag path">Path Optimized: +18.2%</div>
+          </div>
+          <div class="f-card-copy">
+            <h2>Faster Decisions</h2>
+            <p>Turn transaction evidence into action<br>instantly.</p>
+            <span class="f-corner-icon"><i class="f-speed-glyph"></i></span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
        PAYBRIDGE AI FOOTER (CLEAN & COMPACT)
        ========================================================================= -->
-  <footer class="footer">
+    <footer class="footer">
     <div class="footer__stage" aria-hidden="true">
       <video class="footer__video"
         src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/4d01c727-d9c5-47c8-a778-35a451ffd39f.mp4"
         poster="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261014_121838_c97d0940-f430-4304-8573-4f47ee44f447.png"
         autoplay muted loop playsinline preload="auto"></video>
     </div>
+    <p class="footer__wordmark" aria-hidden="true">PayBridge</p>
     <div class="footer__fog" aria-hidden="true"></div>
     <div class="footer__content">
       <div class="brand">
         <a class="brand__logo" href="#hero" aria-label="PayBridge home">
-          <span class="brand__mark">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 17C6 11 18 11 21 17"/>
-              <path d="M7 17v-4"/>
-              <path d="M17 17v-4"/>
-              <line x1="3" y1="17" x2="21" y2="17"/>
-            </svg>
-          </span>
+          <span class="brand__mark"></span>
           PayBridge AI
         </a>
         <h2 class="brand__title">Autonomous payment recovery</h2>
-        <p class="brand__text">Investigate payment issues, verify transaction evidence and guide safe recovery.</p>
+        <p class="brand__text">Investigate payment issues, verify transaction evidence and guide safe recovery across multi-party rails.</p>
         <a class="brand__cta" href="#workbench" onclick="if(window.switchView) window.switchView('demo');">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             <path d="M9 12l2 2 4-4"/>
           </svg>
           Launch Golden Path Demo
         </a>
-        <p class="brand__copy">© 2026 PayBridge AI Inc.</p>
+        <p class="brand__copy">© 2026 PayBridge AI Inc. - Made with cryptographic integrity.</p>
+        <p class="brand__by">
+          Built with <span class="brand__heart" aria-label="love">💙</span> by <span class="brand__author"><span class="brand__avatar" aria-hidden="true"><svg viewBox="0 0 24 24"><rect width="24" height="24" fill="#e6e6e3" /><circle cx="12" cy="9.2" r="4.4" fill="#1b1b1b" /><path d="M3 25c0-6 4-9.4 9-9.4S21 19 21 25Z" fill="#1b1b1b" /></svg></span>PayBridge Team</span>
+        </p>
+        <ul class="brand__status" aria-label="PayBridge status">
+          <li class="chip"><span class="chip__dot" aria-hidden="true"></span>142ms Recovery SLA</li>
+          <li class="chip">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7" /><path d="M20 4v7h-7" /></svg>
+            $0.00 Double Charges
+          </li>
+          <li class="chip">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.8-4.5 4.2 1.1 6-5.4-2.9-5.4 2.9 1.1-6L3.2 9.4l6.1-.8Z" /></svg>
+            Tier 1 PayPal Truth
+          </li>
+        </ul>
       </div>
       <nav class="col col--menu" aria-label="Platform">
         <h3 class="col__title">Platform</h3>
@@ -6641,6 +7879,28 @@
       // demoStep managed dynamically
       let selectedGapNode = 'browser';
       let activeLens = 'sender';
+
+      
+      // Mobile Navigation Menu Toggle Controller
+      window.toggleMobileMenu = function(forceState) {
+        const drawer = document.getElementById('mobile-nav-drawer');
+        const btn = document.getElementById('menu-toggle-btn');
+        if (!drawer || !btn) return;
+        const willOpen = typeof forceState === 'boolean' ? forceState : !drawer.classList.contains('is-open');
+        if (willOpen) {
+          drawer.classList.add('is-open');
+          drawer.setAttribute('aria-hidden', 'false');
+          btn.classList.add('is-active');
+          btn.setAttribute('aria-expanded', 'true');
+          document.body.style.overflow = 'hidden';
+        } else {
+          drawer.classList.remove('is-open');
+          drawer.setAttribute('aria-hidden', 'true');
+          btn.classList.remove('is-active');
+          btn.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
+      };
 
       window.switchView = function (viewId) {
         // Update tab buttons
@@ -8320,7 +9580,113 @@
       // Initial view render
       switchView('demo');
 
-    })();
+    
+
+      // =======================================================================
+      // CANVAS RENDERING: Sparkle Icon & Decision Flow Chart
+      // =======================================================================
+      (function initOperationsCanvases() {
+        // 1. Sparkle Icon on Automate Button
+        const magicCanvases = document.querySelectorAll('[data-sparkle-icon]');
+        magicCanvases.forEach(canvas => {
+          const ctx = canvas.getContext('2d');
+          if (!ctx) return;
+          const w = canvas.width;
+          const h = canvas.height;
+          ctx.clearRect(0, 0, w, h);
+
+          const sparklePoints = [
+            [0.50, 0.06], [0.59, 0.41], [0.94, 0.50], [0.59, 0.59],
+            [0.50, 0.94], [0.41, 0.59], [0.06, 0.50], [0.41, 0.41]
+          ];
+
+          function drawSparkle(cx, cy, s) {
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.beginPath();
+            for (let i = 0; i < sparklePoints.length; i++) {
+              const px = (sparklePoints[i][0] - 0.5) * s;
+              const py = (sparklePoints[i][1] - 0.5) * s;
+              if (i === 0) ctx.moveTo(px, py);
+              else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(255, 220, 202, 0.85)';
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.9)';
+            ctx.shadowBlur = s * 0.2;
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = Math.max(1, s * 0.12);
+            ctx.stroke();
+            ctx.restore();
+          }
+
+          drawSparkle(w * 0.35, h * 0.35, w * 0.45);
+          drawSparkle(w * 0.65, h * 0.65, w * 0.65);
+        });
+
+        // 2. Decision Flow Chart (Five Converging Orange Bezier Bands)
+        const flowCanvases = document.querySelectorAll('[data-flow-chart]');
+        flowCanvases.forEach(canvas => {
+          function renderFlow() {
+            const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = (rect.width || 360) * dpr;
+            canvas.height = (rect.height || 200) * dpr;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            ctx.scale(dpr, dpr);
+            const w = rect.width || 360;
+            const h = rect.height || 200;
+            ctx.clearRect(0, 0, w, h);
+
+            const bands = [
+              { source: [0.08, 0.26], target: [0.29, 0.32],  color: 'rgba(255,189,144,0.60)' },
+              { source: [0.23, 0.42], target: [0.30, 0.335], color: 'rgba(255,149,80,0.70)' },
+              { source: [0.50, 0.75], target: [0.32, 0.355], color: 'rgba(255,136,64,0.82)' },
+              { source: [0.69, 0.98], target: [0.33, 0.365], color: 'rgba(255,181,128,0.54)' },
+              { source: [0.39, 0.51], target: [0.31, 0.345], color: 'rgba(255,105,0,0.96)' }
+            ];
+
+            const sourceHold = 0.38;
+            const targetApproach = 0.74;
+
+            bands.forEach(b => {
+              ctx.beginPath();
+              ctx.moveTo(0, h * b.source[0]);
+              ctx.bezierCurveTo(w * sourceHold, h * b.source[0], w * targetApproach, h * b.target[0], w, h * b.target[0]);
+              ctx.lineTo(w, h * b.target[1]);
+              ctx.bezierCurveTo(w * targetApproach, h * b.target[1], w * sourceHold, h * b.source[1], 0, h * b.source[1]);
+              ctx.closePath();
+              ctx.fillStyle = b.color;
+              ctx.fill();
+            });
+
+            // White hairlines riding on top
+            const threads = [
+              { source: 0.05, target: 0.30,  alpha: 0.68 },
+              { source: 0.20, target: 0.315, alpha: 0.60 },
+              { source: 0.62, target: 0.342, alpha: 0.84 },
+              { source: 0.82, target: 0.352, alpha: 0.74 },
+              { source: 0.97, target: 0.36,  alpha: 0.64 }
+            ];
+
+            threads.forEach(t => {
+              ctx.beginPath();
+              ctx.moveTo(0, h * t.source);
+              ctx.bezierCurveTo(w * sourceHold, h * t.source, w * targetApproach, h * t.target, w, h * t.target);
+              ctx.strokeStyle = `rgba(255, 255, 255, ${t.alpha})`;
+              ctx.lineWidth = Math.max(0.8, w * 0.0016);
+              ctx.stroke();
+            });
+          }
+
+          renderFlow();
+          window.addEventListener('resize', renderFlow);
+        });
+      })();
+
+      })();
   </script>
 
   <!-- Full-Screen Payment Success Overlay -->
