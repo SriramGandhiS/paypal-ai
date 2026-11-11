@@ -1,0 +1,45 @@
+groups:
+  - name: paybridge_enterprise_alerts
+    rules:
+      - alert: KafkaConsumerLagHigh
+        expr: paybridge_kafka_consumer_lag > 500
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Kafka consumer lag exceeding 500 events on payment bus"
+          description: "High lag may delay reconciliation and deposit matching."
+
+      - alert: KMSEncryptionLatencyHigh
+        expr: histogram_quantile(0.99, rate(paybridge_kms_latency_seconds_bucket[5m])) > 0.05
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "KMS Envelope Encryption P99 latency > 50ms"
+
+      - alert: UnbalancedLedgerAttemptDetected
+        expr: increase(paybridge_ledger_unbalanced_rejections_total[1m]) > 0
+        labels:
+          severity: page
+        annotations:
+          summary: "CRITICAL: Unbalanced transaction rejected by double-entry ledger"
+          description: "Investigate immediate transaction ID for upstream rounding error."
+
+      - alert: SanctionsHitDetected
+        expr: increase(paybridge_compliance_sanctions_hits_total[1m]) > 0
+        labels:
+          severity: warning
+        annotations:
+          summary: "Compliance hold: OFAC/PEP sanctions match frozen"
+          description: "Human compliance officer review required before capture release."
+
+      - alert: SLMTriageP99LatencyBreach
+        expr: histogram_quantile(0.99, rate(paybridge_slm_latency_seconds_bucket[5m])) > 0.450
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "SLM Fast Triage P99 latency breached 450ms SLA"
+          description: "Check vLLM GPU inference capacity or Redis semantic cache hit rate."
+

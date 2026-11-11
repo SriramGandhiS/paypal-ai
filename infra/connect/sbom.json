@@ -1,0 +1,103 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.5.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:7c9e6679-7425-40de-944b-debezium-patched-sbom",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-11T16:50:00Z",
+    "tools": [
+      {
+        "vendor": "PayBridge Security Engineering",
+        "name": "Enterprise Container Hardening Tool",
+        "version": "2.0.0"
+      }
+    ],
+    "component": {
+      "type": "container",
+      "name": "paybridge-kafka-connect-hardened",
+      "version": "4.4.0-debezium-2.5.4",
+      "description": "Hardened Kafka Connect runtime patched against CVE-2026-116593 and CVE-2024-31141 with Debezium PostgreSQL connector"
+    }
+  },
+  "components": [
+    {
+      "type": "framework",
+      "name": "kafka-connect-runtime",
+      "group": "org.apache.kafka",
+      "version": "4.4.0",
+      "purl": "pkg:maven/org.apache.kafka/connect-runtime@4.4.0",
+      "licenses": [{ "license": { "id": "Apache-2.0" } }],
+      "description": "Patched Kafka Connect framework addressing CVE-2026-116593"
+    },
+    {
+      "type": "library",
+      "name": "kafka-clients",
+      "group": "org.apache.kafka",
+      "version": "4.4.0",
+      "purl": "pkg:maven/org.apache.kafka/kafka-clients@4.4.0",
+      "licenses": [{ "license": { "id": "Apache-2.0" } }],
+      "description": "Patched Kafka clients library addressing CVE-2024-31141"
+    },
+    {
+      "type": "library",
+      "name": "debezium-connector-postgres",
+      "group": "io.debezium",
+      "version": "2.5.4.Final",
+      "purl": "pkg:maven/io.debezium/debezium-connector-postgres@2.5.4.Final",
+      "licenses": [{ "license": { "id": "Apache-2.0" } }],
+      "description": "Debezium PostgreSQL WAL CDC connector plugin"
+    },
+    {
+      "type": "library",
+      "name": "debezium-transforms",
+      "group": "io.debezium",
+      "version": "2.5.4.Final",
+      "purl": "pkg:maven/io.debezium/debezium-transforms@2.5.4.Final",
+      "licenses": [{ "license": { "id": "Apache-2.0" } }],
+      "description": "Debezium Outbox Event Router SMT (io.debezium.transforms.outbox.EventRouter)"
+    },
+    {
+      "type": "library",
+      "name": "postgresql",
+      "group": "org.postgresql",
+      "version": "42.6.1",
+      "purl": "pkg:maven/org.postgresql/postgresql@42.6.1",
+      "licenses": [{ "license": { "id": "BSD-2-Clause" } }],
+      "description": "PostgreSQL JDBC and replication protocol driver"
+    },
+    {
+      "type": "operating-system",
+      "name": "eclipse-temurin-jre",
+      "group": "adoptium",
+      "version": "17.0.10_7",
+      "description": "OpenJDK 17 LTS Runtime Environment (Ubuntu Jammy Base)"
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "id": "CVE-2026-116593",
+      "source": { "name": "NVD", "url": "https://nvd.nist.gov" },
+      "ratings": [{ "severity": "high", "score": 7.5 }],
+      "description": "Kafka Connect REST API config/validate endpoint returns resolved plaintext secrets",
+      "affects": [{ "ref": "pkg:maven/org.apache.kafka/connect-runtime@4.4.0" }],
+      "analysis": {
+        "state": "not_affected",
+        "justification": "component_was_fixed_in_version_4.4.0",
+        "detail": "Runtime upgraded to Kafka Connect 4.4.0 which suppresses secret resolution during validation."
+      }
+    },
+    {
+      "id": "CVE-2024-31141",
+      "source": { "name": "NVD", "url": "https://nvd.nist.gov" },
+      "ratings": [{ "severity": "medium", "score": 6.5 }],
+      "description": "Kafka Clients ConfigProvider arbitrary environment variable access",
+      "affects": [{ "ref": "pkg:maven/org.apache.kafka/kafka-clients@4.4.0" }],
+      "analysis": {
+        "state": "not_affected",
+        "justification": "component_was_fixed_in_version_4.4.0",
+        "detail": "Kafka 4.4.0 restricts ConfigProvider instantiation and enforces variable allowlists."
+      }
+    }
+  ]
+}

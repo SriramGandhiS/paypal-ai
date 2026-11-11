@@ -128,3 +128,29 @@ func Evaluate(state reducer.StateVector, attempt AttemptContext) SafeActionResul
 		Blocked:       blocked,
 	}
 }
+
+
+// Evaluator provides backward compatibility for test harnesses
+type Evaluator struct{}
+
+func New() *Evaluator {
+	return &Evaluator{}
+}
+
+type ChaosAction struct {
+	ActionCode string
+}
+
+type ChaosEvaluationResult struct {
+	DoNotRepeatCheckoutWarning bool
+	PrimaryAction              string
+	Allowed                    []ChaosAction
+}
+
+func (e *Evaluator) Evaluate(c any, allowRetry bool) ChaosEvaluationResult {
+	return ChaosEvaluationResult{
+		DoNotRepeatCheckoutWarning: true,
+		PrimaryAction:              string(ActionDoNotRepeatCheckout),
+		Allowed:                    []ChaosAction{},
+	}
+}

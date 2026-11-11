@@ -16,6 +16,10 @@ var (
 type Reducer struct{}
 
 // NewReducer constructs the deterministic Reducer
+func New() *Reducer {
+	return NewReducer()
+}
+
 func NewReducer() *Reducer {
 	return &Reducer{}
 }

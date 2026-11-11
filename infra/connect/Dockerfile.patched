@@ -1,0 +1,47 @@
+# PayBridge AI — Hardened Kafka Connect Image
+# Remediates: CVE-2026-116593 (Kafka Connect REST Secret Leak) & CVE-2024-31141 (ConfigProvider Arbitrary Read)
+# Base Runtime: Apache Kafka Connect 4.4.0 (Patched)
+# Plugins: Debezium PostgreSQL Connector 2.5.4.Final & Outbox Event Router SMT
+
+FROM eclipse-temurin:17-jre-jammy AS base
+
+ARG KAFKA_VERSION=4.4.0
+ARG SCALA_VERSION=2.13
+ARG DEBEZIUM_VERSION=2.5.4.Final
+
+ENV KAFKA_HOME=/opt/kafka
+ENV PLUGIN_PATH=/opt/kafka/plugins
+ENV PATH="${KAFKA_HOME}/bin:${PATH}"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    bash \
+    jq \
+    && rm -rf /var/lib/apt/lists/*
+
+# 1. Download and Extract Patched Apache Kafka Connect
+RUN mkdir -p ${KAFKA_HOME} ${PLUGIN_PATH} && \
+    curl -fsSL "https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
+    -o /tmp/kafka.tgz && \
+    tar -xzf /tmp/kafka.tgz -C ${KAFKA_HOME} --strip-components=1 && \
+    rm /tmp/kafka.tgz
+
+# 2. Install Debezium PostgreSQL Connector and Outbox SMT Plugins
+RUN curl -fsSL "https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/${DEBEZIUM_VERSION}/debezium-connector-postgres-${DEBEZIUM_VERSION}-plugin.tar.gz" \
+    -o /tmp/debezium-postgres.tar.gz && \
+    mkdir -p ${PLUGIN_PATH}/debezium-postgres && \
+    tar -xzf /tmp/debezium-postgres.tar.gz -C ${PLUGIN_PATH}/debezium-postgres && \
+    rm /tmp/debezium-postgres.tar.gz
+
+# 3. Principle of Least Privilege: Run as Non-Root User
+RUN groupadd -r kafka --gid=1001 && \
+    useradd -r -g kafka --uid=1001 -d ${KAFKA_HOME} kafka && \
+    chown -R kafka:kafka ${KAFKA_HOME} ${PLUGIN_PATH}
+
+USER 1001:1001
+
+EXPOSE 8083
+
+ENTRYPOINT ["/opt/kafka/bin/connect-distributed.sh"]
+CMD ["/opt/kafka/config/connect-distributed.properties"]
