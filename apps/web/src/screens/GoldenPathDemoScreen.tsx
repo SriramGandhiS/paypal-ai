@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Lock, 
   RotateCcw, 
@@ -117,6 +117,186 @@ interface GoldenPathDemoScreenProps {
   onSelectCase?: (id: string) => void;
 }
 
+interface ChatAnswer {
+  text: string;
+  cite: string;
+  confidence: 'CONFIRMED' | 'PROBABLE' | 'UNKNOWN';
+}
+
+function resolveContextualAnswer(
+  q: string,
+  fixture: ScenarioFixture,
+  history: Array<{ q: string; a: string | null; cite?: string | null }>
+): ChatAnswer {
+  const qLower = q.toLowerCase().trim();
+  const f = fixture;
+
+  const isCaptured = (f.id === 'HTTP_504_GATEWAY_TIMEOUT' || f.id === 'SPLIT_BRAIN_SUCCESS_CRASH');
+  const isDenied = (f.id === 'INTL_TRANSACTIONS_DISABLED' || f.id === 'INSUFFICIENT_FUNDS');
+
+  // Check frequency of previous similar inquiries
+  const repeatCount = history.filter(h => {
+    const prev = h.q.toLowerCase();
+    return (
+      (qLower.includes('charge') && prev.includes('charge')) ||
+      (qLower.includes('retry') && prev.includes('retry')) ||
+      (qLower.includes('where') && prev.includes('where')) ||
+      (qLower.includes('why') && prev.includes('why')) ||
+      (qLower.includes('refund') && prev.includes('refund')) ||
+      (qLower.includes('next') && prev.includes('next'))
+    );
+  }).length;
+
+  // 1. WAS I CHARGED?
+  if (qLower.includes('charge') || qLower.includes('charged') || qLower.includes('deduct') || qLower.includes('debit') || qLower.includes('twice') || qLower.includes('double') || qLower.includes('paid')) {
+    if (isCaptured) {
+      if (repeatCount === 0) {
+        return {
+          text: `Yes, you were charged ${f.amount}. PayPal REST API confirms that Order #${f.orderRef} was captured successfully under capture proof. However, an edge network drop interrupted the storefront confirmation. You were charged once, and our attempt lock is actively preventing any duplicate debit ($0.00 duplicate exposure).`,
+          cite: `Verified via PayPal REST API (/v2/checkout/orders/${f.orderRef})`,
+          confidence: 'CONFIRMED'
+        };
+      } else {
+        return {
+          text: `To re-confirm for Order #${f.orderRef}: exactly one charge of ${f.amount} was captured by PayPal. We are holding the single-flight attempt lock so no secondary charge can occur.`,
+          cite: `PayPal Authoritative Ledger Proof [cap-4819: COMPLETED]`,
+          confidence: 'CONFIRMED'
+        };
+      }
+    } else if (isDenied) {
+      if (repeatCount === 0) {
+        return {
+          text: `No, you were NOT charged. The authorization attempt for ${f.amount} was rejected by your card issuer prior to capture. Zero funds were debited from your card.`,
+          cite: `ISO 8583 Issuer Authorization Record [DENIED]`,
+          confidence: 'CONFIRMED'
+        };
+      } else {
+        return {
+          text: `Confirmed again: your account was not debited for Order #${f.orderRef}. The transaction failed authorization before any funds could be captured.`,
+          cite: `Tier 1 Direct Provider Read [UNCAPTURED]`,
+          confidence: 'CONFIRMED'
+        };
+      }
+    } else {
+      return {
+        text: `I can't confirm that from the available payment records yet. The transaction state remains unverified, and we are holding attempt locks while awaiting authoritative provider reconciliation.`,
+        cite: `Status: PENDING_RECONCILIATION`,
+        confidence: 'UNKNOWN'
+      };
+    }
+  }
+
+  // 2. SHOULD I TRY AGAIN / RETRY?
+  if (qLower.includes('retry') || qLower.includes('try again') || qLower.includes('pay again') || qLower.includes('resubmit') || qLower.includes('swipe again')) {
+    if (isCaptured) {
+      if (repeatCount === 0) {
+        return {
+          text: `Do NOT retry or pay again. Your payment was already captured by PayPal. If you submit another payment now, you would trigger an unnecessary second charge. PayBridge AI is locking checkout to protect you.`,
+          cite: `Single-Flight Mutex: ACTIVE [DO_NOT_RETRY]`,
+          confidence: 'CONFIRMED'
+        };
+      } else {
+        return {
+          text: `As advised earlier, please do not re-attempt payment. Order #${f.orderRef} is already captured and legally settled on PayPal. Retrying risks duplicate billing.`,
+          cite: `Attempt Lock Mutex #PB-${f.orderRef}`,
+          confidence: 'CONFIRMED'
+        };
+      }
+    } else if (isDenied) {
+      return {
+        text: `Do not retry immediately with the same card settings. First resolve the issue (${f.whatNext[0]}), then submit a single authorized attempt.`,
+        cite: `Pre-Flight Policy Check: BLOCKED_PENDING_ISSUER_RESOLUTION`,
+        confidence: 'CONFIRMED'
+      };
+    } else {
+      return {
+        text: `Retry is strictly blocked until authoritative transaction telemetry confirms the original attempt status.`,
+        cite: `Attempt Lock Active`,
+        confidence: 'CONFIRMED'
+      };
+    }
+  }
+
+  // 3. WHY DID MY BANK REJECT IT?
+  if (qLower.includes('bank reject') || qLower.includes('bank decline') || qLower.includes('issuer decline') || qLower.includes('why reject') || qLower.includes('why declined') || (qLower.includes('why') && qLower.includes('bank'))) {
+    if (isCaptured) {
+      return {
+        text: `There is no evidence that your bank rejected this transaction. In fact, your bank authorized the transaction and PayPal successfully captured ${f.amount}. The failure was caused by an edge network timeout at the merchant gateway, not by your bank.`,
+        cite: `Issuer Authorization Status: APPROVED [00]`,
+        confidence: 'CONFIRMED'
+      };
+    } else if (isDenied) {
+      return {
+        text: `Your bank declined the authorization. ${f.whyItHappened}`,
+        cite: f.evidence[1] ? `${f.evidence[1].source} [${f.evidence[1].status}]` : `Issuer Telemetry`,
+        confidence: 'CONFIRMED'
+      };
+    } else {
+      return {
+        text: `I can't confirm that from the available payment records yet. No bank rejection telemetry has been returned.`,
+        cite: `Provider Telemetry Log`,
+        confidence: 'UNKNOWN'
+      };
+    }
+  }
+
+  // 4. WHERE IS MY MONEY?
+  if (qLower.includes('where is my money') || qLower.includes('where are the funds') || qLower.includes('where did my money go') || qLower.includes('where are my funds') || qLower.includes('where is my payment')) {
+    if (isCaptured) {
+      return {
+        text: `Your ${f.amount} was captured by PayPal and is currently held in PayPal's verified escrow ledger under Order #${f.orderRef}. We have not claimed bank settlement because disbursement to the merchant bank account is awaiting final order reconciliation.`,
+        cite: `PayPal Escrow Vault Reference [cap-4819]`,
+        confidence: 'CONFIRMED'
+      };
+    } else if (isDenied) {
+      return {
+        text: `Your funds never left your bank account. Because the transaction was declined at authorization, no debit or hold occurred.`,
+        cite: `Ledger Mutation: $0.00 Debited`,
+        confidence: 'CONFIRMED'
+      };
+    } else {
+      return {
+        text: `I can't confirm that from the available payment records yet. Authoritative settlement evidence is still being retrieved.`,
+        cite: `Telemetry Status: IN_FLIGHT`,
+        confidence: 'UNKNOWN'
+      };
+    }
+  }
+
+  // 5. CAN I GET A REFUND?
+  if (qLower.includes('refund') || qLower.includes('money back') || qLower.includes('reversal') || qLower.includes('chargeback')) {
+    if (isCaptured) {
+      return {
+        text: `PayBridge AI is an advisory intelligence platform and cannot execute refunds directly. Because your payment was captured by PayPal, you may either await merchant order fulfillment or contact ${f.merchant} directly for a refund. If needed, PayPal Buyer Protection is available.`,
+        cite: `Regulatory Gate: AI Money-Movement Prohibited`,
+        confidence: 'CONFIRMED'
+      };
+    } else {
+      return {
+        text: `No refund is necessary because no funds were captured. Zero dollars were debited from your account.`,
+        cite: `Capture Status: NONE`,
+        confidence: 'CONFIRMED'
+      };
+    }
+  }
+
+  // 6. WHAT SHOULD I DO NEXT?
+  if (qLower.includes('what next') || qLower.includes('what should i do') || qLower.includes('next step') || qLower.includes('what to do') || qLower.includes('how to fix')) {
+    return {
+      text: `Here is the safest course of action:\n` + f.whatNext.join('\n'),
+      cite: `Safe-Action Engine Decision [Deterministic Policy]`,
+      confidence: 'CONFIRMED'
+    };
+  }
+
+  // 7. GENERAL CONTEXTUAL FALLBACK
+  return {
+    text: `PayBridge AI is tracking Order #${f.orderRef} (${f.amount} to ${f.merchant}). Current status: ${f.whatHappened} Safe next step: ${f.whatNext[0]}`,
+    cite: `Investigation Session #PB-${f.orderRef}`,
+    confidence: 'CONFIRMED'
+  };
+}
+
 export const GoldenPathDemoScreen: React.FC<GoldenPathDemoScreenProps> = ({
   onNavigate,
   onSelectCase
@@ -125,9 +305,18 @@ export const GoldenPathDemoScreen: React.FC<GoldenPathDemoScreenProps> = ({
   const [fixtureIndex, setFixtureIndex] = useState(0);
   const [pipelineStep, setPipelineStep] = useState(0);
   const [evidenceOpen, setEvidenceOpen] = useState(false);
-  const [chatHistory, setChatHistory] = useState<Array<{ q: string; a: string }>>([]);
+  const [chatHistory, setChatHistory] = useState<Array<{ q: string; a: string | null; cite?: string | null }>>([]);
   const [inputText, setInputText] = useState('');
+  const [isThinking, setIsThinking] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+
+  const chatStreamRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (chatStreamRef.current) {
+      chatStreamRef.current.scrollTop = chatStreamRef.current.scrollHeight;
+    }
+  }, [chatHistory, isThinking]);
 
   const fixture = SCENARIO_FIXTURES[fixtureIndex];
 
@@ -186,24 +375,26 @@ export const GoldenPathDemoScreen: React.FC<GoldenPathDemoScreenProps> = ({
 
   const handleSendChat = (textOverride?: string) => {
     const q = (textOverride || inputText).trim();
-    if (!q) return;
+    if (!q || isThinking) return;
     setInputText('');
 
-    let a = '';
-    const qLower = q.toLowerCase();
-    if (qLower.includes('twice') || qLower.includes('double') || qLower.includes('charge') || qLower.includes('charged')) {
-      a = `No duplicate charges have occurred ($0.00 duplicate exposure). PayBridge AI is holding attempt lock #PB-${fixture.orderRef} across PayPal's authoritative ledger.`;
-    } else if (qLower.includes('retry') || qLower.includes('again') || qLower.includes('pay')) {
-      a = `Do not retry checkout immediately. ${fixture.whatAvoid}`;
-    } else if (qLower.includes('where') || qLower.includes('money')) {
-      a = fixture.whatHappened;
-    } else if (qLower.includes('why') || qLower.includes('reject') || qLower.includes('bank')) {
-      a = fixture.whyItHappened;
-    } else {
-      a = `PayBridge AI is monitoring Order #${fixture.orderRef}. Current status: ${fixture.whatHappened} Recommendation: ${fixture.whatNext[0]}`;
-    }
+    setChatHistory((prev) => [...prev, { q, a: null, cite: null }]);
+    setIsThinking(true);
 
-    setChatHistory((prev) => [...prev, { q, a }]);
+    setTimeout(() => {
+      setChatHistory((prev) => {
+        const historySlice = prev.slice(0, -1);
+        const res = resolveContextualAnswer(q, fixture, historySlice);
+        const updated = [...prev];
+        updated[updated.length - 1] = {
+          q,
+          a: res.text,
+          cite: res.cite
+        };
+        return updated;
+      });
+      setIsThinking(false);
+    }, 320);
   };
 
   return (
@@ -459,42 +650,33 @@ export const GoldenPathDemoScreen: React.FC<GoldenPathDemoScreenProps> = ({
               </div>
 
               {/* Chat Stream */}
-              <div className="space-y-2.5 max-h-72 overflow-y-auto mb-4">
+              <div ref={chatStreamRef} className="space-y-2.5 max-h-72 overflow-y-auto mb-4 scroll-smooth">
                 <div className="p-3 rounded-xl bg-slate-100 text-slate-900 text-xs max-w-[85%]">
-                  I have verified the records for Order #{fixture.orderRef}. Feel free to ask any question about your funds or next steps.
+                  I have verified the records for Order #{fixture.orderRef}. Feel free to ask any question about your payment, charges, or next steps.
                 </div>
                 {chatHistory.map((msg, i) => (
                   <React.Fragment key={i}>
                     <div className="p-3 rounded-xl bg-violet-600 text-white text-xs max-w-[85%] ml-auto">
                       {msg.q}
                     </div>
-                    <div className="p-3 rounded-xl bg-slate-100 text-slate-900 text-xs max-w-[85%]">
-                      <strong>PayBridge AI:</strong> {msg.a}
-                    </div>
+                    {msg.a && (
+                      <div className="p-3 rounded-xl bg-slate-100 text-slate-900 text-xs max-w-[85%] space-y-1">
+                        <div><strong>PayBridge AI:</strong> {msg.a}</div>
+                        {msg.cite && (
+                          <div className="text-[11px] font-mono text-violet-700 font-semibold pt-0.5">
+                            ✓ {msg.cite}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </React.Fragment>
                 ))}
-              </div>
-
-              {/* Quick Chips */}
-              <div className="flex gap-1.5 flex-wrap mb-3">
-                <button
-                  onClick={() => handleSendChat('Was I charged twice?')}
-                  className="px-2.5 py-1 rounded-full text-[11px] bg-slate-50 border border-slate-200 text-slate-600 hover:border-violet-500 hover:text-violet-600 transition-colors cursor-pointer"
-                >
-                  Was I charged twice?
-                </button>
-                <button
-                  onClick={() => handleSendChat('Should I try again?')}
-                  className="px-2.5 py-1 rounded-full text-[11px] bg-slate-50 border border-slate-200 text-slate-600 hover:border-violet-500 hover:text-violet-600 transition-colors cursor-pointer"
-                >
-                  Should I try again?
-                </button>
-                <button
-                  onClick={() => handleSendChat('Where is my money?')}
-                  className="px-2.5 py-1 rounded-full text-[11px] bg-slate-50 border border-slate-200 text-slate-600 hover:border-violet-500 hover:text-violet-600 transition-colors cursor-pointer"
-                >
-                  Where is my money?
-                </button>
+                {isThinking && (
+                  <div className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 text-slate-500 text-xs font-medium self-start animate-pulse">
+                    <span className="w-1.5 h-1.5 rounded-full bg-violet-600 animate-ping" />
+                    <span>PayBridge AI is checking case evidence...</span>
+                  </div>
+                )}
               </div>
 
               {/* Chat Input */}
@@ -502,14 +684,16 @@ export const GoldenPathDemoScreen: React.FC<GoldenPathDemoScreenProps> = ({
                 <input
                   type="text"
                   value={inputText}
+                  disabled={isThinking}
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSendChat()}
-                  placeholder="Ask PayBridge AI about this payment..."
-                  className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-xs outline-none focus:border-violet-500"
+                  placeholder="Ask about this payment..."
+                  className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-xs outline-none focus:border-violet-500 disabled:opacity-50"
                 />
                 <button
                   onClick={() => handleSendChat()}
-                  className="px-3.5 py-2.5 rounded-xl bg-violet-600 text-white hover:bg-violet-700 transition-colors cursor-pointer"
+                  disabled={isThinking}
+                  className="px-3.5 py-2.5 rounded-xl bg-violet-600 text-white hover:bg-violet-700 transition-colors cursor-pointer disabled:opacity-50"
                 >
                   <Send className="w-4 h-4" />
                 </button>
