@@ -3904,296 +3904,513 @@
 
 
     /* =========================================================================
-       GOLDEN PATH SEQUENTIAL STEPPER & ANIMATED ROADMAP STYLES
+       GOLDEN PATH DEMO — MASTER COMPONENT REDESIGN (MATCHING USER REFERENCE)
+       Strictly component-scoped to #workbench and .gpd-* elements.
        ========================================================================= */
-    .golden-stepper-nav {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 18px 0 24px 0;
-      border-bottom: 1px solid #E2E8F0;
-      padding-bottom: 14px;
+    .gpd-wrapper {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 10px 0 30px 0;
+      animation: gpdFadeIn 0.3s ease-out;
+    }
+    @keyframes gpdFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .golden-step-btn {
+    /* Section A: Header */
+    .gpd-header {
+      margin-bottom: 28px;
+    }
+    .gpd-pill-badge {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 18px;
-      border-radius: 10px;
+      gap: 7px;
+      padding: 5px 14px;
+      border-radius: 9999px;
       background: #FFFFFF;
       border: 1px solid #E2E8F0;
-      color: #64748B;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-      transition: all 0.2s ease;
-    }
-
-    .golden-step-btn:hover {
-      background: #F8FAFC;
-      border-color: #CBD5E1;
+      font-size: 12px;
+      font-weight: 500;
       color: #0F172A;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      margin-bottom: 14px;
     }
-
-    .golden-step-btn.active {
-      background: #EFF6FF;
-      border-color: #2563EB;
-      color: #1D4ED8;
-      box-shadow: 0 2px 8px rgba(37,99,235,0.12);
-    }
-
-    .golden-step-btn.completed {
-      background: #F0FDF4;
-      border-color: #86EFAC;
-      color: #166534;
-    }
-
-    .golden-step-num {
-      width: 22px;
-      height: 22px;
+    .gpd-pill-ring {
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: #E2E8F0;
-      color: #475569;
+      border: 2px solid #8B5CF6;
+      box-shadow: 0 0 4px rgba(139,92,246,0.4);
+    }
+    .gpd-main-title {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: #0F172A;
+      line-height: 1.15;
+      margin: 0 0 10px 0;
+    }
+    .gpd-title-accent {
+      color: #7C3AED;
+      background: linear-gradient(135deg, #7C3AED 0%, #9333EA 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gpd-subtitle {
+      font-size: 14.5px;
+      color: #64748B;
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    /* Section B & C: Two-Column Cards Grid */
+    .gpd-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.32fr;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 880px) {
+      .gpd-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Card Shell */
+    .gpd-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+      position: relative;
+    }
+
+    /* Left Card: PayPal Checkout */
+    .gpd-pay-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #F1F5F9;
+      margin-bottom: 20px;
+    }
+    .gpd-pay-heading {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0F172A;
+      margin: 0 0 18px 0;
+    }
+    .gpd-item-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .gpd-item-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
+      color: #475569;
+      flex-shrink: 0;
+    }
+    .gpd-item-merchant {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #0F172A;
+      margin-bottom: 3px;
+    }
+    .gpd-item-desc {
+      font-size: 12px;
+      color: #64748B;
+    }
+    .gpd-amount-row {
+      display: flex;
+      justify-content: flex-end;
+      align-items: baseline;
+      padding: 12px 0 20px 0;
+      border-top: 1px solid #F8FAFC;
+    }
+    .gpd-amount-text {
+      font-size: 20px;
       font-weight: 700;
+      color: #0F172A;
+      letter-spacing: -0.02em;
     }
-
-    .golden-step-btn.active .golden-step-num {
-      background: #2563EB;
+    .gpd-btn-pay {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #0070BA;
       color: #FFFFFF;
+      font-size: 14.5px;
+      font-weight: 600;
+      padding: 13px 20px;
+      border-radius: 9999px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 12px rgba(0, 112, 186, 0.22);
+    }
+    .gpd-btn-pay:hover:not(:disabled) {
+      background: #005EA6;
+      box-shadow: 0 6px 18px rgba(0, 112, 186, 0.32);
+      transform: translateY(-1px);
+    }
+    .gpd-btn-pay:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+    .gpd-btn-pay:disabled {
+      opacity: 0.75;
+      cursor: not-allowed;
+    }
+    .gpd-btn-pay.timed-out {
+      background: #DC2626;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+    }
+    .gpd-btn-pay.locked {
+      background: #D97706;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
     }
 
-    .golden-step-btn.completed .golden-step-num {
-      background: #16A34A;
-      color: #FFFFFF;
-    }
-
-    /* Roadmap Pipeline Canvas */
-    .roadmap-track-container {
-      position: relative;
+    /* Right Card: PayBridge AI Recovery */
+    .gpd-ai-card {
       display: flex;
       flex-direction: column;
       gap: 16px;
-      padding: 16px 0 16px 36px;
     }
-
-    .roadmap-track-line {
-      position: absolute;
-      left: 14px;
-      top: 32px;
-      bottom: 32px;
-      width: 4px;
-      background: #E2E8F0;
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    .roadmap-track-beam {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(180deg, #2563EB 0%, #38BDF8 50%, #059669 100%);
-      animation: roadmapLaser 2.8s infinite ease-in-out;
-    }
-
-    @keyframes roadmapLaser {
-      0% { transform: translateY(-100%); }
-      100% { transform: translateY(100%); }
-    }
-
-    .roadmap-card {
-      position: relative;
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-radius: 14px;
-      padding: 18px 22px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    .gpd-ai-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      padding-bottom: 4px;
     }
-
-    .roadmap-card:hover {
-      border-color: #94A3B8;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.07);
-      transform: translateX(4px);
+    .gpd-ai-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-
-    .roadmap-card.active {
-      border-color: #93C5FD;
-      background: #F8FAFC;
-      box-shadow: 0 6px 20px rgba(37,99,235,0.08);
-    }
-
-    .roadmap-card.sealed {
-      border-color: #86EFAC;
-      background: #F0FDF4;
-    }
-
-    .roadmap-node-point {
-      position: absolute;
-      left: -30px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
+    .gpd-sparkle-badge {
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      background: #FFFFFF;
-      border: 3.5px solid #2563EB;
-      box-shadow: 0 0 0 4px rgba(37,99,235,0.2);
-      z-index: 2;
-    }
-
-    .roadmap-card.sealed .roadmap-node-point {
-      border-color: #059669;
-      box-shadow: 0 0 0 4px rgba(5,150,105,0.2);
-    }
-
-    .roadmap-card.active .roadmap-node-point {
-      animation: pulseNode 1.6s infinite ease-in-out;
-    }
-
-    @keyframes pulseNode {
-      0%, 100% { transform: translateY(-50%) scale(1); }
-      50% { transform: translateY(-50%) scale(1.3); }
-    }
-
-    /* Isolated Stage Wrappers */
-    .golden-stage-box {
-      width: 100%;
-      margin: 0 auto;
-      animation: fadeInStage 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes fadeInStage {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .stage1-container {
-      max-width: 580px;
-    }
-    .stage2-container {
-      max-width: 760px;
-    }
-    .stage3-container {
-      max-width: 980px;
-    }
-    .stage-card-wrapper {
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-      padding: 26px;
-    }
-    .stage-card-wrapper.ai-accent {
-      border-color: #BFDBFE;
-      box-shadow: 0 10px 32px rgba(37,99,235,0.08);
-      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
-    }
-    .stage-card-wrapper.roadmap-accent {
-      border-color: #CBD5E1;
-      box-shadow: 0 10px 32px rgba(15,23,42,0.06);
-      padding: 30px;
-    }
-    .stage-nav-footer {
+      background: linear-gradient(135deg, #EDE9FE 0%, #DBEAFE 100%);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-top: 24px;
-      padding-top: 18px;
-      border-top: 1px solid #F1F5F9;
+      justify-content: center;
+      color: #6366F1;
+      border: 1px solid #C7D2FE;
     }
-    .stage-btn-advance {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #2563EB;
-      color: #FFFFFF;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 20px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .stage-btn-advance:hover {
-      background: #1D4ED8;
-      box-shadow: 0 4px 12px rgba(37,99,235,0.25);
-    }
-    .stage-btn-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #FFFFFF;
-      color: #64748B;
-      border: 1px solid #CBD5E1;
-      border-radius: 8px;
-      padding: 10px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .stage-btn-back:hover {
-      background: #F8FAFC;
-      color: #0F172A;
-    }
-    .animated-meter-track {
-      width: 100%;
-      height: 10px;
-      background: #E2E8F0;
-      border-radius: 99px;
-      overflow: hidden;
-      position: relative;
-    }
-    .animated-meter-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #2563EB, #059669);
-      background-size: 30px 30px;
-      background-image: linear-gradient(45deg, rgba(255,255,255,0.25) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.25) 75%, transparent 75%, transparent);
-      animation: progressStripes 1.2s linear infinite;
-      border-radius: 99px;
-      transition: width 0.3s ease;
-    }
-    @keyframes progressStripes {
-      0% { background-position: 0 0; }
-      100% { background-position: 30px 0; }
-    }
-    .telemetry-metric-strip {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-    .telemetry-chip {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      border-radius: 10px;
-      padding: 12px 14px;
-    }
-    .telemetry-chip-val {
-      font-family: var(--mono);
-      font-size: 14px;
+    .gpd-ai-title {
+      font-size: 15.5px;
       font-weight: 700;
       color: #0F172A;
     }
-    .telemetry-chip-label {
+    .gpd-sim-pill {
       font-size: 11px;
-      color: #64748B;
-      margin-top: 3px;
+      font-weight: 600;
+      color: #059669;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .gpd-sim-pill::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10B981;
+      animation: livePulse 2s infinite ease-in-out;
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
     }
 
+    /* Chat Messages & Bubbles */
+    .gpd-bubble-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .gpd-bot-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: #0F172A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .gpd-chat-bubble {
+      flex: 1;
+      background: #F8FAFC;
+      border: 1px solid #F1F5F9;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 13.5px;
+      color: #0F172A;
+      line-height: 1.45;
+      position: relative;
+    }
+    .gpd-time-stamp {
+      float: right;
+      font-size: 11px;
+      color: #94A3B8;
+      margin-left: 10px;
+      margin-top: 2px;
+    }
 
-  </style>
+    /* Inline Progress Checklist Box */
+    .gpd-progress-box {
+      margin-left: 36px;
+      background: #EFF6FF;
+      border: 1px solid #DBEAFE;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .gpd-progress-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #1E293B;
+      font-weight: 500;
+    }
+    .gpd-check-icon {
+      color: #16A34A;
+      flex-shrink: 0;
+    }
+    .gpd-spinner-icon {
+      color: #2563EB;
+      flex-shrink: 0;
+      animation: gpdSpin 1s linear infinite;
+    }
+    @keyframes gpdSpin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Recommendation / Warning Bubble */
+    .gpd-shield-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .gpd-shield-icon-box {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #EDE9FE;
+      color: #7C3AED;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .gpd-shield-bubble {
+      flex: 1;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02);
+    }
+    .gpd-shield-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #0F172A;
+      margin: 0 0 4px 0;
+    }
+    .gpd-shield-text {
+      font-size: 12.5px;
+      color: #475569;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* Chat Stream Additional Answers */
+    .gpd-stream-replies {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-left: 36px;
+    }
+    .gpd-user-query-bubble {
+      align-self: flex-end;
+      background: #0070BA;
+      color: #FFFFFF;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      max-width: 85%;
+    }
+    .gpd-ai-reply-bubble {
+      align-self: flex-start;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      color: #0F172A;
+      line-height: 1.4;
+      max-width: 95%;
+    }
+
+    /* Chat Input Bar */
+    .gpd-input-container {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .gpd-quick-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .gpd-chip-btn {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #475569;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .gpd-chip-btn:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+    }
+    .gpd-input-bar {
+      display: flex;
+      align-items: center;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 9999px;
+      padding: 5px 6px 5px 16px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+    }
+    .gpd-input-bar:focus-within {
+      border-color: #8B5CF6;
+      box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
+    }
+    .gpd-input-field {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 13.5px;
+      color: #0F172A;
+      background: transparent;
+    }
+    .gpd-input-field::placeholder {
+      color: #94A3B8;
+    }
+    .gpd-send-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #8B5CF6;
+      border: none;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+    .gpd-send-btn:hover {
+      background: #7C3AED;
+      transform: scale(1.05);
+    }
+
+    /* Section D: Final Result & Evidence Tray */
+    .gpd-final-result-tray {
+      margin-top: 24px;
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      border-radius: 14px;
+      padding: 18px 22px;
+      animation: gpdFadeIn 0.35s ease;
+    }
+    .gpd-result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .gpd-result-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #166534;
+    }
+    .gpd-btn-reset-demo {
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .gpd-btn-reset-demo:hover {
+      background: #F8FAFC;
+      color: #0F172A;
+    }
+    .gpd-evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .gpd-evidence-chip {
+      background: #FFFFFF;
+      border: 1px solid #DCFCE7;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .gpd-chip-meta {
+      font-size: 10.5px;
+      color: #64748B;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .gpd-chip-val {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #0F172A;
+      margin-top: 2px;
+      font-family: var(--mono);
+    }
+
+    </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -7199,744 +7416,331 @@
         }, 50);
       };
 
+      /* View 1: Golden Path Master Redesign (PayPal Sandbox & PayBridge AI Recovery) */
+      let gpdDemoState = 'idle'; // 'idle', 'initiating', 'timed_out', 'reconciling', 'reconciled'
+      let gpdChatHistory = [];
+
+      window.startGoldenPathCheckout = function() {
+        if (gpdDemoState !== 'idle') return;
+        gpdDemoState = 'initiating';
+        renderDemoView();
+
+        // 1. Initiate checkout and simulate HTTP 504 drop from PayPal Gateway
+        setTimeout(() => {
+          gpdDemoState = 'timed_out';
+          renderDemoView();
+
+          // 2. Autonomous PayBridge AI kicks in to verify ledger and lock attempt
+          setTimeout(() => {
+            gpdDemoState = 'reconciling';
+            renderDemoView();
+
+            // 3. Provider REST query completes and safe outcome verified
+            setTimeout(() => {
+              gpdDemoState = 'reconciled';
+              renderDemoView();
+            }, 2600);
+          }, 1800);
+        }, 1400);
+      };
+
+      window.resetGoldenPathDemo = function() {
+        gpdDemoState = 'idle';
+        gpdChatHistory = [];
+        renderDemoView();
+      };
+
+      window.sendGoldenAiQuery = function(textOverride) {
+        const input = document.getElementById('gpd-chat-input');
+        const q = (textOverride || (input ? input.value : '')).trim();
+        if (!q) return;
+        if (input) input.value = '';
+
+        // Add user question
+        let answer = '';
+        const qLower = q.toLowerCase();
+        if (qLower.includes('retry') || qLower.includes('again')) {
+          answer = "Do not pay again yet. A duplicate checkout would capture an unnecessary second $480.00 charge. We are holding the checkout mutex lock while inspecting PayPal's authoritative ledger.";
+        } else if (qLower.includes('charge') || qLower.includes('double') || qLower.includes('charged')) {
+          answer = "No duplicate charge has occurred ($0.00 duplicate exposure). The original payment intent is verified with PayPal REST API order #9K201824 and capture #cap-4819.";
+        } else if (qLower.includes('where') || qLower.includes('money') || qLower.includes('status')) {
+          answer = "Your $480.00 USD was successfully captured by PayPal Sandbox at 01:40 AM. The HTTP 504 was purely an edge network timeout. We have confirmed the funds and will complete settlement without extra fees.";
+        } else if (qLower.includes('what happened') || qLower.includes('504') || qLower.includes('timeout')) {
+          answer = "PayPal processed the transaction, but the upstream connection dropped before sending the HTTP 200 acknowledgment. PayBridge AI automatically intercepted the timeout to protect your funds.";
+        } else {
+          answer = "PayBridge AI is monitoring session #PB-9482. The original payment of $480.00 USD is verified against PayPal's ledger. Attempt locks prevent duplicate billing.";
+        }
+
+        gpdChatHistory.push({ q: q, a: answer });
+        renderDemoView();
+
+        // Scroll chat into view if needed
+        const stream = document.getElementById('gpd-stream-replies');
+        if (stream) stream.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      };
+
       function renderDemoView() {
-        let statusBadge = '';
-        if (demoState === 'idle') {
-          statusBadge = '<span class="light-status-pill idle"><span class="status-dot idle"></span>Ready to Simulate</span>';
-        } else if (demoState === 'loading') {
-          statusBadge = '<span class="light-status-pill warning"><span class="status-dot warning"></span>Simulating 504 Timeout...</span>';
-        } else if (demoState === 'timeout') {
-          statusBadge = '<span class="light-status-pill danger"><span class="status-dot danger"></span>504 Timeout Intercepted</span>';
-        } else if (demoState === 'locked') {
-          statusBadge = '<span class="light-status-pill warning"><span class="status-dot warning"></span>Attempt Mutex Locked</span>';
-        } else if (demoState === 'reconciled') {
-          statusBadge = '<span class="light-status-pill success"><span class="status-dot success"></span>Reconciled in 142ms ($0.00 Double Charge)</span>';
+        const container = document.getElementById('view-container');
+        if (!container) return;
+
+        // Button markup
+        let payBtnHtml = '';
+        if (gpdDemoState === 'idle') {
+          payBtnHtml = `
+            <button class="gpd-btn-pay" id="gpd-btn-pay" onclick="startGoldenPathCheckout()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <span>Pay Now</span>
+            </button>
+          `;
+        } else if (gpdDemoState === 'initiating') {
+          payBtnHtml = `
+            <button class="gpd-btn-pay" disabled>
+              <svg class="gpd-spinner-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+                <path d="M12 2a10 10 0 0 1 10 10"/>
+              </svg>
+              <span>Contacting PayPal Sandbox...</span>
+            </button>
+          `;
+        } else if (gpdDemoState === 'timed_out') {
+          payBtnHtml = `
+            <button class="gpd-btn-pay timed-out" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <span>HTTP 504 Gateway Timeout</span>
+            </button>
+          `;
+        } else {
+          payBtnHtml = `
+            <button class="gpd-btn-pay locked" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <span>DO_NOT_REPEAT_CHECKOUT (Protected)</span>
+            </button>
+          `;
         }
 
-        // Checkout button state for Stage 1
-        let checkoutButtonHtml = '';
-        if (demoState === 'idle') {
-          checkoutButtonHtml = '<button class="light-checkout-btn idle" onclick="simulateGoldenPathInline()">' +
-            '<span>Pay $480.00 with PayPal</span>' +
-            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>' +
-          '</button>' +
-          '<p style="font-size: 11.5px; color: #64748B; text-align: center; margin-top: 10px; font-family: var(--mono);">' +
-            'Click to simulate live 504 gateway timeout and autonomous AI recovery' +
-          '</p>';
-        } else if (demoState === 'loading') {
-          checkoutButtonHtml = '<button class="light-checkout-btn loading" disabled>' +
-            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>' +
-            '<span>Contacting Upstream PayPal Gateway...</span>' +
-          '</button>';
-        } else if (demoState === 'timeout') {
-          checkoutButtonHtml = '<button class="light-checkout-btn timeout">' +
-            '<span>Connection Dropped: HTTP 504 Gateway Timeout</span>' +
-          '</button>' +
-          '<div class="light-lock-banner danger">' +
-            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>' +
-            '<div>' +
-              '<strong>Gateway Crashed Mid-Flight</strong><br>' +
-              'PayPal received funds, but TCP connection timed out before ACK.' +
-            '</div>' +
-          '</div>';
-        } else if (demoState === 'locked') {
-          checkoutButtonHtml = '<button class="light-checkout-btn locked" onclick="setDemoStage(2)">' +
-            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
-            '<span>DO_NOT_REPEAT_CHECKOUT (Aeries AI Guard Active)</span>' +
-          '</button>' +
-          '<div class="light-lock-banner warning">' +
-            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
-            '<div>' +
-              '<strong>Double-Charge Shield Engaged</strong><br>' +
-              'Shopper retry clicks intercepted. Direct PayPal ledger query active.' +
-            '</div>' +
-          '</div>';
-        } else if (demoState === 'reconciled') {
-          checkoutButtonHtml = '<div class="light-receipt-verified-box">' +
-            '<div style="display:flex; justify-content:space-between; align-items:center;">' +
-              '<strong style="color: #065F46; font-size: 14.5px; display:flex; align-items:center; gap:6px;">' +
-                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>' +
-                'Order Confirmed & Paid' +
-              '</strong>' +
-              '<span class="info-mono" style="background:#D1FAE5; color:#065F46; border:1px solid #A7F3D0; padding:3px 10px; border-radius:99px; font-size:11.5px; font-weight:700;">142ms Recovery</span>' +
-            '</div>' +
-            '<div style="font-size: 13px; color:#334155; line-height: 1.5; margin-top: 8px;">' +
-              'PayPal authoritative capture verified (ID: <code>cap_4819_live</code>). Order cleared for instant shipment with <strong>$0.00 duplicate charge</strong>.' +
-            '</div>' +
-            '<div style="display:flex; gap:10px; margin-top:14px;">' +
-              '<button class="light-pill-action hot" onclick="setDemoStage(3)">' +
-                'View Resolution Roadmap' +
-              '</button>' +
-              '<button class="light-pill-action subtle" onclick="resetLiveDemo()">' +
-                'Replay Simulation' +
-              '</button>' +
-            '</div>' +
-          '</div>';
+        // Progress checklist
+        let check1 = '<span class="gpd-check-icon">✓</span>';
+        let check2 = '<span class="gpd-check-icon">✓</span>';
+        let check3 = '<svg class="gpd-spinner-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>';
+        let text3 = 'Reconciliation in progress...';
+
+        if (gpdDemoState === 'reconciled') {
+          check3 = '<span class="gpd-check-icon">✓</span>';
+          text3 = 'Reconciliation completed · Original capture verified';
         }
 
-        // Chat messages HTML
-        let chatMessagesHtml = chatHistory.map(m => {
-          return '<div class="light-chat-bubble ' + m.role + '">' + m.text + '</div>';
-        }).join('');
+        // Chat stream answers
+        let streamHtml = '';
+        if (gpdChatHistory.length > 0) {
+          streamHtml = '<div class="gpd-stream-replies" id="gpd-stream-replies">';
+          gpdChatHistory.forEach(item => {
+            streamHtml += `
+              <div class="gpd-user-query-bubble">${item.q}</div>
+              <div class="gpd-ai-reply-bubble">
+                <strong>PayBridge AI:</strong> ${item.a}
+              </div>
+            `;
+          });
+          streamHtml += '</div>';
+        }
 
-        // Top Navigation & Stage Stepper Tabs
-        let topBarHtml = `
-          <div class="light-demo-top-bar">
-            <div>
-              <h3 class="light-demo-heading"><em>Golden Path.</em> Cross-Border 504 Recovery Engine</h3>
-              <p class="light-demo-subtext">
-                Sequential execution telemetry: Intercepting network drops and verifying Tier 1 PayPal ledger truth in 142ms.
+        // Final result tray
+        let finalTrayHtml = '';
+        if (gpdDemoState === 'reconciled') {
+          finalTrayHtml = `
+            <div class="gpd-final-result-tray">
+              <div class="gpd-result-header">
+                <div class="gpd-result-status">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="M9 12l2 2 4-4"/>
+                  </svg>
+                  <span>Reconciliation Completed · Payment Confirmed ($0.00 Duplicate Exposure)</span>
+                </div>
+                <button class="gpd-btn-reset-demo" onclick="resetGoldenPathDemo()">Reset Demo</button>
+              </div>
+              <p style="font-size: 13px; color: #166534; margin: 0 0 12px 0;">
+                PayPal authoritatively confirms original capture of <strong>$480.00 USD</strong>. Customer was NOT billed twice. Cryptographic Truth Passport issued.
+              </p>
+              <div class="gpd-evidence-grid">
+                <div class="gpd-evidence-chip">
+                  <div class="gpd-chip-meta">Provider Reference</div>
+                  <div class="gpd-chip-val">Order #9K201824</div>
+                </div>
+                <div class="gpd-evidence-chip">
+                  <div class="gpd-chip-meta">Capture ID</div>
+                  <div class="gpd-chip-val">cap-4819 (COMPLETED)</div>
+                </div>
+                <div class="gpd-evidence-chip">
+                  <div class="gpd-chip-meta">Duplicate Attempts</div>
+                  <div class="gpd-chip-val">0 Blocked (Safe)</div>
+                </div>
+                <div class="gpd-evidence-chip">
+                  <div class="gpd-chip-meta">SHA-256 Merkle Proof</div>
+                  <div class="gpd-chip-val">4f8b91a2...7c9d</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        container.innerHTML = `
+          <div class="gpd-wrapper">
+            <!-- Section A: Introduction -->
+            <div class="gpd-header">
+              <div class="gpd-pill-badge">
+                <span class="gpd-pill-ring"></span>
+                <span>Golden Path Demo</span>
+              </div>
+              <h2 class="gpd-main-title">
+                Cross-Border 504 Recovery <span class="gpd-title-accent">in Action.</span>
+              </h2>
+              <p class="gpd-subtitle">
+                A live simulation of a PayPal checkout timeout and autonomous recovery by PayBridge AI.
               </p>
             </div>
-            <div style="display: flex; align-items: center; gap: 12px;">
-              ${statusBadge}
-              <button class="light-pill-btn dark" style="height:32px; font-size:11px;" onclick="resetLiveDemo()">
-                RESET DEMO
-              </button>
-            </div>
-          </div>
 
-          <div class="golden-stepper-nav">
-            <button class="golden-step-btn ${demoStage === 1 ? 'active' : (demoStage > 1 ? 'completed' : '')}" onclick="setDemoStage(1)">
-              <span class="golden-step-num">${demoStage > 1 ? '✓' : '1'}</span>
-              <span>1. Customer Payment Box</span>
-            </button>
-            <button class="golden-step-btn ${demoStage === 2 ? 'active' : (demoStage > 2 ? 'completed' : '')}" onclick="setDemoStage(2)">
-              <span class="golden-step-num">${demoStage > 2 ? '✓' : '2'}</span>
-              <span>2. AI Autonomous Recovery</span>
-            </button>
-            <button class="golden-step-btn ${demoStage === 3 ? 'active' : ''}" onclick="setDemoStage(3)">
-              <span class="golden-step-num">3</span>
-              <span>3. Resolution Roadmap</span>
-            </button>
-          </div>
-        `;
-
-        let stageContentHtml = '';
-
-        /* STAGE 1: ONLY CUSTOMER PAYMENT BOX */
-        if (demoStage === 1) {
-          stageContentHtml = `
-            <div class="golden-stage-box stage1-container">
-              <div class="stage-card-wrapper">
-                <div class="light-panel-header">
-                  <div class="light-merchant-brand">
-                    <div class="light-merchant-logo">AR</div>
-                    <div>
-                      <div style="font-size: 14.5px; font-weight: 700; color: #0F172A;">Apex Robotics Europe GmbH</div>
-                      <div style="font-size: 11px; color: #64748B; font-family:var(--mono);">EUR → USD Commercial Settlement</div>
-                    </div>
-                  </div>
-                  <span class="light-session-tag">#PB-9482</span>
+            <!-- Section B & C: Side-by-Side Cards Grid (Matching Reference) -->
+            <div class="gpd-grid">
+              
+              <!-- Left Card: PayPal Checkout Experience -->
+              <div class="gpd-card gpd-pay-card">
+                <div class="gpd-pay-logo">
+                  <svg width="96" height="26" viewBox="0 0 100 28" fill="none">
+                    <path d="M12.4 2.2H4.8c-.5 0-.9.4-1 .9L.6 23.4c0 .3.2.6.5.6h3.6c.5 0 .9-.4 1-.9l.8-5.3c0-.3.3-.5.6-.5h2.2c4.4 0 7.7-1.8 8.6-6.6.4-2.1.1-3.8-.8-4.9-1.1-1.3-3-1.9-5.4-1.9" fill="#003087"/>
+                    <path d="M14.2 8.4c-.4 2.1-1.8 3.4-3.8 3.4h-1.9c-.3 0-.6.2-.6.5l-.8 5.2c0 .3-.2.5-.5.5H4.2c-.3 0-.5-.3-.5-.6l2.4-15.2c.1-.4.4-.7.8-.7h6.4c2.2 0 3.7.5 4.6 1.6.8 1.1 1 2.7.5 4.8" fill="#0079C1"/>
+                    <path d="M12.4 2.2H4.8c-.5 0-.9.4-1 .9L.6 23.4c0 .3.2.6.5.6h3.6c.5 0 .9-.4 1-.9l.8-5.3c0-.3.3-.5.6-.5h2.2c4.4 0 7.7-1.8 8.6-6.6.4-2.1.1-3.8-.8-4.9-1.1-1.3-3-1.9-5.4-1.9" fill="#00457C"/>
+                    <path d="M28.4 9.8h-3.4c-.3 0-.6.2-.6.5l-.2 1.1c-.5-.7-1.5-1.3-2.9-1.3-3.1 0-5.8 2.4-6.3 5.7-.3 1.7 0 3.3.9 4.5 1 1.2 2.5 1.8 4.2 1.8 2.5 0 3.9-1.6 3.9-1.6l-.2 1.1c0 .3.2.6.5.6h3.1c.4 0 .7-.3.7-.7l1.9-12.1c0-.4-.3-.6-.6-.6zm-4.7 6.1c-.2 1.5-1.5 2.5-3 2.5-1.5 0-2.6-1.1-2.4-2.5.2-1.5 1.5-2.5 3-2.5 1.5 0 2.6 1.1 2.4 2.5z" fill="#003087"/>
+                    <path d="M37.8 9.8h-3.4c-.3 0-.6.2-.7.5l-3.9 8.6-1.7-8.5c-.1-.4-.4-.6-.7-.6h-3.4c-.4 0-.6.3-.5.7l3.6 13.5-3.5 4.9c-.3.4 0 1 .5 1h3.4c.3 0 .6-.2.8-.4l10.3-14.5c.3-.4 0-1-.5-1z" fill="#003087"/>
+                    <path d="M49.6 2.2H42c-.5 0-.9.4-1 .9L37.8 23.4c0 .3.2.6.5.6h3.8c.4 0 .8-.3.9-.7l.9-5.5c0-.3.3-.5.6-.5h2.2c4.4 0 7.7-1.8 8.6-6.6.4-2.1.1-3.8-.8-4.9-1.1-1.3-3-1.9-5.4-1.9zm1.8 6.2c-.4 2.1-1.8 3.4-3.8 3.4h-1.9c-.3 0-.6.2-.6.5l-.8 5.2c0 .3-.2.5-.5.5h-2.4c-.3 0-.5-.3-.5-.6l2.4-15.2c.1-.4.4-.7.8-.7h4.8c2.2 0 3.7.5 4.6 1.6.8 1.1.9 2.7.5 4.8z" fill="#0079C1"/>
+                    <path d="M60.4 9.8H57c-.3 0-.6.2-.6.5l-.2 1.1c-.5-.7-1.5-1.3-2.9-1.3-3.1 0-5.8 2.4-6.3 5.7-.3 1.7 0 3.3.9 4.5 1 1.2 2.5 1.8 4.2 1.8 2.5 0 3.9-1.6 3.9-1.6l-.2 1.1c0 .3.2.6.5.6h3.1c.4 0 .7-.3.7-.7l1.9-12.1c0-.4-.3-.6-.6-.6zm-4.7 6.1c-.2 1.5-1.5 2.5-3 2.5-1.5 0-2.6-1.1-2.4-2.5.2-1.5 1.5-2.5 3-2.5 1.5 0 2.6 1.1 2.4 2.5z" fill="#0079C1"/>
+                    <path d="M66.4 3.1l-2.6 16.7c0 .3.2.6.5.6h3.1c.4 0 .7-.3.7-.7l2.6-16.7c0-.3-.2-.6-.5-.6h-3.1c-.4 0-.7.3-.7.7z" fill="#0079C1"/>
+                  </svg>
                 </div>
 
-                <div class="light-order-rows">
-                  <div class="light-order-row">
-                    <span>Item:</span>
-                    <span style="color: #0F172A; font-weight: 500;">Industrial Servo Controller C101</span>
-                  </div>
-                  <div class="light-order-row">
-                    <span>Payment Gateway:</span>
-                    <span style="color: #0F172A;">PayPal REST API (v2 Sandbox)</span>
-                  </div>
-                  <div class="light-order-row">
-                    <span>Pre-Flight Fingerprint:</span>
-                    <span style="color: #2563EB; font-family: var(--mono); font-size: 11.5px;">key:c101:user_c101</span>
-                  </div>
-                  <div class="light-order-row total">
-                    <span>Total Due:</span>
-                    <span style="color: #0F172A; font-weight: 700; font-size: 18px;">$480.00 USD</span>
-                  </div>
-                </div>
+                <h3 class="gpd-pay-heading">Pay with PayPal</h3>
 
-                ${checkoutButtonHtml}
-
-                <div class="light-comparison-footer" style="margin-top: 22px;">
-                  <div class="light-comp-box danger">
-                    <span class="light-comp-label">Standard Gateway (No PayBridge)</span>
-                    <p>Customer clicks retry → <strong>$960 double-billing</strong> and 14-day chargeback dispute.</p>
+                <div class="gpd-item-box">
+                  <div class="gpd-item-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                      <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                      <line x1="12" y1="22.08" x2="12" y2="12"/>
+                    </svg>
                   </div>
-                  <div class="light-comp-box success">
-                    <span class="light-comp-label">PayBridge AI Protected</span>
-                    <p>Lock intercepts retry → <strong>142ms recovery</strong> → <strong>$0.00 duplicate charge</strong>.</p>
-                  </div>
-                </div>
-
-                <div class="stage-nav-footer">
-                  <button class="stage-btn-back" onclick="openGatewaySimulator()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                    <span>Launch PayPal Device Modal</span>
-                  </button>
-                  <button class="stage-btn-advance" onclick="setDemoStage(2)">
-                    <span>Next: 2. AI Recovery →</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          `;
-        }
-        /* STAGE 2: ONLY AI AUTONOMOUS RECOVERY (MASCOT, LIVE QUOTE, TIMER, CHAT) */
-        else if (demoStage === 2) {
-          stageContentHtml = `
-            <div class="golden-stage-box stage2-container">
-              <div class="stage-card-wrapper ai-accent">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-                  <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="position: relative; width: 44px; height: 44px;">
-                      <div style="position: absolute; inset: -4px; border-radius: 50%; background: radial-gradient(circle, rgba(37,99,235,0.35) 0%, transparent 70%); animation: pulseDot 2s infinite;"></div>
-                      <div style="width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #0070BA, #2563EB); display: flex; align-items: center; justify-content: center; color: #FFFFFF; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                      </div>
-                    </div>
-                    <div>
-                      <div style="font-size: 15px; font-weight: 700; color: #0F172A;">Aeries Financial Copilot Guardian</div>
-                      <div style="font-size: 12px; color: #64748B;">Autonomous 504 Network Interceptor & Reconciler</div>
-                    </div>
-                  </div>
-                  <span class="light-status-pill warning">
-                    <span class="status-dot warning"></span>
-                    Attempt Mutex Locked
-                  </span>
-                </div>
-
-                <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 18px; margin-bottom: 20px;">
-                  <div style="font-size: 11px; font-weight: 700; color: #1D4ED8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Live Interception Speech</div>
-                  <div id="aeries-speech-quote" style="font-size: 14.5px; line-height: 1.6; color: #1E293B;">
-                    "I have intercepted the HTTP 504 gateway timeout on Order <strong>#PB-9482</strong>. The customer attempt lock <code>DO_NOT_REPEAT_CHECKOUT</code> has been engaged, preventing accidental duplicate debits. Our single-flight reconciler is actively verifying PayPal REST order #9K201824."
-                  </div>
-                </div>
-
-                <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 18px; margin-bottom: 20px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="font-size: 12.5px; font-weight: 600; color: #0F172A;">Reconciliation Progress</span>
-                    <span id="stage2-timer" style="font-size: 12px; font-family: var(--mono); color: #2563EB; font-weight: 600;">Time remaining: ~35s</span>
-                  </div>
-                  <div class="animated-meter-track">
-                    <div id="stage2-bar" class="animated-meter-fill" style="width: 70%;"></div>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; font-size: 11px; color: #64748B; margin-top: 6px;">
-                    <span>504 Drop Isolated</span>
-                    <span>Querying PayPal Bank Proof...</span>
-                    <span>Zero Double Charge</span>
-                  </div>
-                </div>
-
-                <div style="margin-top: 16px;">
-                  <div style="font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 8px;">Ask Aeries Copilot:</div>
-                  <div class="light-chat-prompts" style="margin-bottom: 12px;">
-                    <button class="light-prompt-chip" onclick="sendAiQuery('Why did the 504 timeout occur?')">Why did 504 occur?</button>
-                    <button class="light-prompt-chip" onclick="sendAiQuery('How was double-charging prevented?')">Double-Charge Defense</button>
-                    <button class="light-prompt-chip" onclick="sendAiQuery('When will the funds reach the buyer account?')">Settlement ETA</button>
-                  </div>
-                  <div class="light-chatbot-container" id="chat-messages" style="max-height: 200px; margin-bottom: 12px;">
-                    ${chatMessagesHtml}
-                  </div>
-                  <div class="light-chat-input-bar">
-                    <input type="text" id="chat-query-input" class="light-chat-field" placeholder="Ask Aeries Copilot anything about the 504 incident..." onkeydown="if(event.key==='Enter') sendAiQuery()" />
-                    <button class="light-send-btn" onclick="sendAiQuery()">Send</button>
-                  </div>
-                </div>
-
-                <div class="stage-nav-footer">
-                  <button class="stage-btn-back" onclick="setDemoStage(1)">
-                    <span>← Back to Payment Box</span>
-                  </button>
-                  <button class="stage-btn-advance" onclick="setDemoStage(3)">
-                    <span>Next: 3. Resolution Roadmap →</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          `;
-        }
-        /* STAGE 3: ONLY RESOLUTION ROADMAP (ANIMATED LASER TRACK & 5 NODES) */
-        else if (demoStage === 3) {
-          stageContentHtml = `
-            <div class="golden-stage-box stage3-container">
-              <div class="stage-card-wrapper roadmap-accent">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
                   <div>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                      <span class="info-mono" style="background: #D1FAE5; color: #065F46; border: 1px solid #A7F3D0; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 700;">142ms RECOVERY</span>
-                      <span class="info-mono" style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 700;">SHA-256 SEALED</span>
-                    </div>
-                    <h3 style="font-size: 18px; font-weight: 700; color: #0F172A; margin-top: 8px;">Authoritative Resolution Roadmap</h3>
-                    <p style="font-size: 13px; color: #64748B; margin-top: 2px;">Visualizing complete automated reconciliation trajectory from network drop to cryptographic passport.</p>
-                  </div>
-                  <button class="light-pill-btn dark" style="font-size: 11px;" onclick="resetLiveDemo()">
-                    ↺ REPLAY DEMO
-                  </button>
-                </div>
-
-                <!-- Telemetry Metric Strip -->
-                <div class="telemetry-metric-strip">
-                  <div class="telemetry-chip">
-                    <div class="telemetry-chip-val" style="color: #2563EB;">0ms</div>
-                    <div class="telemetry-chip-label">Pre-Flight Fingerprint</div>
-                  </div>
-                  <div class="telemetry-chip">
-                    <div class="telemetry-chip-val" style="color: #D97706;">12ms</div>
-                    <div class="telemetry-chip-label">Drop Isolated</div>
-                  </div>
-                  <div class="telemetry-chip">
-                    <div class="telemetry-chip-val" style="color: #2563EB;">28ms</div>
-                    <div class="telemetry-chip-label">Single-Flight Mutex</div>
-                  </div>
-                  <div class="telemetry-chip">
-                    <div class="telemetry-chip-val" style="color: #059669;">84ms</div>
-                    <div class="telemetry-chip-label">PayPal Ledger Confirmed</div>
-                  </div>
-                  <div class="telemetry-chip">
-                    <div class="telemetry-chip-val" style="color: #059669;">142ms</div>
-                    <div class="telemetry-chip-label">Merkle Truth Sealed</div>
+                    <div class="gpd-item-merchant">Apex Robotics Europe GmbH</div>
+                    <div class="gpd-item-desc">Industrial Servo Controller C101</div>
                   </div>
                 </div>
 
-                <!-- Animated Roadmap Track -->
-                <div class="roadmap-track-container">
-                  <div class="roadmap-track-line">
-                    <div class="roadmap-track-beam"></div>
-                  </div>
+                <div class="gpd-amount-row">
+                  <span class="gpd-amount-text">$480.00 USD</span>
+                </div>
 
-                  <!-- Node 1 -->
-                  <div class="roadmap-card sealed">
-                    <div class="roadmap-node-point"></div>
-                    <div>
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 14px; font-weight: 700; color: #0F172A;">1. Pre-Flight Intent Registration</span>
-                        <span class="info-mono" style="font-size: 11px; color: #059669; font-weight: 600;">✓ 0ms</span>
-                      </div>
-                      <p style="font-size: 12.5px; color: #475569; margin-top: 4px; line-height: 1.45;">
-                        Unique transaction key <code>idempotency:c101:user_c101</code> registered in Redis before network egress. Guarantees deterministic tracking.
-                      </p>
-                    </div>
-                    <span class="info-mono" style="background: #F1F5F9; color: #475569; padding: 4px 10px; border-radius: 6px; font-size: 11px; white-space: nowrap;">Key Registered</span>
-                  </div>
+                ${payBtnHtml}
+              </div>
 
-                  <!-- Node 2 -->
-                  <div class="roadmap-card sealed">
-                    <div class="roadmap-node-point"></div>
-                    <div>
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 14px; font-weight: 700; color: #0F172A;">2. Gateway 504 Timeout Isolation</span>
-                        <span class="info-mono" style="font-size: 11px; color: #059669; font-weight: 600;">✓ 12ms</span>
-                      </div>
-                      <p style="font-size: 12.5px; color: #475569; margin-top: 4px; line-height: 1.45;">
-                        Upstream PayPal REST connection timed out (TCP dropped before ACK). Mid-air failure captured by PayBridge network interceptor.
-                      </p>
+              <!-- Right Card: PayBridge AI Recovery (Matching Reference) -->
+              <div class="gpd-card gpd-ai-card">
+                <div class="gpd-ai-header">
+                  <div class="gpd-ai-title-wrap">
+                    <div class="gpd-sparkle-badge">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/>
+                      </svg>
                     </div>
-                    <span class="info-mono" style="background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; padding: 4px 10px; border-radius: 6px; font-size: 11px; white-space: nowrap;">504 Intercepted</span>
+                    <span class="gpd-ai-title">PayBridge AI Recovery</span>
                   </div>
+                  <span class="gpd-sim-pill">Live Simulation</span>
+                </div>
 
-                  <!-- Node 3 -->
-                  <div class="roadmap-card sealed">
-                    <div class="roadmap-node-point"></div>
-                    <div>
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 14px; font-weight: 700; color: #0F172A;">3. Single-Flight Double-Charge Shield</span>
-                        <span class="info-mono" style="font-size: 11px; color: #059669; font-weight: 600;">✓ 28ms</span>
-                      </div>
-                      <p style="font-size: 12.5px; color: #475569; margin-top: 4px; line-height: 1.45;">
-                        Distributed mutex <code>DO_NOT_REPEAT_CHECKOUT</code> engaged. Customer browser retry clicks intercepted with zero duplicate debit.
-                      </p>
-                    </div>
-                    <span class="info-mono" style="background: #FEF3C7; color: #D97706; border: 1px solid #FDE68A; padding: 4px 10px; border-radius: 6px; font-size: 11px; white-space: nowrap;">Mutex Engaged</span>
+                <!-- Chat Bubble 1: Timeout Intercepted -->
+                <div class="gpd-bubble-row">
+                  <div class="gpd-bot-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                      <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                      <polyline points="2 17 12 22 22 17"/>
+                      <polyline points="2 12 12 17 22 12"/>
+                    </svg>
                   </div>
-
-                  <!-- Node 4 -->
-                  <div class="roadmap-card sealed">
-                    <div class="roadmap-node-point"></div>
-                    <div>
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 14px; font-weight: 700; color: #0F172A;">4. Direct PayPal REST Ledger Query</span>
-                        <span class="info-mono" style="font-size: 11px; color: #059669; font-weight: 600;">✓ 84ms</span>
-                      </div>
-                      <p style="font-size: 12.5px; color: #475569; margin-top: 4px; line-height: 1.45;">
-                        Authoritative query to <code>/v2/checkout/orders/9K201824</code>. Banking capture reference <code>cap_4819_live</code> verified on PayPal ledger.
-                      </p>
-                    </div>
-                    <span class="info-mono" style="background: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; padding: 4px 10px; border-radius: 6px; font-size: 11px; white-space: nowrap;">Capture Verified</span>
-                  </div>
-
-                  <!-- Node 5 -->
-                  <div class="roadmap-card sealed">
-                    <div class="roadmap-node-point"></div>
-                    <div>
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 14px; font-weight: 700; color: #0F172A;">5. Cryptographic Truth Passport Sealed</span>
-                        <span class="info-mono" style="font-size: 11px; color: #059669; font-weight: 700;">✓ 142ms</span>
-                      </div>
-                      <p style="font-size: 12.5px; color: #475569; margin-top: 4px; line-height: 1.45;">
-                        Dual-ledger consensus achieved. Merkle root <code>0x4f8b91a27e...</code> sealed into permanent audit trail. Guaranteed <strong>$0.00 duplicate charge</strong>.
-                      </p>
-                    </div>
-                    <span class="info-mono" style="background: #D1FAE5; color: #065F46; border: 1px solid #A7F3D0; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; white-space: nowrap;">Merkle Sealed</span>
+                  <div class="gpd-chat-bubble">
+                    <span class="gpd-time-stamp">Now</span>
+                    <div>I detected a gateway timeout (HTTP 504) from PayPal. I'm checking the provider records to confirm your payment status.</div>
                   </div>
                 </div>
 
-                <div class="stage-nav-footer">
-                  <button class="stage-btn-back" onclick="setDemoStage(2)">
-                    <span>← Back to AI Recovery</span>
-                  </button>
-                  <div style="display: flex; gap: 10px;">
-                    <button class="stage-btn-back" onclick="switchView('passport')">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-                      <span>Inspect Truth Passport ↗</span>
-                    </button>
-                    <button class="stage-btn-advance" onclick="resetLiveDemo()">
-                      <span>Replay from Start ↺</span>
+                <!-- Inline Progress Checklist -->
+                <div class="gpd-progress-box">
+                  <div class="gpd-progress-row">
+                    ${check1}
+                    <span>PayPal ledger verified</span>
+                  </div>
+                  <div class="gpd-progress-row">
+                    ${check2}
+                    <span>Duplicate charge check (0 found)</span>
+                  </div>
+                  <div class="gpd-progress-row">
+                    ${check3}
+                    <span>${text3}</span>
+                  </div>
+                </div>
+
+                <!-- Chat Bubble 2: Safe Action Shield -->
+                <div class="gpd-shield-row">
+                  <div class="gpd-shield-icon-box">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z"/>
+                    </svg>
+                  </div>
+                  <div class="gpd-shield-bubble">
+                    <div class="gpd-shield-title">Do not repeat the payment.</div>
+                    <p class="gpd-shield-text">We're verifying your original payment and will update you shortly.</p>
+                  </div>
+                </div>
+
+                <!-- Dynamic Chat Stream for Inquiries -->
+                ${streamHtml}
+
+                <!-- Chat Input Bar -->
+                <div class="gpd-input-container">
+                  <div class="gpd-quick-chips">
+                    <button class="gpd-chip-btn" onclick="sendGoldenAiQuery('Was I charged?')">Was I charged?</button>
+                    <button class="gpd-chip-btn" onclick="sendGoldenAiQuery('Why shouldn\'t I retry?')">Why shouldn't I retry?</button>
+                    <button class="gpd-chip-btn" onclick="sendGoldenAiQuery('Where is my money?')">Where is my money?</button>
+                  </div>
+                  <div class="gpd-input-bar">
+                    <input type="text" id="gpd-chat-input" class="gpd-input-field" placeholder="Ask about this recovery..." onkeydown="if(event.key==='Enter') sendGoldenAiQuery()" />
+                    <button class="gpd-send-btn" onclick="sendGoldenAiQuery()" aria-label="Send question">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                      </svg>
                     </button>
                   </div>
                 </div>
+
               </div>
-            </div>
-          `;
-        }
 
-        container.innerHTML = '<div class="light-demo-stage">' + topBarHtml + stageContentHtml + '</div>';
-      }
-
-
-      /* View 2: Payment Truth Passport (PTP) */
-      function renderPassportView() {
-        container.innerHTML = `
-          <div class="view-top-bar">
-            <div>
-              <h3 class="view-heading">Payment Truth Passport (PTP)</h3>
-              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Versioned, role-scoped cryptographic certificate of authoritative payment state.</p>
-            </div>
-            <span class="view-badge badge-success">PTP-2026-C101 · v3 Sealed</span>
-          </div>
-
-          <div class="grid-4col" style="margin-bottom: 24px;">
-            <div class="info-pane">
-              <div class="info-label">Authoritative State</div>
-              <div class="info-value" style="color: var(--hot);">CAPTURED</div>
-            </div>
-            <div class="info-pane">
-              <div class="info-label">Authoritative Provider</div>
-              <div class="info-value">PayPal Sandbox</div>
-            </div>
-            <div class="info-pane">
-              <div class="info-label">Reconciled Amount</div>
-              <div class="info-value">$480.00 USD</div>
-            </div>
-            <div class="info-pane">
-              <div class="info-label">Duplicate Charges</div>
-              <div class="info-value" style="color: var(--success);">$0.00 (Prevented)</div>
-            </div>
-          </div>
-
-          <div class="grid-2col">
-            <div class="info-pane">
-              <div class="info-label" style="margin-bottom: 12px;">Verified Evidence Claims</div>
-              <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
-                <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
-                  <span><strong>Claim 1:</strong> Merchant Order Initiation</span>
-                  <span class="info-mono">ev-ord-c101</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
-                  <span><strong>Claim 2:</strong> Upstream Gateway 504 Timeout</span>
-                  <span class="info-mono">ev-504-timeout</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
-                  <span><strong>Claim 3:</strong> Tier 1 PayPal Show-Order</span>
-                  <span class="info-mono">ev-pp-9K201824</span>
-                </div>
-                <div style="display: flex; justify-content: space-between;">
-                  <span><strong>Next Safe Action:</strong> Deliver Goods (Do Not Recharge)</span>
-                  <span class="info-mono">ACT-01-SAFE</span>
-                </div>
-              </div>
             </div>
 
-            <div>
-              <div class="info-label" style="margin-bottom: 8px;">Cryptographic Certificate Block</div>
-              <div class="terminal-box">-----BEGIN PAYMENT TRUTH PASSPORT-----
-Issuer: PayBridge AI Reconciliation Authority
-CaseID: c101-demo-4567-89ab-cdef00000001
-Timestamp: 2026-11-10T21:42:15.902Z
-ProviderProof: PAYPAL_REST_V2_ORDER_COMPLETED
-OrderHash: 92fa80b2a95c47e0965d1b7e411b3051
-Signature: SHA256withRSA: 8f91b72a...d9e1102
-Status: AUTHORITATIVE_CAPTURED (No Retry Permitted)
------END PAYMENT TRUTH PASSPORT-----</div>
-            </div>
+            <!-- Section D: Final Recovery Outcome (Reconciliation Completed) -->
+            ${finalTrayHtml}
+
           </div>
         `;
       }
 
-      /* View 3: Truth Gap Graph */
-      function renderGraphView() {
-        const nodes = {
-          browser: { title: 'Browser Client Lens', status: 'UNKNOWN (HTTP 504 Drop)', desc: 'The customer saw an ambiguous spinning indicator followed by network error. Traditional checkouts panic here.' },
-          merchant: { title: 'Merchant DB Lens', status: 'PENDING / RECONCILING', desc: 'Internal database did not receive the synchronous redirect, engaging the DO_NOT_REPEAT_CHECKOUT attempt lock.' },
-          paypal: { title: 'PayPal Sandbox Gateway', status: 'COMPLETED ($480.00)', desc: 'Authoritative provider capture succeeded at 21:40:13Z before the return path network dropped.' },
-          webhook: { title: 'Webhook Ingestion Pipeline', status: 'INGESTED & VERIFIED', desc: 'Signed PAYMENT.CAPTURE.COMPLETED payload verified against PayPal certificate chain.' }
-        };
-
-        const curr = nodes[selectedGapNode];
-
-        container.innerHTML = `
-          <div class="view-top-bar">
-            <div>
-              <h3 class="view-heading">Truth Gap Graph Workbench</h3>
-              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Click each perspective node below to inspect contradictions between what each party observed.</p>
-            </div>
-            <span class="view-badge badge-warning">4 State Contradictions Detected</span>
-          </div>
-
-          <div class="grid-4col" style="margin-bottom: 24px;">
-            <div class="gap-node ${selectedGapNode === 'browser' ? 'selected' : ''}" onclick="selectGapNode('browser')">
-              <div class="info-label">Node 1</div>
-              <div style="font-weight: 600; font-size: 14px;">Browser Lens</div>
-              <div style="font-size: 12px; color: var(--hot); margin-top: 4px;">UNKNOWN / 504</div>
-            </div>
-            <div class="gap-node ${selectedGapNode === 'merchant' ? 'selected' : ''}" onclick="selectGapNode('merchant')">
-              <div class="info-label">Node 2</div>
-              <div style="font-weight: 600; font-size: 14px;">Merchant DB</div>
-              <div style="font-size: 12px; color: var(--body); margin-top: 4px;">PENDING</div>
-            </div>
-            <div class="gap-node ${selectedGapNode === 'paypal' ? 'selected' : ''}" onclick="selectGapNode('paypal')">
-              <div class="info-label">Node 3</div>
-              <div style="font-weight: 600; font-size: 14px;">PayPal Gateway</div>
-              <div style="font-size: 12px; color: var(--success); margin-top: 4px;">COMPLETED</div>
-            </div>
-            <div class="gap-node ${selectedGapNode === 'webhook' ? 'selected' : ''}" onclick="selectGapNode('webhook')">
-              <div class="info-label">Node 4</div>
-              <div style="font-weight: 600; font-size: 14px;">Webhook Pipeline</div>
-              <div style="font-size: 12px; color: var(--success); margin-top: 4px;">VERIFIED</div>
-            </div>
-          </div>
-
-          <div class="info-pane">
-            <div class="info-label">Inspected Node Details</div>
-            <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 6px;">${curr.title}</h4>
-            <div style="font-family: var(--mono); font-size: 13px; color: var(--hot); margin-bottom: 12px;">Observed Status: ${curr.status}</div>
-            <p style="font-size: 14px; line-height: 1.6; color: var(--body);">${curr.desc}</p>
-          </div>
-        `;
-      }
-
-      window.selectGapNode = function (nodeKey) {
-        selectedGapNode = nodeKey;
-        renderGraphView();
-      };
-
-      /* View 4: Recovery Mirror Lab */
-      function renderMirrorView() {
-        container.innerHTML = `
-          <div class="view-top-bar">
-            <div>
-              <h3 class="view-heading">Counterfactual Recovery Mirror Lab</h3>
-              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Side-by-side comparison of failure recovery paths.</p>
-            </div>
-            <span class="view-badge badge-success">Idempotent Protection Active</span>
-          </div>
-
-          <div class="grid-2col">
-            <div class="mirror-col">
-              <div class="info-label" style="color: #DC2626;">Path A: Traditional Blind Retry Flow</div>
-              <h4 style="font-size: 18px; font-weight: 600; margin: 8px 0;">Customer Panic & Duplicate Charge</h4>
-              <ul style="font-size: 13px; line-height: 1.8; color: var(--body); margin-left: 18px; margin-bottom: 16px;">
-                <li>Gateway times out after 10 seconds.</li>
-                <li>App shows generic "Payment Failed - Try Again" button.</li>
-                <li>User clicks Pay button a second time.</li>
-                <li><strong>Result: Customer billed twice ($960.00).</strong></li>
-                <li>Dispute filed; merchant penalized with $35 dispute fee.</li>
-              </ul>
-              <div style="padding: 10px; background: rgba(220, 38, 38, 0.08); border-radius: 8px; font-size: 12.5px; color: #DC2626; font-weight: 500;">
-                Risk: Financial loss and high merchant churn.
-              </div>
-            </div>
-
-            <div class="mirror-col authoritative">
-              <div class="info-label" style="color: var(--hot);">Path B: PayBridge AI Autonomous Reconciler</div>
-              <h4 style="font-size: 18px; font-weight: 600; margin: 8px 0;">Attempt Lock & Reconciled Single Charge</h4>
-              <ul style="font-size: 13px; line-height: 1.8; color: var(--body); margin-left: 18px; margin-bottom: 16px;">
-                <li>Gateway times out after 10 seconds.</li>
-                <li>DO_NOT_REPEAT_CHECKOUT lock immediately engages.</li>
-                <li>Reconciliation agent independently queries PayPal capture status.</li>
-                <li><strong>Result: Customer billed exactly once ($480.00).</strong></li>
-                <li>Truth Passport confirms order delivery with zero ambiguity.</li>
-              </ul>
-              <div style="padding: 10px; background: var(--hot-soft); border-radius: 8px; font-size: 12.5px; color: #D9430F; font-weight: 500;">
-                Outcome: Mathematical certainty and 0 duplicate transactions.
-              </div>
-            </div>
-          </div>
-        `;
-      }
-
-      /* View 5: Two-Lens Privacy */
-      function renderLensView() {
-        container.innerHTML = `
-          <div class="view-top-bar">
-            <div>
-              <h3 class="view-heading">Two-Lens Privacy Projection</h3>
-              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Role-scoped views protecting buyer and seller privacy while delivering shared truth.</p>
-            </div>
-            <div style="display: flex; gap: 8px;">
-              <button class="btn-action-subtle ${activeLens === 'sender' ? 'active' : ''}" onclick="setLens('sender')">Sender View (Maya)</button>
-              <button class="btn-action-subtle ${activeLens === 'receiver' ? 'active' : ''}" onclick="setLens('receiver')">Receiver View (Arjun)</button>
-            </div>
-          </div>
-
-          <div class="info-pane">
-            <div class="info-label">Active Role Projection: ${activeLens === 'sender' ? 'Sender (Buyer / Maya)' : 'Receiver (Merchant / Arjun)'}</div>
-            <div class="grid-2col" style="margin-top: 14px;">
-              <div>
-                <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Visible Information:</div>
-                <ul style="font-size: 13px; line-height: 1.8; color: var(--body); margin-left: 18px;">
-                  <li>Authoritative Payment State: CAPTURED</li>
-                  <li>Reconciled Amount: $480.00 USD</li>
-                  <li>Receipt ID: rec-99214</li>
-                  <li>${activeLens === 'sender' ? 'Delivery Address: San Francisco, CA' : 'Settlement Net: $468.20 USD'}</li>
-                </ul>
-              </div>
-              <div>
-                <div style="font-size: 13px; font-weight: 600; color: #DC2626; margin-bottom: 8px;">Redacted Privacy Boundaries:</div>
-                <ul style="font-size: 13px; line-height: 1.8; color: var(--muted); margin-left: 18px;">
-                  <li>${activeLens === 'sender' ? 'Seller Merchant Fee & Margin (Hidden)' : 'Buyer Payment Card Details (Hidden)'}</li>
-                  <li>${activeLens === 'sender' ? 'Internal Settlement Routing (Hidden)' : 'Buyer Billing Address & Risk Score (Hidden)'}</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        `;
-      }
-
-      window.setLens = function (lensKey) {
-        activeLens = lensKey;
-        renderLensView();
-      };
-
-      /* View 6: Next Safe Action Engine */
-      function renderSafeActionView() {
-        container.innerHTML = `
-          <div class="view-top-bar">
-            <div>
-              <h3 class="view-heading">Next Safe Action Engine</h3>
-              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Deterministic rules catalogue preventing dangerous blind operations.</p>
-            </div>
-            <span class="view-badge badge-success">4 Enforced Guardrails</span>
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: 14px;">
-            <div class="info-pane" style="display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <div style="font-weight: 600; font-size: 14.5px;">Deliver Digital Goods / Fulfill Order</div>
-                <div style="font-size: 12.5px; color: var(--body); margin-top: 2px;">Precondition: Authoritative Tier 1 capture proven in PayPal Sandbox.</div>
-              </div>
-              <span class="view-badge badge-success">PERMITTED</span>
-            </div>
-
-            <div class="info-pane" style="display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <div style="font-weight: 600; font-size: 14.5px;">Retry Checkout Capture</div>
-                <div style="font-size: 12.5px; color: var(--body); margin-top: 2px;">Blocked while single-attempt lease is active to prevent duplicate charges.</div>
-              </div>
-              <span class="view-badge badge-warning" style="color: #DC2626; background: rgba(220,38,38,0.08); border-color: rgba(220,38,38,0.2);">PROHIBITED</span>
-            </div>
-
-            <div class="info-pane" style="display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <div style="font-weight: 600; font-size: 14.5px;">Export Cryptographic Evidence Pack</div>
-                <div style="font-size: 12.5px; color: var(--body); margin-top: 2px;">SHA-256 receipts signed with RSA keypair for audit submission.</div>
-              </div>
-              <span class="view-badge badge-success">AVAILABLE</span>
-            </div>
-          </div>
-        `;
-      }
-
-      /* View 7: Cases Register */
-      function renderCasesView() {
-        container.innerHTML = `
-          <div class="view-top-bar">
-            <div>
-              <h3 class="view-heading">Payment Cases Register</h3>
-              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Active and reconciled cross-border payment incidents.</p>
-            </div>
-            <span class="view-badge badge-success">6 Authoritative Records</span>
-          </div>
-
-          <table class="clean-table">
-            <thead>
-              <tr>
-                <th>Case ID</th>
-                <th>Scenario Description</th>
-                <th>Amount</th>
-                <th>Incident Type</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="font-family: var(--mono); font-weight: 500;">c101-demo-4567</td>
-                <td>Cross-border USD checkout</td>
-                <td>$480.00 USD</td>
-                <td>HTTP 504 Gateway Timeout</td>
-                <td><span class="view-badge badge-success">RECONCILED</span></td>
-                <td><button class="btn-action-subtle" style="height: 28px; padding: 0 12px; font-size: 11px;" onclick="switchView('demo')">Inspect ↗</button></td>
-              </tr>
-              <tr>
-                <td style="font-family: var(--mono); font-weight: 500;">c102-fx-settle</td>
-                <td>EUR/USD dual-currency order</td>
-                <td>$2,400.00 USD</td>
-                <td>Dropped TCP Webhook</td>
-                <td><span class="view-badge badge-success">RECONCILED</span></td>
-                <td><button class="btn-action-subtle" style="height: 28px; padding: 0 12px; font-size: 11px;" onclick="switchView('passport')">Inspect ↗</button></td>
-              </tr>
-              <tr>
-                <td style="font-family: var(--mono); font-weight: 500;">c103-rail-gear</td>
-                <td>Atlas Rail industrial order</td>
-                <td>$14,200.00 USD</td>
-                <td>State Contradiction</td>
-                <td><span class="view-badge badge-success">RECONCILED</span></td>
-                <td><button class="btn-action-subtle" style="height: 28px; padding: 0 12px; font-size: 11px;" onclick="switchView('graph')">Inspect ↗</button></td>
-              </tr>
-            </tbody>
-          </table>
-        `;
-      }
-
-      /* View 8: Evidence Vault */
-      function renderEvidenceView() {
-        container.innerHTML = `
-          <div class="view-top-bar">
-            <div>
-              <h3 class="view-heading">Cryptographic Evidence Vault</h3>
-              <p style="font-size: 13.5px; color: var(--body); margin-top: 4px;">Tier 1–6 immutable evidence hierarchy verifying authoritative state.</p>
-            </div>
-            <span class="view-badge badge-success">SHA-256 Verified</span>
-          </div>
-
-          <div class="terminal-box" style="margin-bottom: 20px;">
-[TIER 1 PROVIDER READ] 
-GET https://api-m.sandbox.paypal.com/v2/checkout/orders/9K201824
-Authorization: Bearer A21AAL...
-Response: HTTP 200 OK
-{
-  "id": "9K201824",
-  "status": "COMPLETED",
-  "purchase_units": [{
-    "amount": { "currency_code": "USD", "value": "480.00" },
-    "payments": {
-      "captures": [{
-        "id": "cap-4819",
-        "status": "COMPLETED",
-        "amount": { "currency_code": "USD", "value": "480.00" }
-      }]
-    }
-  }]
-}
-[VAULT HASH]: 4f8b91a27e01b8941097e3ca0129bcfe5a687c9d</div>
-        `;
-      }
-
-      /* View 9: Aeries AI Financial Copilot (ChatGPT / Gemini Clean Light Theme) */
       function renderAeriesView() {
         container.innerHTML = `
           <div class="view-top-bar" style="background: #FFFFFF; border-bottom: 1px solid var(--border); padding: 18px 24px; border-radius: 12px 12px 0 0; display: flex; align-items: center; justify-content: space-between;">

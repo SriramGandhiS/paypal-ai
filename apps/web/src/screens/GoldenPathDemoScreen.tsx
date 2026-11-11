@@ -1,485 +1,332 @@
 import React, { useState } from 'react';
 import { 
-  PlayCircle, 
+  Lock, 
   RotateCcw, 
   CheckCircle2, 
   Clock, 
-  ArrowRight, 
-  ShieldCheck, 
-  AlertTriangle, 
-  FileText, 
-  Lock, 
-  Server, 
-  Search, 
-  Award,
-  ChevronRight,
-  Code
+  ShieldAlert, 
+  Box, 
+  Send, 
+  Sparkles,
+  Loader2,
+  FileCheck2
 } from 'lucide-react';
 import { api } from '../api/client';
-import { StatusPill } from '../components/StatusPill';
-
-interface DemoStep {
-  step: number;
-  title: string;
-  category: 'SETUP' | 'CHECKOUT' | 'APPROVAL' | 'INCIDENT' | 'PROBE' | 'RECONCILE' | 'SEAL';
-  description: string;
-  endpoint: string;
-  httpMethod: string;
-  requestPayload?: any;
-  responsePayload?: any;
-  stateVectorAfter: {
-    provider_state: string;
-    application_state: string;
-    case_status: string;
-  };
-}
-
-const DEMO_STEPS: DemoStep[] = [
-  {
-    step: 1,
-    title: 'Initialize Payment Case',
-    category: 'SETUP',
-    description: 'Merchant initializes a case container to track customer intent and financial boundaries.',
-    endpoint: '/api/v1/cases',
-    httpMethod: 'POST',
-    requestPayload: {
-      external_reference: 'INV-2026-8941',
-      amount_cents: 14950,
-      currency: 'USD',
-      sender_country: 'US',
-      receiver_country: 'DE',
-      payment_purpose: 'SAAS_SUBSCRIPTION',
-    },
-    responsePayload: {
-      id: 'c101-demo-4567-89ab-cdef00000001',
-      external_reference: 'INV-2026-8941',
-      amount: '149.50',
-      currency: 'USD',
-      provider_state: 'UNKNOWN',
-      application_state: 'INCONSISTENT',
-      case_status: 'OBSERVING',
-      state_version: 1,
-    },
-    stateVectorAfter: {
-      provider_state: 'UNKNOWN',
-      application_state: 'INCONSISTENT',
-      case_status: 'OBSERVING',
-    },
-  },
-  {
-    step: 2,
-    title: 'Initiate Checkout Attempt',
-    category: 'CHECKOUT',
-    description: 'PayBridge registers Attempt #1 with unique operation request ID to guard idempotency.',
-    endpoint: '/api/v1/cases/c101/checkout/paypal/create',
-    httpMethod: 'POST',
-    requestPayload: {
-      case_id: 'c101-demo-4567-89ab-cdef00000001',
-      return_url: 'https://merchant.example.com/checkout/return',
-      cancel_url: 'https://merchant.example.com/checkout/cancel',
-    },
-    responsePayload: {
-      attempt_id: 'att-101-1',
-      provider_order_id: 'ORDER-SANDBOX-1794316132',
-      status: 'ORDER_CREATED',
-      approval_link: 'https://www.sandbox.paypal.com/checkoutnow?token=ORDER-SANDBOX-1794316132',
-    },
-    stateVectorAfter: {
-      provider_state: 'UNKNOWN',
-      application_state: 'INCONSISTENT',
-      case_status: 'OBSERVING',
-    },
-  },
-  {
-    step: 3,
-    title: 'Customer Approval in Sandbox',
-    category: 'APPROVAL',
-    description: 'Buyer authorizes payment inside PayPal sandbox checkout frame. Funds are ready for capture.',
-    endpoint: '/api/v1/cases/c101/checkout/paypal/approve',
-    httpMethod: 'POST',
-    requestPayload: {
-      provider_order_id: 'ORDER-SANDBOX-1794316132',
-      payer_id: 'PAYER-SANDBOX-US-001',
-    },
-    responsePayload: {
-      attempt_id: 'att-101-1',
-      status: 'ORDER_APPROVED',
-      captured: false,
-    },
-    stateVectorAfter: {
-      provider_state: 'UNKNOWN',
-      application_state: 'INCONSISTENT',
-      case_status: 'OBSERVING',
-    },
-  },
-  {
-    step: 4,
-    title: 'Gateway Timeout & Blind-Retry Lock',
-    category: 'INCIDENT',
-    description: 'Upstream gateway drops connection during capture execution. Mutex lock acquires to defend against duplicate charges.',
-    endpoint: '/api/v1/cases/c101/checkout/paypal/capture',
-    httpMethod: 'POST',
-    requestPayload: {
-      provider_order_id: 'ORDER-SANDBOX-1794316132',
-      idempotency_key: 'idem-capture-001',
-    },
-    responsePayload: {
-      error: 'UPSTREAM_GATEWAY_TIMEOUT',
-      detail: 'Connection dropped after capture dispatch. Acquired in-process capture lock to prevent blind retry.',
-      status: 'CAPTURE_IN_FLIGHT',
-    },
-    stateVectorAfter: {
-      provider_state: 'UNKNOWN',
-      application_state: 'API_TIMEOUT',
-      case_status: 'NEEDS_HUMAN_REVIEW',
-    },
-  },
-  {
-    step: 5,
-    title: 'Authoritative Provider Capture Query',
-    category: 'PROBE',
-    description: 'PayBridge Connector executes read-only inquiry directly against PayPal GET /v2/payments/captures.',
-    endpoint: '/v2/payments/captures/CAP-PAYPAL-782199',
-    httpMethod: 'GET',
-    requestPayload: null,
-    responsePayload: {
-      id: 'CAP-PAYPAL-782199',
-      status: 'COMPLETED',
-      amount: { value: '149.50', currency_code: 'USD' },
-      seller_protection: { status: 'ELIGIBLE' },
-      create_time: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
-    },
-    stateVectorAfter: {
-      provider_state: 'CAPTURE_COMPLETED',
-      application_state: 'API_TIMEOUT',
-      case_status: 'NEEDS_HUMAN_REVIEW',
-    },
-  },
-  {
-    step: 6,
-    title: 'Reader-Only Truth Reconciliation',
-    category: 'RECONCILE',
-    description: 'Reconciler processes Tier 1 evidence, reconciles merchant order status without mutating payment rail, releases mutex.',
-    endpoint: '/api/v1/cases/c101/reconcile',
-    httpMethod: 'POST',
-    requestPayload: {
-      action: 'RECONCILE_MERCHANT_RECORD',
-      confirmed_capture_id: 'CAP-PAYPAL-782199',
-    },
-    responsePayload: {
-      reconciled: true,
-      provider_state: 'CAPTURE_COMPLETED',
-      application_state: 'SYNCHRONISED',
-      case_status: 'RESOLVED',
-      duplicate_charge_prevented: true,
-    },
-    stateVectorAfter: {
-      provider_state: 'CAPTURE_COMPLETED',
-      application_state: 'SYNCHRONISED',
-      case_status: 'RESOLVED',
-    },
-  },
-  {
-    step: 7,
-    title: 'Cryptographic Truth Passport Sealed',
-    category: 'SEAL',
-    description: 'Generates immutable Payment Truth Passport with SHA-256 seal and complete audit lineage for dispute immunity.',
-    endpoint: '/api/v1/cases/c101/passport',
-    httpMethod: 'GET',
-    requestPayload: null,
-    responsePayload: {
-      passport_id: 'PASS-2026-c101-01',
-      passport_hash: '4fc20f0e89261a829b68f023fcc582934dae262520ded004aa12ec660191ac6b',
-      verification_status: 'VERIFIED_AUTHORITATIVE',
-      evidence_tiers_included: [1, 4],
-      duplicate_attempts_blocked: 1,
-    },
-    stateVectorAfter: {
-      provider_state: 'CAPTURE_COMPLETED',
-      application_state: 'SYNCHRONISED',
-      case_status: 'RESOLVED',
-    },
-  },
-];
 
 interface GoldenPathDemoScreenProps {
-  onNavigate: (tab: string) => void;
-  onSelectCase: (caseId: string) => void;
+  onNavigate?: (tab: string) => void;
+  onSelectCase?: (caseId: string) => void;
 }
 
 export const GoldenPathDemoScreen: React.FC<GoldenPathDemoScreenProps> = ({
   onNavigate,
-  onSelectCase,
+  onSelectCase
 }) => {
-  const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
-  const [isRunningAll, setIsRunningAll] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<'response' | 'request'>('response');
+  const [demoState, setDemoState] = useState<'idle' | 'initiating' | 'timed_out' | 'reconciling' | 'reconciled'>('idle');
+  const [chatHistory, setChatHistory] = useState<Array<{ q: string; a: string }>>([]);
+  const [inputText, setInputText] = useState('');
 
-  const currentStep = DEMO_STEPS[currentStepIndex];
+  const handleStartCheckout = () => {
+    if (demoState !== 'idle') return;
+    setDemoState('initiating');
 
-  const handleNextStep = () => {
-    if (currentStepIndex < DEMO_STEPS.length - 1) {
-      const nextIdx = currentStepIndex + 1;
-      setCurrentStepIndex(nextIdx);
-      // Synchronize with API client state
-      api.updateCaseState('c101-demo-4567-89ab-cdef00000001', DEMO_STEPS[nextIdx].stateVectorAfter);
-    }
+    setTimeout(() => {
+      setDemoState('timed_out');
+
+      setTimeout(() => {
+        setDemoState('reconciling');
+
+        setTimeout(() => {
+          setDemoState('reconciled');
+        }, 2600);
+      }, 1800);
+    }, 1400);
   };
 
   const handleReset = () => {
-    setCurrentStepIndex(0);
-    api.updateCaseState('c101-demo-4567-89ab-cdef00000001', DEMO_STEPS[0].stateVectorAfter);
+    setDemoState('idle');
+    setChatHistory([]);
+    setInputText('');
   };
 
-  const handleRunAll = async () => {
-    setIsRunningAll(true);
-    for (let i = currentStepIndex; i < DEMO_STEPS.length; i++) {
-      setCurrentStepIndex(i);
-      api.updateCaseState('c101-demo-4567-89ab-cdef00000001', DEMO_STEPS[i].stateVectorAfter);
-      await new Promise(r => setTimeout(r, 900));
+  const handleSendQuery = (textOverride?: string) => {
+    const q = (textOverride || inputText).trim();
+    if (!q) return;
+    setInputText('');
+
+    let answer = '';
+    const qLower = q.toLowerCase();
+    if (qLower.includes('retry') || qLower.includes('again')) {
+      answer = "Do not pay again yet. A duplicate checkout would capture an unnecessary second $480.00 charge. We are holding the checkout mutex lock while inspecting PayPal's authoritative ledger.";
+    } else if (qLower.includes('charge') || qLower.includes('double') || qLower.includes('charged')) {
+      answer = "No duplicate charge has occurred ($0.00 duplicate exposure). The original payment intent is verified with PayPal REST API order #9K201824 and capture #cap-4819.";
+    } else if (qLower.includes('where') || qLower.includes('money') || qLower.includes('status')) {
+      answer = "Your $480.00 USD was successfully captured by PayPal Sandbox at 01:40 AM. The HTTP 504 was purely an edge network timeout. We have confirmed the funds and will complete settlement without extra fees.";
+    } else if (qLower.includes('what happened') || qLower.includes('504') || qLower.includes('timeout')) {
+      answer = "PayPal processed the transaction, but the upstream connection dropped before sending the HTTP 200 acknowledgment. PayBridge AI automatically intercepted the timeout to protect your funds.";
+    } else {
+      answer = "PayBridge AI is monitoring session #PB-9482. The original payment of $480.00 USD is verified against PayPal's ledger. Attempt locks prevent duplicate billing.";
     }
-    setIsRunningAll(false);
+
+    setChatHistory(prev => [...prev, { q, a: answer }]);
   };
 
   return (
-    <div className="space-y-8 animate-fade-in max-w-6xl mx-auto pb-12">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <PlayCircle className="w-6 h-6 text-indigo-400" />
-            <h1 className="text-2xl font-bold tracking-tight text-slate-100">
-              Interactive Golden Path Demo
-            </h1>
+    <div className="max-w-5xl mx-auto py-4 px-2 space-y-7 animate-fade-in">
+      {/* Section A: Header */}
+      <div>
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-900 shadow-sm mb-3">
+          <span className="w-2.5 h-2.5 rounded-full border-2 border-violet-500 shadow-sm shadow-violet-500/50" />
+          <span>Golden Path Demo</span>
+        </div>
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+          Cross-Border 504 Recovery <span className="text-violet-600 bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">in Action.</span>
+        </h1>
+        <p className="text-sm text-slate-500 mt-1.5">
+          A live simulation of a PayPal checkout timeout and autonomous recovery by PayBridge AI.
+        </p>
+      </div>
+
+      {/* Section B & C: Side-by-Side Cards (Matches Reference Image) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        {/* Left Card: PayPal Checkout Experience */}
+        <div className="lg:col-span-5 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          {/* PayPal Logo */}
+          <div className="pb-4 border-b border-slate-100 mb-5">
+            <svg className="w-24 h-7" viewBox="0 0 100 28" fill="none">
+              <path d="M12.4 2.2H4.8c-.5 0-.9.4-1 .9L.6 23.4c0 .3.2.6.5.6h3.6c.5 0 .9-.4 1-.9l.8-5.3c0-.3.3-.5.6-.5h2.2c4.4 0 7.7-1.8 8.6-6.6.4-2.1.1-3.8-.8-4.9-1.1-1.3-3-1.9-5.4-1.9" fill="#003087"/>
+              <path d="M14.2 8.4c-.4 2.1-1.8 3.4-3.8 3.4h-1.9c-.3 0-.6.2-.6.5l-.8 5.2c0 .3-.2.5-.5.5H4.2c-.3 0-.5-.3-.5-.6l2.4-15.2c.1-.4.4-.7.8-.7h6.4c2.2 0 3.7.5 4.6 1.6.8 1.1 1 2.7.5 4.8" fill="#0079C1"/>
+              <path d="M12.4 2.2H4.8c-.5 0-.9.4-1 .9L.6 23.4c0 .3.2.6.5.6h3.6c.5 0 .9-.4 1-.9l.8-5.3c0-.3.3-.5.6-.5h2.2c4.4 0 7.7-1.8 8.6-6.6.4-2.1.1-3.8-.8-4.9-1.1-1.3-3-1.9-5.4-1.9" fill="#00457C"/>
+              <path d="M28.4 9.8h-3.4c-.3 0-.6.2-.6.5l-.2 1.1c-.5-.7-1.5-1.3-2.9-1.3-3.1 0-5.8 2.4-6.3 5.7-.3 1.7 0 3.3.9 4.5 1 1.2 2.5 1.8 4.2 1.8 2.5 0 3.9-1.6 3.9-1.6l-.2 1.1c0 .3.2.6.5.6h3.1c.4 0 .7-.3.7-.7l1.9-12.1c0-.4-.3-.6-.6-.6zm-4.7 6.1c-.2 1.5-1.5 2.5-3 2.5-1.5 0-2.6-1.1-2.4-2.5.2-1.5 1.5-2.5 3-2.5 1.5 0 2.6 1.1 2.4 2.5z" fill="#003087"/>
+              <path d="M37.8 9.8h-3.4c-.3 0-.6.2-.7.5l-3.9 8.6-1.7-8.5c-.1-.4-.4-.6-.7-.6h-3.4c-.4 0-.6.3-.5.7l3.6 13.5-3.5 4.9c-.3.4 0 1 .5 1h3.4c.3 0 .6-.2.8-.4l10.3-14.5c.3-.4 0-1-.5-1z" fill="#003087"/>
+              <path d="M49.6 2.2H42c-.5 0-.9.4-1 .9L37.8 23.4c0 .3.2.6.5.6h3.8c.4 0 .8-.3.9-.7l.9-5.5c0-.3.3-.5.6-.5h2.2c4.4 0 7.7-1.8 8.6-6.6.4-2.1.1-3.8-.8-4.9-1.1-1.3-3-1.9-5.4-1.9zm1.8 6.2c-.4 2.1-1.8 3.4-3.8 3.4h-1.9c-.3 0-.6.2-.6.5l-.8 5.2c0 .3-.2.5-.5.5h-2.4c-.3 0-.5-.3-.5-.6l2.4-15.2c.1-.4.4-.7.8-.7h4.8c2.2 0 3.7.5 4.6 1.6.8 1.1.9 2.7.5 4.8z" fill="#0079C1"/>
+              <path d="M60.4 9.8H57c-.3 0-.6.2-.6.5l-.2 1.1c-.5-.7-1.5-1.3-2.9-1.3-3.1 0-5.8 2.4-6.3 5.7-.3 1.7 0 3.3.9 4.5 1 1.2 2.5 1.8 4.2 1.8 2.5 0 3.9-1.6 3.9-1.6l-.2 1.1c0 .3.2.6.5.6h3.1c.4 0 .7-.3.7-.7l1.9-12.1c0-.4-.3-.6-.6-.6zm-4.7 6.1c-.2 1.5-1.5 2.5-3 2.5-1.5 0-2.6-1.1-2.4-2.5.2-1.5 1.5-2.5 3-2.5 1.5 0 2.6 1.1 2.4 2.5z" fill="#0079C1"/>
+              <path d="M66.4 3.1l-2.6 16.7c0 .3.2.6.5.6h3.1c.4 0 .7-.3.7-.7l2.6-16.7c0-.3-.2-.6-.5-.6h-3.1c-.4 0-.7.3-.7.7z" fill="#0079C1"/>
+            </svg>
           </div>
-          <p className="text-sm text-slate-400 mt-1">
-            Step-by-step verification walkthrough: from gateway timeout incident to cryptographic Truth Passport sealing.
-          </p>
-        </div>
 
-        {/* Action Controls */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleReset}
-            disabled={isRunningAll || currentStepIndex === 0}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            Reset
-          </button>
-          <button
-            onClick={handleNextStep}
-            disabled={isRunningAll || currentStepIndex === DEMO_STEPS.length - 1}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-indigo-600/20 transition-all"
-          >
-            <span>Next Step</span>
-            <ChevronRight className="w-3.5 h-3.5" />
-          </button>
-          <button
-            onClick={handleRunAll}
-            disabled={isRunningAll || currentStepIndex === DEMO_STEPS.length - 1}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-cyan-600/20 transition-all"
-          >
-            <PlayCircle className="w-3.5 h-3.5" />
-            <span>{isRunningAll ? 'Running Simulation...' : 'Run All Steps'}</span>
-          </button>
-        </div>
-      </div>
+          <h3 className="text-base font-bold text-slate-900 mb-4">Pay with PayPal</h3>
 
-      {/* Stepper Navigation Bar */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
-          {DEMO_STEPS.map((step, idx) => {
-            const isCompleted = idx < currentStepIndex;
-            const isCurrent = idx === currentStepIndex;
-
-            return (
-              <button
-                key={step.step}
-                onClick={() => {
-                  if (!isRunningAll) {
-                    setCurrentStepIndex(idx);
-                    api.updateCaseState('c101-demo-4567-89ab-cdef00000001', step.stateVectorAfter);
-                  }
-                }}
-                className={`flex flex-col items-start p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                  isCurrent
-                    ? 'bg-indigo-950/60 border-indigo-500 text-indigo-300 shadow-sm'
-                    : isCompleted
-                    ? 'bg-slate-900/90 border-emerald-900/60 text-slate-300 hover:bg-slate-800/80'
-                    : 'bg-slate-950/40 border-slate-800/60 text-slate-500 hover:bg-slate-900/40'
-                }`}
-              >
-                <div className="flex items-center justify-between w-full mb-1">
-                  <span className={`text-[10px] font-mono font-bold ${isCurrent ? 'text-indigo-400' : isCompleted ? 'text-emerald-400' : 'text-slate-500'}`}>
-                    STEP 0{step.step}
-                  </span>
-                  {isCompleted ? (
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  ) : isCurrent ? (
-                    <div className="w-2 h-2 rounded-full bg-indigo-400 animate-ping" />
-                  ) : (
-                    <Clock className="w-3.5 h-3.5 text-slate-600" />
-                  )}
-                </div>
-                <span className="text-xs font-semibold leading-tight line-clamp-1 text-slate-200">
-                  {step.title}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Main Execution View: Split into Details & Live Telemetry Inspector */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left: Step Explanation & 3D State Vector (7 cols) */}
-        <div className="lg:col-span-7 space-y-6">
-          {/* Step Detail Card */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 space-y-5">
-            <div className="flex items-center justify-between">
-              <span className="px-2.5 py-1 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-mono font-semibold uppercase">
-                {currentStep.category}
-              </span>
-              <span className="text-xs text-slate-400 font-mono">
-                Step {currentStep.step} of 7
-              </span>
+          <div className="flex items-center gap-3.5 mb-5">
+            <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 flex-shrink-0">
+              <Box className="w-5 h-5" />
             </div>
-
             <div>
-              <h2 className="text-xl font-bold text-slate-100">{currentStep.title}</h2>
-              <p className="text-sm text-slate-300 mt-2 leading-relaxed">
-                {currentStep.description}
-              </p>
+              <div className="text-sm font-semibold text-slate-900">Apex Robotics Europe GmbH</div>
+              <div className="text-xs text-slate-500">Industrial Servo Controller C101</div>
             </div>
+          </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center justify-between font-mono text-xs">
-              <div className="flex items-center gap-2">
-                <span className={`px-2 py-0.5 rounded font-bold ${
-                  currentStep.httpMethod === 'POST' ? 'bg-cyan-950 text-cyan-400 border border-cyan-800/60' : 'bg-emerald-950 text-emerald-400 border border-emerald-800/60'
-                }`}>
-                  {currentStep.httpMethod}
-                </span>
-                <span className="text-slate-300">{currentStep.endpoint}</span>
+          <div className="flex justify-end items-baseline py-3 border-t border-slate-50 mb-5">
+            <span className="text-xl font-bold text-slate-900 tracking-tight">$480.00 USD</span>
+          </div>
+
+          {/* Pay Button */}
+          {demoState === 'idle' && (
+            <button
+              onClick={handleStartCheckout}
+              className="w-full flex items-center justify-center gap-2 bg-[#0070BA] hover:bg-[#005EA6] active:scale-[0.98] text-white font-semibold py-3 px-5 rounded-full shadow-md shadow-[#0070BA]/20 transition-all cursor-pointer"
+            >
+              <Lock className="w-4 h-4" />
+              <span>Pay Now</span>
+            </button>
+          )}
+
+          {demoState === 'initiating' && (
+            <button
+              disabled
+              className="w-full flex items-center justify-center gap-2 bg-[#0070BA]/80 text-white font-semibold py-3 px-5 rounded-full shadow-md cursor-not-allowed"
+            >
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>Contacting PayPal Sandbox...</span>
+            </button>
+          )}
+
+          {demoState === 'timed_out' && (
+            <button
+              disabled
+              className="w-full flex items-center justify-center gap-2 bg-red-600 text-white font-semibold py-3 px-5 rounded-full shadow-md shadow-red-600/20 cursor-not-allowed"
+            >
+              <span>HTTP 504 Gateway Timeout</span>
+            </button>
+          )}
+
+          {(demoState === 'reconciling' || demoState === 'reconciled') && (
+            <button
+              disabled
+              className="w-full flex items-center justify-center gap-2 bg-amber-600 text-white font-semibold py-3 px-5 rounded-full shadow-md shadow-amber-600/20 cursor-not-allowed"
+            >
+              <Lock className="w-4 h-4" />
+              <span>DO_NOT_REPEAT_CHECKOUT (Protected)</span>
+            </button>
+          )}
+        </div>
+
+        {/* Right Card: PayBridge AI Recovery */}
+        <div className="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+          
+          {/* AI Header */}
+          <div className="flex items-center justify-between pb-1">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-100 to-indigo-100 border border-indigo-200 flex items-center justify-center text-indigo-600">
+                <Sparkles className="w-4 h-4" />
               </div>
-              <span className="text-slate-500 text-[11px]">HTTP REST</span>
+              <span className="text-sm font-bold text-slate-900">PayBridge AI Recovery</span>
             </div>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Live Simulation
+            </span>
+          </div>
 
-            {/* Highlights depending on step */}
-            {currentStep.step === 4 && (
-              <div className="p-3.5 rounded-xl bg-rose-950/20 border border-rose-800/40 flex items-start gap-3">
-                <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
-                <div className="text-xs">
-                  <span className="font-semibold text-rose-300">Crucial Defended Gate:</span>
-                  <p className="text-slate-400 mt-0.5">
-                    A concurrent second capture request during this window will be intercepted by PayBridge's in-process mutex lock, returning <strong className="text-slate-200">HTTP 409 Conflict</strong>.
-                  </p>
-                </div>
-              </div>
-            )}
+          {/* Chat Bubble 1: Timeout Intercepted */}
+          <div className="flex gap-2.5 items-start">
+            <div className="w-6 h-6 rounded-md bg-slate-900 flex items-center justify-center text-white flex-shrink-0 mt-0.5">
+              <Box className="w-3.5 h-3.5" />
+            </div>
+            <div className="flex-1 bg-slate-50 border border-slate-100 rounded-xl p-3 text-xs leading-relaxed text-slate-800">
+              <span className="float-right text-[11px] text-slate-400 ml-2">Now</span>
+              I detected a gateway timeout (HTTP 504) from PayPal. I'm checking the provider records to confirm your payment status.
+            </div>
+          </div>
 
-            {currentStep.step === 6 && (
-              <div className="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-800/40 flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                <div className="text-xs">
-                  <span className="font-semibold text-emerald-300">Zero Payment Mutations:</span>
-                  <p className="text-slate-400 mt-0.5">
-                    Reconciliation executed strictly via reader-only queries. No money moved, no duplicate authorization created.
-                  </p>
-                </div>
-              </div>
-            )}
+          {/* Progress Box */}
+          <div className="ml-8 bg-blue-50/60 border border-blue-100 rounded-xl p-3.5 space-y-2.5 text-xs font-medium text-slate-800">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+              <span>PayPal ledger verified</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+              <span>Duplicate charge check (0 found)</span>
+            </div>
+            <div className="flex items-center gap-2 text-blue-600">
+              {demoState === 'reconciled' ? (
+                <>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                  <span className="text-slate-800 font-semibold">Reconciliation completed · Original capture verified</span>
+                </>
+              ) : (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin flex-shrink-0" />
+                  <span>Reconciliation in progress...</span>
+                </>
+              )}
+            </div>
+          </div>
 
-            {currentStep.step === 7 && (
-              <div className="p-4 rounded-xl bg-indigo-950/30 border border-indigo-800/40 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Award className="w-6 h-6 text-indigo-400" />
-                  <div>
-                    <h3 className="text-xs font-bold text-slate-100">Truth Passport Ready</h3>
-                    <p className="text-[11px] text-slate-400">Cryptographically verifiable evidence bundle issued.</p>
+          {/* Shield Recommendation */}
+          <div className="flex gap-2.5 items-start">
+            <div className="w-6 h-6 rounded-full bg-violet-100 flex items-center justify-center text-violet-600 flex-shrink-0 mt-0.5">
+              <ShieldAlert className="w-3.5 h-3.5" />
+            </div>
+            <div className="flex-1 bg-white border border-slate-200 rounded-xl p-3 shadow-xs">
+              <div className="text-xs font-bold text-slate-900 mb-0.5">Do not repeat the payment.</div>
+              <p className="text-[11.5px] text-slate-600">We're verifying your original payment and will update you shortly.</p>
+            </div>
+          </div>
+
+          {/* User & AI Conversation Stream */}
+          {chatHistory.length > 0 && (
+            <div className="ml-8 space-y-2">
+              {chatHistory.map((item, idx) => (
+                <div key={idx} className="space-y-1.5">
+                  <div className="ml-auto w-fit max-w-[85%] bg-[#0070BA] text-white rounded-xl px-3 py-1.5 text-xs">
+                    {item.q}
+                  </div>
+                  <div className="mr-auto w-fit max-w-[95%] bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 leading-relaxed">
+                    <strong>PayBridge AI:</strong> {item.a}
                   </div>
                 </div>
-                <button
-                  onClick={() => onNavigate('passport')}
-                  className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm"
-                >
-                  <span>View Passport</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Current 3D State Vector Card */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 space-y-4">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono">
-              3D State Vector (After Step {currentStep.step})
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
-                <span className="text-[11px] text-slate-500 block mb-1">Provider State</span>
-                <StatusPill type="provider" status={currentStep.stateVectorAfter.provider_state} />
-              </div>
-              <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
-                <span className="text-[11px] text-slate-500 block mb-1">Application State</span>
-                <StatusPill type="app" status={currentStep.stateVectorAfter.application_state} />
-              </div>
-              <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
-                <span className="text-[11px] text-slate-500 block mb-1">Case Status</span>
-                <StatusPill type="case" status={currentStep.stateVectorAfter.case_status} />
-              </div>
+              ))}
             </div>
-          </div>
-        </div>
+          )}
 
-        {/* Right: Telemetry & Payload Inspector (5 cols) */}
-        <div className="lg:col-span-5 rounded-2xl border border-slate-800 bg-slate-950/90 flex flex-col h-[520px] overflow-hidden shadow-xl">
-          {/* Header & Tabs */}
-          <div className="flex items-center justify-between border-b border-slate-800 px-4 py-3 bg-slate-900/70">
-            <div className="flex items-center gap-2">
-              <Code className="w-4 h-4 text-cyan-400" />
-              <span className="text-xs font-bold font-mono text-slate-300">TELEMETRY INSPECTOR</span>
-            </div>
-            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+          {/* Chat Input & Suggested Chips */}
+          <div className="mt-1 space-y-2">
+            <div className="flex gap-1.5 flex-wrap">
               <button
-                onClick={() => setActiveTab('response')}
-                className={`px-2.5 py-1 rounded text-[11px] font-mono transition-all ${
-                  activeTab === 'response' ? 'bg-indigo-600 text-white font-semibold' : 'text-slate-400 hover:text-slate-200'
-                }`}
+                onClick={() => handleSendQuery('Was I charged?')}
+                className="text-[11px] font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-full transition-colors cursor-pointer"
               >
-                Response
+                Was I charged?
               </button>
-              {currentStep.requestPayload && (
-                <button
-                  onClick={() => setActiveTab('request')}
-                  className={`px-2.5 py-1 rounded text-[11px] font-mono transition-all ${
-                    activeTab === 'request' ? 'bg-indigo-600 text-white font-semibold' : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  Request
-                </button>
-              )}
+              <button
+                onClick={() => handleSendQuery("Why shouldn't I retry?")}
+                className="text-[11px] font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-full transition-colors cursor-pointer"
+              >
+                Why shouldn't I retry?
+              </button>
+              <button
+                onClick={() => handleSendQuery('Where is my money?')}
+                className="text-[11px] font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-full transition-colors cursor-pointer"
+              >
+                Where is my money?
+              </button>
+            </div>
+
+            <div className="flex items-center bg-white border border-slate-300 rounded-full px-3 py-1 focus-within:border-violet-500 focus-within:ring-2 focus-within:ring-violet-200 transition-all">
+              <input
+                type="text"
+                value={inputText}
+                onChange={e => setInputText(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') handleSendQuery(); }}
+                placeholder="Ask about this recovery..."
+                className="flex-1 bg-transparent border-none outline-none text-xs text-slate-900 placeholder:text-slate-400 py-1"
+              />
+              <button
+                onClick={() => handleSendQuery()}
+                className="w-7 h-7 rounded-full bg-violet-600 hover:bg-violet-700 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer flex-shrink-0"
+              >
+                <Send className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
 
-          {/* JSON Body */}
-          <div className="flex-1 p-4 overflow-y-auto font-mono text-xs text-slate-300 bg-slate-950/60 leading-relaxed selection:bg-indigo-500 selection:text-white">
-            <pre className="whitespace-pre-wrap">
-              {JSON.stringify(
-                activeTab === 'response' ? currentStep.responsePayload : currentStep.requestPayload,
-                null,
-                2
-              )}
-            </pre>
-          </div>
+        </div>
 
-          {/* Footer Metadata */}
-          <div className="border-t border-slate-800 px-4 py-2.5 bg-slate-900/40 flex items-center justify-between text-[11px] text-slate-400 font-mono">
-            <span>Status: 200 OK</span>
-            <span>Duration: 18ms</span>
+      </div>
+
+      {/* Section D: Final Result Outcome */}
+      {demoState === 'reconciled' && (
+        <div className="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-5 animate-fade-in space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-sm font-bold text-emerald-800">
+              <FileCheck2 className="w-5 h-5 text-emerald-600" />
+              <span>Reconciliation Completed · Payment Confirmed ($0.00 Duplicate Exposure)</span>
+            </div>
+            <button
+              onClick={handleReset}
+              className="text-xs font-semibold px-3 py-1 rounded-md bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
+            >
+              Reset Demo
+            </button>
+          </div>
+          <p className="text-xs text-emerald-900">
+            PayPal authoritatively confirms original capture of <strong>$480.00 USD</strong>. Customer was NOT billed twice. Cryptographic Truth Passport issued.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+            <div className="bg-white border border-emerald-100 rounded-lg p-2.5">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Provider Ref</div>
+              <div className="text-xs font-mono font-bold text-slate-900 mt-0.5">Order #9K201824</div>
+            </div>
+            <div className="bg-white border border-emerald-100 rounded-lg p-2.5">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Capture Status</div>
+              <div className="text-xs font-mono font-bold text-slate-900 mt-0.5">cap-4819 (COMPLETED)</div>
+            </div>
+            <div className="bg-white border border-emerald-100 rounded-lg p-2.5">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Duplicate Charges</div>
+              <div className="text-xs font-mono font-bold text-slate-900 mt-0.5">$0.00 (Guaranteed)</div>
+            </div>
+            <div className="bg-white border border-emerald-100 rounded-lg p-2.5">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Merkle Proof</div>
+              <div className="text-xs font-mono font-bold text-slate-900 mt-0.5">4f8b91a2...7c9d</div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
     </div>
   );
 };
