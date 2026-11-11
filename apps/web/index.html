@@ -4283,26 +4283,40 @@
       align-self: flex-start;
       border-bottom-left-radius: 4px;
     }
-    .gpd-suggested-chips {
-      display: flex;
+    .gpd-chat-typing {
+      display: inline-flex;
+      align-items: center;
       gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
+      padding: 10px 16px;
+      border-radius: 14px;
+      background: #F1F5F9;
+      color: #64748B;
+      font-size: 12px;
+      font-weight: 500;
+      align-self: flex-start;
+      margin-bottom: 4px;
+      animation: gpdFadeIn 0.2s ease;
     }
-    .gpd-chip {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      border-radius: 9999px;
-      padding: 5px 12px;
-      font-size: 11.5px;
-      color: #475569;
-      cursor: pointer;
-      transition: all 0.15s ease;
+    .gpd-typing-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #7C3AED;
+      animation: gpdTypingBounce 1.2s infinite ease-in-out;
     }
-    .gpd-chip:hover {
-      background: #FFFFFF;
-      border-color: #7C3AED;
+    .gpd-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .gpd-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes gpdTypingBounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.3; }
+      40% { transform: translateY(-4px); opacity: 1; }
+    }
+    .gpd-chat-cite {
+      display: block;
+      margin-top: 6px;
+      font-size: 11px;
       color: #7C3AED;
+      font-weight: 600;
+      font-family: var(--mono);
     }
     .gpd-input-row {
       display: flex;
@@ -7610,7 +7624,193 @@
         gpdShowToast('✓ Fresh payment demonstration initialized');
       };
 
-      // Action 8: Contextual Chat (Section 9)
+      // Context-Aware Investigation Chat Engine (Sections 1-7)
+      window.gpdChatIsThinking = false;
+
+      window.gpdResolveContextualAnswer = function(q, fixture, history) {
+        const qLower = q.toLowerCase().trim();
+        const f = fixture;
+
+        const isCaptured = (f.id === 'HTTP_504_GATEWAY_TIMEOUT' || f.id === 'SPLIT_BRAIN_SUCCESS_CRASH');
+        const isDenied = (f.id === 'INTL_TRANSACTIONS_DISABLED' || f.id === 'INSUFFICIENT_FUNDS' || f.id === 'TRANSACTION_LIMIT_EXCEEDED');
+        const isExpiredQuote = (f.id === 'CURRENCY_MISMATCH_FX');
+
+        // Check frequency of previous similar inquiries
+        const repeatCount = history.filter(h => {
+          const prev = h.q.toLowerCase();
+          return (
+            (qLower.includes('charge') && prev.includes('charge')) ||
+            (qLower.includes('retry') && prev.includes('retry')) ||
+            (qLower.includes('where') && prev.includes('where')) ||
+            (qLower.includes('why') && prev.includes('why')) ||
+            (qLower.includes('refund') && prev.includes('refund')) ||
+            (qLower.includes('next') && prev.includes('next'))
+          );
+        }).length;
+
+        // 1. WAS I CHARGED?
+        if (qLower.includes('charge') || qLower.includes('charged') || qLower.includes('deduct') || qLower.includes('debit') || qLower.includes('twice') || qLower.includes('double') || qLower.includes('paid')) {
+          if (isCaptured) {
+            if (repeatCount === 0) {
+              return {
+                text: `Yes, you were charged ${f.amount}. PayPal REST API confirms that Order #${f.orderRef} was captured successfully under capture proof. However, an edge network drop interrupted the storefront confirmation. You were charged once, and our attempt lock is actively preventing any duplicate debit ($0.00 duplicate exposure).`,
+                cite: `Verified via PayPal REST API (/v2/checkout/orders/${f.orderRef})`,
+                confidence: "CONFIRMED"
+              };
+            } else {
+              return {
+                text: `To re-confirm for Order #${f.orderRef}: exactly one charge of ${f.amount} was captured by PayPal. We are holding the single-flight attempt lock so no secondary charge can occur.`,
+                cite: `PayPal Authoritative Ledger Proof [cap-4819: COMPLETED]`,
+                confidence: "CONFIRMED"
+              };
+            }
+          } else if (isDenied) {
+            if (repeatCount === 0) {
+              return {
+                text: `No, you were NOT charged. The authorization attempt for ${f.amount} was rejected by your card issuer prior to capture. Zero funds were debited from your card.`,
+                cite: `ISO 8583 Issuer Authorization Record [DENIED]`,
+                confidence: "CONFIRMED"
+              };
+            } else {
+              return {
+                text: `Confirmed again: your account was not debited for Order #${f.orderRef}. The transaction failed authorization before any funds could be captured.`,
+                cite: `Tier 1 Direct Provider Read [UNCAPTURED]`,
+                confidence: "CONFIRMED"
+              };
+            }
+          } else if (isExpiredQuote) {
+            return {
+              text: `No charge was completed. The transaction was paused because the currency conversion rate expired. Zero funds have been captured.`,
+              cite: `PayPal FX Rate Validator [QUOTE_STALE]`,
+              confidence: "CONFIRMED"
+            };
+          } else {
+            return {
+              text: `I can't confirm that from the available payment records yet. The transaction state remains unverified, and we are holding attempt locks while awaiting authoritative provider reconciliation.`,
+              cite: `Status: PENDING_RECONCILIATION`,
+              confidence: "UNKNOWN"
+            };
+          }
+        }
+
+        // 2. SHOULD I TRY AGAIN / RETRY?
+        if (qLower.includes('retry') || qLower.includes('try again') || qLower.includes('pay again') || qLower.includes('resubmit') || qLower.includes('swipe again')) {
+          if (isCaptured) {
+            if (repeatCount === 0) {
+              return {
+                text: `Do NOT retry or pay again. Your payment was already captured by PayPal. If you submit another payment now, you would trigger an unnecessary second charge. PayBridge AI is locking checkout to protect you.`,
+                cite: `Single-Flight Mutex: ACTIVE [DO_NOT_RETRY]`,
+                confidence: "CONFIRMED"
+              };
+            } else {
+              return {
+                text: `As advised earlier, please do not re-attempt payment. Order #${f.orderRef} is already captured and legally settled on PayPal. Retrying risks duplicate billing.`,
+                cite: `Attempt Lock Mutex #PB-${f.orderRef}`,
+                confidence: "CONFIRMED"
+              };
+            }
+          } else if (isDenied) {
+            return {
+              text: `Do not retry immediately with the same card settings. First resolve the issue (${f.whatNext[0]}), then submit a single authorized attempt.`,
+              cite: `Pre-Flight Policy Check: BLOCKED_PENDING_ISSUER_RESOLUTION`,
+              confidence: "CONFIRMED"
+            };
+          } else if (isExpiredQuote) {
+            return {
+              text: `Do not checkout with the expired quote. You must first request and review the refreshed exchange rate before confirming capture.`,
+              cite: `Corridor Policy: REFRESH_QUOTE_REQUIRED`,
+              confidence: "CONFIRMED"
+            };
+          } else {
+            return {
+              text: `Retry is strictly blocked until authoritative transaction telemetry confirms the original attempt status.`,
+              cite: `Attempt Lock Active`,
+              confidence: "CONFIRMED"
+            };
+          }
+        }
+
+        // 3. WHY DID MY BANK REJECT IT?
+        if (qLower.includes('bank reject') || qLower.includes('bank decline') || qLower.includes('issuer decline') || qLower.includes('why reject') || qLower.includes('why declined') || (qLower.includes('why') && qLower.includes('bank'))) {
+          if (isCaptured) {
+            return {
+              text: `There is no evidence that your bank rejected this transaction. In fact, your bank authorized the transaction and PayPal successfully captured ${f.amount}. The failure was caused by an edge network timeout at the merchant gateway, not by your bank.`,
+              cite: `Issuer Authorization Status: APPROVED [00]`,
+              confidence: "CONFIRMED"
+            };
+          } else if (isDenied) {
+            return {
+              text: `Your bank declined the authorization. ${f.whyItHappened}`,
+              cite: f.evidence[1] ? `${f.evidence[1].source} [${f.evidence[1].status}]` : `Issuer Telemetry`,
+              confidence: "CONFIRMED"
+            };
+          } else {
+            return {
+              text: `I can't confirm that from the available payment records yet. No bank rejection telemetry has been returned.`,
+              cite: `Provider Telemetry Log`,
+              confidence: "UNKNOWN"
+            };
+          }
+        }
+
+        // 4. WHERE IS MY MONEY?
+        if (qLower.includes('where is my money') || qLower.includes('where are the funds') || qLower.includes('where did my money go') || qLower.includes('where are my funds') || qLower.includes('where is my payment')) {
+          if (isCaptured) {
+            return {
+              text: `Your ${f.amount} was captured by PayPal and is currently held in PayPal's verified escrow ledger under Order #${f.orderRef}. We have not claimed bank settlement because disbursement to the merchant bank account is awaiting final order reconciliation.`,
+              cite: `PayPal Escrow Vault Reference [cap-4819]`,
+              confidence: "CONFIRMED"
+            };
+          } else if (isDenied) {
+            return {
+              text: `Your funds never left your bank account. Because the transaction was declined at authorization, no debit or hold occurred.`,
+              cite: `Ledger Mutation: $0.00 Debited`,
+              confidence: "CONFIRMED"
+            };
+          } else {
+            return {
+              text: `I can't confirm that from the available payment records yet. Authoritative settlement evidence is still being retrieved.`,
+              cite: `Telemetry Status: IN_FLIGHT`,
+              confidence: "UNKNOWN"
+            };
+          }
+        }
+
+        // 5. CAN I GET A REFUND?
+        if (qLower.includes('refund') || qLower.includes('money back') || qLower.includes('reversal') || qLower.includes('chargeback')) {
+          if (isCaptured) {
+            return {
+              text: `PayBridge AI is an advisory intelligence platform and cannot execute refunds directly. Because your payment was captured by PayPal, you may either await merchant order fulfillment or contact ${f.merchant} directly for a refund. If needed, PayPal Buyer Protection is available.`,
+              cite: `Regulatory Gate: AI Money-Movement Prohibited`,
+              confidence: "CONFIRMED"
+            };
+          } else {
+            return {
+              text: `No refund is necessary because no funds were captured. Zero dollars were debited from your account.`,
+              cite: `Capture Status: NONE`,
+              confidence: "CONFIRMED"
+            };
+          }
+        }
+
+        // 6. WHAT SHOULD I DO NEXT?
+        if (qLower.includes('what next') || qLower.includes('what should i do') || qLower.includes('next step') || qLower.includes('what to do') || qLower.includes('how to fix')) {
+          return {
+            text: `Here is the safest course of action:\n` + f.whatNext.join('\n'),
+            cite: `Safe-Action Engine Decision [Deterministic Policy]`,
+            confidence: "CONFIRMED"
+          };
+        }
+
+        // 7. GENERAL CONTEXTUAL FALLBACK
+        return {
+          text: `PayBridge AI is tracking Order #${f.orderRef} (${f.amount} to ${f.merchant}). Current status: ${f.whatHappened} Safe next step: ${f.whatNext[0]}`,
+          cite: `Investigation Session #PB-${f.orderRef}`,
+          confidence: "CONFIRMED"
+        };
+      };
+
+      // Action 8: Context-Aware Chat Submission
       window.gpdSendChatQuery = function(textOverride) {
         const input = document.getElementById('gpd-chat-input');
         const q = (textOverride || (input ? input.value : '')).trim();
@@ -7618,28 +7818,26 @@
         if (input) input.value = '';
 
         const f = window.gpdActiveFixture;
-        let answer = '';
-        const qLower = q.toLowerCase();
 
-        if (qLower.includes('twice') || qLower.includes('double') || qLower.includes('charge') || qLower.includes('charged')) {
-          answer = `No duplicate charges have occurred ($0.00 duplicate exposure). PayBridge AI is holding attempt lock #PB-${f.orderRef} across PayPal's authoritative ledger.`;
-        } else if (qLower.includes('retry') || qLower.includes('again') || qLower.includes('pay')) {
-          answer = `Do not retry checkout immediately. ${f.whatAvoid}`;
-        } else if (qLower.includes('where') || qLower.includes('money')) {
-          answer = f.whatHappened;
-        } else if (qLower.includes('why') || qLower.includes('reject') || qLower.includes('bank')) {
-          answer = f.whyItHappened;
-        } else if (qLower.includes('what next') || qLower.includes('happens next') || qLower.includes('do now')) {
-          answer = f.whatNext.join(' ');
-        } else {
-          answer = `PayBridge AI is monitoring Order #${f.orderRef}. Current status: ${f.whatHappened} Recommendation: ${f.whatNext[0]}`;
-        }
-
-        window.gpdChatHistory.push({ q: q, a: answer });
+        // 1. Add user message and set thinking state
+        window.gpdChatHistory.push({ q: q, a: null, cite: null });
+        window.gpdChatIsThinking = true;
         renderDemoView();
 
         const stream = document.getElementById('gpd-chat-stream');
         if (stream) stream.scrollTop = stream.scrollHeight;
+
+        // 2. Resolve answer with realistic processing delay
+        setTimeout(() => {
+          const res = window.gpdResolveContextualAnswer(q, f, window.gpdChatHistory.slice(0, -1));
+          window.gpdChatHistory[window.gpdChatHistory.length - 1].a = res.text;
+          window.gpdChatHistory[window.gpdChatHistory.length - 1].cite = res.cite;
+          window.gpdChatIsThinking = false;
+          renderDemoView();
+
+          const updatedStream = document.getElementById('gpd-chat-stream');
+          if (updatedStream) updatedStream.scrollTop = updatedStream.scrollHeight;
+        }, 320);
       };
 
       // Main Render Function for Golden Path Demo
@@ -7918,23 +8116,29 @@
                 <!-- Conversational Chat Stream (Section 9) -->
                 <div class="gpd-chat-stream" id="gpd-chat-stream">
                   <div class="gpd-chat-msg assistant">
-                    I have verified the records for Order #${f.orderRef}. Feel free to ask any question about your funds or next steps.
+                    I have verified the records for Order #${f.orderRef}. Feel free to ask any question about your payment, charges, or next steps.
                   </div>
                   ${window.gpdChatHistory.map(msg => `
                     <div class="gpd-chat-msg user">${msg.q}</div>
-                    <div class="gpd-chat-msg assistant"><strong>PayBridge AI:</strong> ${msg.a}</div>
+                    ${msg.a ? `
+                      <div class="gpd-chat-msg assistant">
+                        <div><strong>PayBridge AI:</strong> ${msg.a.replace(/\n/g, '<br/>')}</div>
+                        ${msg.cite ? `<span class="gpd-chat-cite">✓ ${msg.cite}</span>` : ''}
+                      </div>
+                    ` : ''}
                   `).join('')}
-                </div>
-
-                <div class="gpd-suggested-chips">
-                  <button class="gpd-chip" onclick="gpdSendChatQuery('Was I charged twice?')">Was I charged twice?</button>
-                  <button class="gpd-chip" onclick="gpdSendChatQuery('Should I try again?')">Should I try again?</button>
-                  <button class="gpd-chip" onclick="gpdSendChatQuery('Where is my money?')">Where is my money?</button>
-                  <button class="gpd-chip" onclick="gpdSendChatQuery('Why did my bank reject it?')">Why did my bank reject it?</button>
+                  ${window.gpdChatIsThinking ? `
+                    <div class="gpd-chat-typing">
+                      <span class="gpd-typing-dot"></span>
+                      <span class="gpd-typing-dot"></span>
+                      <span class="gpd-typing-dot"></span>
+                      <span>PayBridge AI is checking case evidence...</span>
+                    </div>
+                  ` : ''}
                 </div>
 
                 <div class="gpd-input-row">
-                  <input type="text" id="gpd-chat-input" class="gpd-chat-input" placeholder="Ask PayBridge AI about this payment..." onkeydown="if(event.key==='Enter') gpdSendChatQuery()" />
+                  <input type="text" id="gpd-chat-input" class="gpd-chat-input" placeholder="Ask about this payment..." onkeydown="if(event.key==='Enter') gpdSendChatQuery()" />
                   <button class="gpd-send-btn" onclick="gpdSendChatQuery()">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
                       <line x1="22" y1="2" x2="11" y2="13"/>
