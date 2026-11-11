@@ -1,0 +1,12 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/ai"
+  to = "/ai-assistant.html"
+  status = 200
+
+[[redirects]]
+  from = "/iris"
+  to = "/ai-assistant.html"
+  status = 200

@@ -1,0 +1,20 @@
+[build]
+  publish = "apps/web"
+  command = "echo 'Static build ready'"
+
+[[redirects]]
+  from = "/ai"
+  to = "/ai-assistant.html"
+  status = 200
+
+[[redirects]]
+  from = "/iris"
+  to = "/ai-assistant.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
